@@ -39,3 +39,24 @@ body {
     padding-inline: 20px;
   }
 }
+
+@keyframes sima-nav-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nav-rise {
+  animation: sima-nav-rise 280ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-rise {
+    animation: none;
+  }
+}
