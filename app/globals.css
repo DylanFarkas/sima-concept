@@ -60,3 +60,39 @@ body {
     animation: none;
   }
 }
+
+.rail {
+  --rail-inset: max(40px, calc((100vw - 90rem) / 2));
+  padding-inline: var(--rail-inset);
+  scroll-padding-inline: var(--rail-inset);
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .rail {
+    --rail-inset: 20px;
+  }
+}
+
+@keyframes sima-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.home-ticker {
+  animation: sima-ticker 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-ticker {
+    animation: none;
+  }
+}

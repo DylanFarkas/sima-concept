@@ -17,8 +17,8 @@ export function Hero() {
 
       <div className="page-wrap relative flex min-h-[calc(65svh-66px)] items-center py-18">
         <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-col items-start gap-4 -ml-6 lg:-ml-8">
-            <h1 className="font-display text-[clamp(3rem,7.2vw,5.2rem)] font-bold uppercase leading-none">
+          <div className="flex flex-col items-start gap-4 lg:-ml-2">
+            <h1 className="font-display text-[clamp(3rem,7.2vw,4.5rem)] font-bold uppercase leading-none">
               DISCIPLINA
               <br />
               PROPÓSITO. FE.
@@ -36,9 +36,9 @@ export function Hero() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-6 self-start lg:self-center -mr-6 lg:-mr-8">
+          <div className="flex items-center gap-6 self-start lg:self-center">
             <span className="h-23 w-[1.2px] bg-white" />
-            <p className="font-display text-[13px] font-bold uppercase leading-[1.2] tracking-[0.03em]">
+            <p className="font-display text-[12px] font-bold uppercase leading-[1.2] tracking-[0.03em]">
               {heroValues.map((word) => (
                 <span key={word} className="block">
                   {word}

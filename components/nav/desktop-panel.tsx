@@ -12,7 +12,7 @@ function formatPrice(value: number) {
 
 function Columnas({ item }: { item: NavItem }) {
   return (
-    <div className="page-wrap grid min-h-[360px] grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12">
+    <div className="page-wrap grid min-h-90 grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12">
       <div
         className="grid gap-x-16 gap-y-12 lg:col-span-7"
         style={{
@@ -42,7 +42,7 @@ function Columnas({ item }: { item: NavItem }) {
       </div>
       <p
         aria-hidden
-        className="hidden text-right font-display text-[clamp(4.5rem,6vw,7.5rem)] font-bold uppercase leading-[1.5] tracking-[-0.05em] text-white/10 lg:col-span-5 lg:block"
+        className="hidden text-right font-display text-[clamp(4.5rem,6vw,7.5rem)] font-bold uppercase leading-normal tracking-tighter text-white/10 lg:col-span-5 lg:block"
       >
         {item.label}
       </p>
@@ -54,7 +54,7 @@ function Editorial({ item }: { item: NavItem }) {
   const { cards, campaign } = menuSpotlight(item.id);
 
   return (
-    <div className="page-wrap grid min-h-[560px] items-stretch gap-10 py-10 lg:grid-cols-[220px_minmax(0,1fr)_minmax(240px,320px)] lg:py-12">
+    <div className="page-wrap grid min-h-140 items-stretch gap-10 py-10 lg:grid-cols-[220px_minmax(0,1fr)_minmax(240px,320px)] lg:py-12">
       <div className="flex flex-col justify-center">
         {item.columns.map((column) => (
           <div key={column.title} className="mb-8 last:mb-0">
@@ -80,7 +80,7 @@ function Editorial({ item }: { item: NavItem }) {
       <div className="grid h-full grid-cols-2 gap-4">
         {cards.map((card) => (
           <Link key={card.handle} href={`/producto/${card.handle}`} className="group flex h-full flex-col">
-            <span className="relative block min-h-[320px] flex-1 overflow-hidden bg-[#1a1a1a]">
+            <span className="relative block min-h-80 flex-1 overflow-hidden bg-[#1a1a1a]">
               {card.image ? (
                 <img
                   src={card.image}
@@ -100,7 +100,7 @@ function Editorial({ item }: { item: NavItem }) {
       {campaign ? (
         <Link
           href={item.href}
-          className="group relative hidden min-h-[480px] overflow-hidden lg:block"
+          className="group relative hidden min-h-120 overflow-hidden lg:block"
         >
           {campaign.image ? (
             <img
@@ -109,7 +109,7 @@ function Editorial({ item }: { item: NavItem }) {
               className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
             />
           ) : null}
-          <span className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-black/10" />
+          <span className="absolute inset-0 bg-linear-to-t from-black via-black/25 to-black/10" />
           <span className="absolute inset-x-0 bottom-0 p-6">
             <span className="block font-display text-[11px] uppercase tracking-[0.28em] text-white/70">
               {item.label}
@@ -137,9 +137,9 @@ function AudienciaPanel({ item }: { item: NavItem }) {
       : "text-[clamp(3rem,5vw,4.75rem)]";
 
   return (
-    <div className="page-wrap flex min-h-[320px] items-stretch gap-10 py-14 lg:gap-16">
+    <div className="page-wrap flex min-h-80 items-stretch gap-10 py-14 lg:gap-16">
       <p
-        className={`w-[34%] max-w-[300px] shrink-0 self-center font-display font-bold uppercase leading-[0.84] tracking-[-0.045em] ${giant}`}
+        className={`w-[34%] max-w-75 shrink-0 self-center font-display font-bold uppercase leading-[0.84] tracking-[-0.045em] ${giant}`}
       >
         {item.label}
       </p>
@@ -174,8 +174,14 @@ function AudienciaPanel({ item }: { item: NavItem }) {
   );
 }
 
-export function DesktopPanel({ variant, item }: { variant: NavVariant; item: NavItem }) {
-  if (variant === "editorial") return <Editorial item={item} />;
-  if (variant === "audiencia") return <AudienciaPanel item={item} />;
+export function DesktopPanel({
+  variant,
+  item,
+}: {
+  variant: Exclude<NavVariant, "original">;
+  item: NavItem;
+}) {
+  if (variant === "2") return <Editorial item={item} />;
+  if (variant === "3") return <AudienciaPanel item={item} />;
   return <Columnas item={item} />;
 }

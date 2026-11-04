@@ -1,16 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState, type ReactNode } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { IconAccount, IconCart, IconSearch } from "@/components/icons";
 import { DesktopPanel } from "@/components/nav/desktop-panel";
 import { MobileMenu } from "@/components/nav/mobile-menu";
+import { navLinks } from "@/lib/home-content";
 import { isNavVariant, navVariant, type NavVariant } from "@/lib/nav-variants";
 import { audienceNav, departmentNav, type NavItem } from "@/lib/taxonomy";
 
-function menusFor(variant: NavVariant) {
-  return variant === "audiencia" ? audienceNav : departmentNav;
+function menusFor(variant: Exclude<NavVariant, "original">) {
+  return variant === "3" ? audienceNav : departmentNav;
 }
 
 function pathOf(href: string) {
@@ -42,6 +43,118 @@ function HeaderShell({
   variant: NavVariant;
   locationKey: string;
 }) {
+  if (variant === "original") {
+    return <OriginalHeader />;
+  }
+
+  return <MegaHeader variant={variant} locationKey={locationKey} />;
+}
+
+function HeaderActions({
+  menuButton,
+}: {
+  menuButton?: ReactNode;
+}) {
+  return (
+    <div className="flex items-center justify-end justify-self-end">
+      {menuButton}
+      <button
+        type="button"
+        aria-label="Buscar"
+        className="flex h-11 w-11 items-center justify-center"
+      >
+        <IconSearch className="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        aria-label="Cuenta"
+        className="flex h-11 w-11 items-center justify-center"
+      >
+        <IconAccount className="h-4.25 w-3.75" />
+      </button>
+      <button
+        type="button"
+        aria-label="Carrito"
+        className="relative flex h-11 w-11 items-center justify-center"
+      >
+        <IconCart className="h-5 w-5" />
+        <span className="absolute right-0 top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] leading-none text-ink">
+          0
+        </span>
+      </button>
+    </div>
+  );
+}
+
+function OriginalHeader() {
+  const pathname = usePathname();
+
+  return (
+    <header className="sticky top-0 z-40 bg-background text-white">
+      <div className="page-wrap mt-2 grid h-16.5 grid-cols-[1fr_auto_1fr] items-center">
+        <Link
+          href="/"
+          className="mr-50 justify-self-start pr-[0.42em] font-sans text-[2.4rem] font-bold uppercase leading-none tracking-[0.42em] text-white"
+          aria-label="SIMA"
+        >
+          SIMA
+        </Link>
+
+        <nav aria-label="Principal" className="hidden lg:block">
+          <ul className="flex items-center">
+            {navLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex h-11 items-center px-[11.2px] font-display text-[12px] font-normal uppercase tracking-[0.14em] ${
+                      active ? "text-white" : "text-white/80 hover:text-white"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <HeaderActions />
+      </div>
+
+      <nav aria-label="Principal móvil" className="page-wrap pb-3 lg:hidden">
+        <ul className="flex gap-4 overflow-x-auto">
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <li key={link.href} className="shrink-0">
+                <Link
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`font-display text-xs uppercase tracking-[0.14em] ${
+                    active ? "text-white" : "text-white/80"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </header>
+  );
+}
+
+function MegaHeader({
+  variant,
+  locationKey,
+}: {
+  variant: Exclude<NavVariant, "original">;
+  locationKey: string;
+}) {
   const pathname = usePathname();
   const items = menusFor(variant);
   const [active, setActive] = useState<string | null>(null);
@@ -71,7 +184,7 @@ function HeaderShell({
       <div className="page-wrap mt-2 grid h-16.5 grid-cols-[auto_1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
-          className="justify-self-start pr-[0.2em] font-sans text-[1.7rem] font-bold uppercase leading-none tracking-[0.28em] text-white sm:text-[2.2rem] sm:tracking-[0.36em] lg:mr-50 lg:pr-[0.42em] lg:text-[2.6rem] lg:tracking-[0.42em]"
+          className="justify-self-start pr-[0.2em] font-sans text-[1.7rem] font-bold uppercase leading-none tracking-[0.28em] text-white sm:text-[2.2rem] sm:tracking-[0.36em] lg:mr-50 lg:pr-[0.42em] lg:text-[2.3rem] lg:tracking-[0.42em]"
           aria-label="SIMA"
         >
           SIMA
@@ -93,43 +206,21 @@ function HeaderShell({
           </ul>
         </nav>
 
-        <div className="flex items-center justify-end justify-self-end">
-          <button
-            type="button"
-            aria-label="Abrir menú"
-            className="flex h-11 w-11 items-center justify-center lg:hidden"
-            onClick={() => setMobile(true)}
-          >
-            <span className="flex w-5 flex-col gap-[7px]" aria-hidden>
-              <span className="h-px w-full bg-white" />
-              <span className="h-px w-3/4 bg-white" />
-            </span>
-          </button>
-          <button
-            type="button"
-            aria-label="Buscar"
-            className="flex h-11 w-11 items-center justify-center"
-          >
-            <IconSearch className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            aria-label="Cuenta"
-            className="flex h-11 w-11 items-center justify-center"
-          >
-            <IconAccount className="h-4.25 w-3.75" />
-          </button>
-          <button
-            type="button"
-            aria-label="Carrito"
-            className="relative flex h-11 w-11 items-center justify-center"
-          >
-            <IconCart className="h-5 w-5" />
-            <span className="absolute right-0 top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] leading-none text-ink">
-              0
-            </span>
-          </button>
-        </div>
+        <HeaderActions
+          menuButton={
+            <button
+              type="button"
+              aria-label="Abrir menú"
+              className="flex h-11 w-11 items-center justify-center lg:hidden"
+              onClick={() => setMobile(true)}
+            >
+              <span className="flex w-5 flex-col gap-1.75" aria-hidden>
+                <span className="h-px w-full bg-white" />
+                <span className="h-px w-3/4 bg-white" />
+              </span>
+            </button>
+          }
+        />
       </div>
 
       {current ? (
@@ -154,13 +245,13 @@ function NavEntry({
   onOpen,
 }: {
   item: NavItem;
-  variant: NavVariant;
+  variant: Exclude<NavVariant, "original">;
   divider: boolean;
   open: boolean;
   current: boolean;
   onOpen: () => void;
 }) {
-  const quiet = variant === "audiencia" && item.tone === "quiet";
+  const quiet = variant === "3" && item.tone === "quiet";
   const marked = open || current;
 
   return (
@@ -174,7 +265,7 @@ function NavEntry({
         className={`relative flex h-11 items-center px-3 font-display uppercase transition-colors duration-300 ${
           quiet
             ? "text-[11px] tracking-[0.16em] text-white/45 hover:text-white"
-            : variant === "audiencia"
+            : variant === "3"
               ? "text-[14px] tracking-[0.2em] text-white"
               : "text-[13px] tracking-[0.16em] text-white/75 hover:text-white"
         } ${marked ? "text-white" : ""}`}
