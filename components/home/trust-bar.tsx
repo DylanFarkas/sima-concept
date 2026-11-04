@@ -13,7 +13,7 @@ export function TrustBar() {
               ) : null}
               <SimaIcon
                 name={item.icon as LineIconName}
-                className="h-[30px] w-[30px] shrink-0"
+                className="h-7.5 w-7.5 shrink-0"
               />
               <div>
                 <p className="whitespace-pre-line font-display text-xs font-bold uppercase leading-[1.2] tracking-[0.03em]">

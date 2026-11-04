@@ -162,24 +162,53 @@ export const footerLinks = {
   ],
 } as const;
 
+export const footerColumns = [
+  {
+    title: "Tienda",
+    links: [
+      { label: "Hombre", href: "/hombre" },
+      { label: "Mujer", href: "/mujer" },
+      { label: "Zapatillas", href: "/zapatillas" },
+      { label: "Tech", href: "/tech" },
+      { label: "Suplementos", href: "/suplementos" },
+      { label: "Accesorios", href: "/accesorios" },
+    ],
+  },
+  {
+    title: "SIMA",
+    links: [
+      { label: "Nosotros", href: "/nosotros" },
+      { label: "Comunidad", href: "/comunidad" },
+      { label: "Contacto", href: "/contacto" },
+    ],
+  },
+  { title: "Ayuda", links: footerLinks.ayuda },
+] as const;
+
+export const whatsappNumber = "+57 318 915 4899";
+
 export const socialLinks = [
   {
     label: "Facebook",
+    name: "Facebook",
     href: "https://www.facebook.com/simalifestyle.co/",
     icon: "facebook",
   },
   {
     label: "Instagram",
+    name: "Instagram",
     href: "https://www.instagram.com/sima._co_/",
     icon: "instagram",
   },
   {
     label: "Tiktok",
+    name: "TikTok",
     href: "https://www.tiktok.com/@sima16547",
     icon: "tiktok",
   },
   {
     label: "Wa",
+    name: "WhatsApp",
     href: "https://wa.me/573189154899",
     icon: "whatsapp",
   },

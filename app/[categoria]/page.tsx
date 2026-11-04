@@ -6,9 +6,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { CategoryHero } from "@/components/category/category-hero";
 import { ProductGrid } from "@/components/category/product-grid";
 import { categories, isCategorySlug } from "@/lib/catalog";
+import { filterCatalog } from "@/lib/taxonomy";
 
 type CategoryParams = {
   params: Promise<{ categoria: string }>;
+  searchParams: Promise<{ tipo?: string | string[]; audiencia?: string | string[] }>;
 };
 
 export function generateStaticParams() {
@@ -23,14 +25,14 @@ export async function generateMetadata({
   return { title: `${categories[categoria].label} – SIMA` };
 }
 
-export default function CategoryPage({ params }: CategoryParams) {
+export default function CategoryPage({ params, searchParams }: CategoryParams) {
   return (
     <>
       <SiteHeader />
       <main>
         <CategoryHero />
         <Suspense fallback={<ProductGridFallback />}>
-          <CategoryProducts params={params} />
+          <CategoryProducts params={params} searchParams={searchParams} />
         </Suspense>
       </main>
       <SiteFooter />
@@ -38,10 +40,17 @@ export default function CategoryPage({ params }: CategoryParams) {
   );
 }
 
-async function CategoryProducts({ params }: CategoryParams) {
+async function CategoryProducts({ params, searchParams }: CategoryParams) {
   const { categoria } = await params;
+  const query = await searchParams;
   if (!isCategorySlug(categoria)) notFound();
-  return <ProductGrid products={categories[categoria].products} />;
+  const filtered = filterCatalog(categories[categoria].products, query);
+  return (
+    <ProductGrid
+      products={filtered.products}
+      heading={filtered.label ?? undefined}
+    />
+  );
 }
 
 function ProductGridFallback() {

@@ -30,7 +30,13 @@ function parsePrice(value: string) {
   return Number.isFinite(number) ? number : null;
 }
 
-export function ProductGrid({ products }: { products: Product[] }) {
+export function ProductGrid({
+  products,
+  heading,
+}: {
+  products: Product[];
+  heading?: string;
+}) {
   const [stock, setStock] = useState<StockFilter[]>([]);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -90,7 +96,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
     <section id="productos" className="bg-background text-white">
       <div className="page-wrap py-10 lg:py-12">
         <h2 className="font-display text-[clamp(2.25rem,4.8vw,3rem)] font-bold uppercase leading-none">
-          PRODUCTOS
+          {heading ?? "PRODUCTOS"}
         </h2>
 
         <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
