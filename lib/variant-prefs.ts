@@ -76,10 +76,14 @@ export function readPrefs(): Partial<VariantPrefs> {
     if (!raw) return {};
     const parsed = JSON.parse(raw) as Partial<Record<keyof VariantPrefs, string>>;
     const prefs: Partial<VariantPrefs> = {};
-    if (isNavVariant(parsed.nav ?? null)) prefs.nav = parsed.nav;
-    if (isHeroVariant(parsed.hero ?? null)) prefs.hero = parsed.hero;
-    if (isContentMode(parsed.content ?? null)) prefs.content = parsed.content;
-    if (isFooterVariant(parsed.footer ?? null)) prefs.footer = parsed.footer;
+    const nav = parsed.nav ?? null;
+    const hero = parsed.hero ?? null;
+    const content = parsed.content ?? null;
+    const footer = parsed.footer ?? null;
+    if (isNavVariant(nav)) prefs.nav = nav;
+    if (isHeroVariant(hero)) prefs.hero = hero;
+    if (isContentMode(content)) prefs.content = content;
+    if (isFooterVariant(footer)) prefs.footer = footer;
     return prefs;
   } catch {
     return {};
