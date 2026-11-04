@@ -98,14 +98,11 @@ export const shoeShowcase = [
   { word: "9060", product: catalogProduct("new-balance-9060-dama") },
 ];
 
-export const basicsCollage = {
-  lead: catalogProduct("basics-algodon"),
-  side: [
-    catalogProduct("camisilla-basica"),
-    catalogProduct("basics-pants"),
-    catalogProduct("basics"),
-  ],
-};
+export const basicsLine = [
+  catalogProduct("camisilla-basica"),
+  catalogProduct("basics-pants"),
+  catalogProduct("basics-algodon"),
+];
 
 export const lookProducts = [
   catalogProduct("conjunto-underarmour"),

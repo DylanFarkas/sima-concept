@@ -4,7 +4,7 @@ import type { Product } from "@/lib/catalog";
 import { aboutValues } from "@/lib/home-content";
 import {
   audienceTiles,
-  basicsCollage,
+  basicsLine,
   campaignPair,
   formatPrice,
   gearTiles,
@@ -231,57 +231,77 @@ function ShoeSection() {
   );
 }
 
-function CollageCell({ product, className = "" }: { product: Product; className?: string }) {
+const pad = (value: number) => String(value).padStart(2, "0");
+
+function BasicsPiece({
+  product,
+  number,
+  className = "",
+  photoClassName = "",
+}: {
+  product: Product;
+  number: number;
+  className?: string;
+  photoClassName?: string;
+}) {
   return (
     <Link
       href={`/producto/${product.handle}`}
-      aria-label={product.title}
-      className={`group relative block overflow-hidden bg-cream ${focusLight} focus-visible:-outline-offset-4 ${className}`}
+      className={`group flex flex-col bg-cream ${focusLight} focus-visible:-outline-offset-4 ${className}`}
     >
-      <Photo product={product} />
+      <span className={`relative block overflow-hidden bg-[#e4e0d8] ${photoClassName}`}>
+        <Photo product={product} />
+      </span>
+      <span className="flex items-baseline gap-3 border-t-2 border-ink px-4 py-3.5 transition-colors duration-300 group-hover:bg-ink group-hover:text-cream lg:px-5">
+        <span className="shrink-0 font-display text-[11px] font-bold tracking-[0.14em] opacity-40">
+          {pad(number)}
+        </span>
+        <span className="min-w-0 truncate font-display text-sm font-bold uppercase leading-tight tracking-[0.01em] lg:text-[15px]">
+          {product.title}
+        </span>
+      </span>
     </Link>
   );
 }
 
 function BasicsSection() {
-  const [top, tall, extra] = basicsCollage.side;
-
   return (
     <section className="bg-cream py-20 text-ink lg:py-28">
       <div className="page-wrap">
-        <div className="grid grid-cols-2 gap-0.5 border-2 border-ink bg-ink lg:h-[min(78svh,720px)] lg:grid-cols-12 lg:grid-rows-2">
-          <div className="col-span-2 flex flex-col justify-end bg-cream p-6 sm:p-10 lg:col-span-4 lg:row-span-2 lg:p-12">
+        <div className="grid grid-cols-2 gap-0.5 border-2 border-ink bg-ink lg:grid-cols-12">
+          <div className="col-span-2 flex flex-col bg-cream p-6 sm:p-10 lg:col-span-8 lg:p-12">
             <p className="font-display text-xs font-bold uppercase tracking-[0.2em]">Línea Basics</p>
-            <h2 className="mt-4 font-display text-[clamp(3.5rem,7vw,6.5rem)] font-bold uppercase leading-[0.9] tracking-[-0.02em]">
-              Vuelve a lo básico
-            </h2>
-            <p className="mt-5 max-w-[34ch] text-sm leading-relaxed sm:text-base">
-              Algodón, pants y camisillas para entrenar y para el resto del día. Lo esencial, sin ruido.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/hombre?tipo=basics" className={`group ${focusLight}`}>
-                <ButtonLabel tone="dark">Hombre</ButtonLabel>
-              </Link>
-              <Link href="/mujer?tipo=basics" className={`group ${focusLight}`}>
-                <ButtonLabel tone="dark">Mujer</ButtonLabel>
-              </Link>
+            <div className="mt-8 flex flex-col gap-8 lg:mt-auto lg:pt-10 xl:flex-row xl:items-end xl:justify-between">
+              <h2 className="max-w-[10ch] font-display text-[clamp(3.5rem,7vw,6.5rem)] font-bold uppercase leading-[1.1] tracking-[-0.02em]">
+                Para todos los días
+              </h2>
+              <div className="xl:max-w-[30ch] xl:pb-2">
+                <p className="max-w-[34ch] text-sm leading-relaxed sm:text-base">
+                  Algodón, pants y camisillas para entrenar y para el resto del día. Lo esencial, sin ruido.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link href="/hombre?tipo=basics" className={`group ${focusLight}`}>
+                    <ButtonLabel tone="dark">Hombre</ButtonLabel>
+                  </Link>
+                  <Link href="/mujer?tipo=basics" className={`group ${focusLight}`}>
+                    <ButtonLabel tone="dark">Mujer</ButtonLabel>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-          <CollageCell
-            product={basicsCollage.lead}
-            className="col-span-2 aspect-4/5 lg:col-span-4 lg:row-span-2 lg:aspect-auto"
-          />
-          <CollageCell product={top} className="aspect-3/4 lg:col-span-2 lg:aspect-auto" />
-          <CollageCell
-            product={tall}
-            className="row-span-2 lg:col-span-2 lg:row-span-2 lg:aspect-auto"
-          />
-          <div className="grid aspect-3/4 place-items-center bg-cream lg:col-span-2 lg:aspect-auto">
-            <span className="font-display text-[clamp(2rem,3.4vw,3.25rem)] font-bold uppercase tracking-[0.04em]">
-              SIMA
-            </span>
-          </div>
-          <CollageCell product={extra} className="col-span-2 aspect-video lg:hidden" />
+          {basicsLine.map((product, index) => {
+            const feature = index === basicsLine.length - 1;
+            return (
+              <BasicsPiece
+                key={product.handle}
+                product={product}
+                number={index + 1}
+                className={feature ? "col-span-2 lg:col-[9/span_4] lg:row-[1/span_2]" : "lg:col-span-4"}
+                photoClassName={feature ? "aspect-4/5 lg:aspect-auto lg:flex-1" : "aspect-3/4 lg:aspect-4/5"}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
