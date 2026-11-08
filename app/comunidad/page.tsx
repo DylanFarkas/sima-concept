@@ -39,6 +39,10 @@ export default function ComunidadPage() {
           miras atrás y reconoces todo lo que has construido.
         </p>
         <p>Porque no se trata solamente de verte mejor.</p>
+        <p>
+          La comunidad la hacen personas reales que entrenan, no solo atletas. Distintas formas de
+          vivir el deporte, con las que te puedes identificar.
+        </p>
         <ul className="leading-snug">
           {lines.map((line) => (
             <li key={line}>{line}</li>

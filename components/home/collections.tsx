@@ -5,7 +5,7 @@ import { IconGrid, SimaIcon, type LineIconName } from "@/components/icons";
 export function Collections() {
   return (
     <section id="colecciones" className="bg-cream text-ink">
-      <div className="page-wrap flex flex-col items-center gap-6 pt-16 pb-[72px]">
+      <div className="page-wrap flex flex-col items-center gap-6 pt-16 pb-18">
         <div className="text-center">
           <p className="font-display text-xs font-bold uppercase tracking-[0.03em]">
             COLECCIONES
@@ -13,19 +13,19 @@ export function Collections() {
           <h2 className="mt-2 font-display text-[clamp(2.25rem,4.8vw,3rem)] font-bold uppercase leading-none">
             EQUÍPATE PARA CRECER
           </h2>
-          <span className="mx-auto mt-4 block h-px w-[67px] bg-ink" />
+          <span className="mx-auto mt-4 block h-px w-16.75 bg-ink" />
         </div>
 
-        <div className="grid w-full grid-cols-1 gap-[10px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <div className="grid w-full grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {collections.map((item) => (
             <Link
               key={item.title}
               href={item.href}
-              className="flex min-h-[180px] flex-col bg-card px-[18px] py-[22px] text-white"
+              className="flex min-h-45 flex-col bg-card px-4.5 py-5.5 text-white"
             >
               <SimaIcon
                 name={item.icon as LineIconName}
-                className="h-[34px] w-[34px]"
+                className="h-8.5 w-8.5"
               />
               <span className="mt-auto flex flex-col gap-0.5 pt-6">
                 <span className="font-display text-sm font-bold uppercase leading-[1.2] tracking-[0.03em]">
@@ -42,9 +42,9 @@ export function Collections() {
 
         <Link
           href="/tienda"
-          className="flex min-h-[78px] w-full items-center gap-4 bg-card px-[18px] py-[22px] text-white"
+          className="flex min-h-19.5 w-full items-center gap-4 bg-card px-4.5 py-5.5 text-white"
         >
-          <IconGrid className="h-[34px] w-[34px] shrink-0" />
+          <IconGrid className="h-8.5 w-8.5 shrink-0" />
           <span className="font-display text-sm font-bold uppercase leading-[1.2] tracking-[0.03em]">
             VER TODO
           </span>

@@ -1,6 +1,7 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
-import { footerColumns, socialLinks, trustItems, whatsappNumber } from "@/lib/home-content";
+import { FooterLink } from "@/components/footer/footer-link";
+import { SimaMark } from "@/components/sima-mark";
+import { footerColumns, socialLinks, trustItems, whatsappHref, whatsappNumber } from "@/lib/home-content";
 import { NewsletterForm } from "@/components/newsletter-form";
 
 const focus =
@@ -38,10 +39,10 @@ export function CartelFooter() {
           {footerColumns.map((column) => (
             <Column key={column.title} title={column.title}>
               {column.links.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className={linkClass}>
+                <li key={link.label}>
+                  <FooterLink href={link.href} className={linkClass}>
                     {link.label}
-                  </Link>
+                  </FooterLink>
                 </li>
               ))}
             </Column>
@@ -64,9 +65,9 @@ export function CartelFooter() {
               </li>
             ) : null}
             <li>
-              <Link href="/contacto" className={linkClass}>
+              <a href={whatsappHref} target="_blank" rel="noreferrer" className={linkClass}>
                 Contacto
-              </Link>
+              </a>
             </li>
           </Column>
 
@@ -103,8 +104,11 @@ export function CartelFooter() {
         </div>
       </div>
 
+      <div className="mx-auto mt-10 flex max-w-340 items-end gap-4 lg:mt-14">
+        <SimaMark className="mb-2 hidden h-12 w-auto shrink-0 sm:block" />
+        <div className="min-w-0 flex-1">
       <div
-        className="relative mt-10 overflow-hidden bg-ink max-w-340 mx-auto lg:mt-14"
+        className="relative overflow-hidden bg-ink"
         style={{ aspectRatio: `${frame.width} / ${frame.height}` }}
         aria-hidden
       >
@@ -135,6 +139,9 @@ export function CartelFooter() {
           </defs>
           <rect {...bleed} className="fill-cream" mask="url(#cartel-wordmark)" />
         </svg>
+      </div>
+          <p className="mt-3 text-[11px] font-bold uppercase tracking-[0.32em]">Lifestyle</p>
+        </div>
       </div>
     </footer>
   );

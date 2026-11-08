@@ -7,16 +7,19 @@ import { MostradorHome } from "@/components/home/mostrador-home";
 import { OriginalHomeBody } from "@/components/home/original-home";
 import { Hero } from "@/components/home/hero";
 import { PortadaHome } from "@/components/home/portada-home";
-import { contentMode, isContentMode, type ContentMode } from "@/lib/content-variants";
-import { heroVariant, isHeroVariant, type HeroVariant } from "@/lib/hero-variants";
+import { type ContentMode } from "@/lib/content-variants";
+import { type HeroVariant } from "@/lib/hero-variants";
+import { resolveServerPrefs } from "@/lib/variant-prefs.server";
 
 type HomeQuery = {
-  searchParams: Promise<{ hero?: string | string[]; content?: string | string[] }>;
+  searchParams: Promise<{
+    hero?: string | string[];
+    content?: string | string[];
+    nav?: string | string[];
+    categorias?: string | string[];
+    footer?: string | string[];
+  }>;
 };
-
-function pickParam(value: string | string[] | undefined) {
-  return (Array.isArray(value) ? value[0] : value) ?? null;
-}
 
 function HomeHero({ variant }: { variant: HeroVariant }) {
   if (variant === "original") return <Hero />;
@@ -34,15 +37,8 @@ export default function Home({ searchParams }: HomeQuery) {
     <>
       <SiteHeader />
       <main>
-        <Suspense
-          fallback={
-            <>
-              <HomeHero variant={heroVariant} />
-              <HomeBody mode={contentMode} />
-            </>
-          }
-        >
-          <HomeMain searchParams={searchParams} />
+        <Suspense fallback={null}>
+          <HomeContent searchParams={searchParams} />
         </Suspense>
       </main>
       <SiteFooter />
@@ -50,17 +46,14 @@ export default function Home({ searchParams }: HomeQuery) {
   );
 }
 
-async function HomeMain({ searchParams }: HomeQuery) {
+async function HomeContent({ searchParams }: HomeQuery) {
   const query = await searchParams;
-  const heroParam = pickParam(query.hero);
-  const contentParam = pickParam(query.content);
-  const hero = isHeroVariant(heroParam) ? heroParam : heroVariant;
-  const content = isContentMode(contentParam) ? contentParam : contentMode;
+  const prefs = await resolveServerPrefs(query);
 
   return (
     <>
-      <HomeHero variant={hero} />
-      <HomeBody mode={content} />
+      <HomeHero variant={prefs.hero} />
+      <HomeBody mode={prefs.content} />
     </>
   );
 }

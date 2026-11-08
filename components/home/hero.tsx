@@ -37,7 +37,7 @@ export function Hero() {
           </div>
 
           <div className="flex items-center gap-6 self-start lg:self-center">
-            <span className="h-23 w-[1.2px] bg-white" />
+            <span className="accent-fill h-23 w-[1.2px] bg-white" />
             <p className="font-display text-[12px] font-bold uppercase leading-[1.2] tracking-[0.03em]">
               {heroValues.map((word) => (
                 <span key={word} className="block">

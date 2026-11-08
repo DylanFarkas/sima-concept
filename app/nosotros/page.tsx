@@ -33,6 +33,11 @@ export default function NosotrosPage() {
         construyes hábitos con disciplina, el deporte deja de ser una obligación y comienza a
         convertirse en parte de tu vida.
       </p>
+      <p className={`mt-8 sm:mt-10 ${storyCaps}`}>
+        SIMA existe para acercar el deporte. Queremos darte la confianza para empezar: lo más
+        importante es atreverte a dar el primer paso.
+      </p>
+      <p className={`mt-10 sm:mt-12 ${storyTitle}`}>Llega a la cima con SIMA.</p>
     </EditorialPage>
   );
 }

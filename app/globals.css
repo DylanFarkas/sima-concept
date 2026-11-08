@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: dark;
   --background: #121212;
   --foreground: #ffffff;
   --cream: #f2efe9;
   --card: #161616;
   --muted: #dfdfdf;
   --ink: #121212;
+  --accent: #bcb1a6;
 }
 
 @theme inline {
@@ -18,6 +20,18 @@
   --color-ink: var(--ink);
   --font-sans: var(--font-inter);
   --font-display: var(--font-oswald);
+}
+
+html[data-acento="arena"] .accent-text {
+  color: var(--accent);
+}
+
+html[data-acento="arena"] .accent-fill {
+  background-color: var(--accent);
+}
+
+html[data-acento="arena"] .accent-stroke {
+  -webkit-text-stroke-color: var(--accent);
 }
 
 body {
@@ -95,4 +109,36 @@ body {
   .home-ticker {
     animation: none;
   }
+}
+
+.filter-scroll {
+  color-scheme: dark;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a #121212;
+}
+
+.filter-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: #121212;
+}
+
+.filter-scroll::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border: 2px solid #121212;
+  background-clip: padding-box;
+}
+
+.filter-scroll::-webkit-scrollbar-thumb:hover {
+  background: #525252;
+  border: 2px solid #121212;
+  background-clip: padding-box;
+}
+
+.filter-scroll::-webkit-scrollbar-corner {
+  background: #121212;
 }

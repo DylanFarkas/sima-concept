@@ -1,7 +1,6 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
 import type { Product } from "@/lib/catalog";
-import { aboutValues } from "@/lib/home-content";
+import { aboutValues, socialLinks } from "@/lib/home-content";
 import {
   audienceTiles,
   basicsLine,
@@ -16,11 +15,7 @@ import { LookSpotlight } from "@/components/home/look-spotlight";
 import { Rail } from "@/components/home/rail";
 import { SelectionIndex, type IndexItem } from "@/components/home/selection-index";
 import { TrustBar } from "@/components/home/trust-bar";
-
-const focusDark =
-  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
-const focusLight =
-  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink";
+import { ButtonLabel, Photo, SectionTitle, focusDark, focusLight } from "@/components/shared/editorial";
 
 export function HomeRest() {
   return (
@@ -38,41 +33,6 @@ export function HomeRest() {
   );
 }
 
-function SectionTitle({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <h2
-      className={`font-display text-[clamp(2rem,4.2vw,3.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.01em] ${className}`}
-    >
-      {children}
-    </h2>
-  );
-}
-
-function Photo({ product, className = "" }: { product: Product; className?: string }) {
-  return (
-    <img
-      src={product.image}
-      alt=""
-      loading="lazy"
-      className={`absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.04] ${className}`}
-    />
-  );
-}
-
-function ButtonLabel({ children, tone = "light" }: { children: ReactNode; tone?: "light" | "dark" }) {
-  return (
-    <span
-      className={`inline-flex items-center justify-center px-5 py-3.5 text-xs font-bold uppercase tracking-[0.08em] transition-colors ${
-        tone === "light"
-          ? "bg-white text-ink group-hover:bg-cream"
-          : "bg-ink text-white group-hover:bg-black"
-      }`}
-    >
-      {children}
-    </span>
-  );
-}
-
 function AudienceSection() {
   return (
     <section id="colecciones" className="bg-background py-20 text-white lg:py-28">
@@ -80,7 +40,7 @@ function AudienceSection() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <SectionTitle>Equípate para crecer</SectionTitle>
           <p className="max-w-[34ch] text-sm leading-relaxed text-white/70">
-            Ropa, calzado y todo lo que necesitas para entrenar, en un solo lugar.
+            Ropa, calzado y lo que necesitas para dar el primer paso, en un solo lugar.
           </p>
         </div>
         <ul className="mt-10 grid gap-3 sm:grid-cols-3 lg:mt-12">
@@ -126,7 +86,7 @@ function SelectionSection() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <SectionTitle>Selección SIMA</SectionTitle>
           <p className="max-w-[34ch] text-sm leading-relaxed text-ink/70">
-            Ocho piezas elegidas para entrenar con todo. Pasa por la lista y mira cada una.
+            Piezas para empezar, volver o seguir. Calidad a buen precio.
           </p>
         </div>
         <SelectionIndex items={selectionProducts.map(toIndexItem)} />
@@ -152,7 +112,7 @@ function CampaignSection() {
               >
                 <span className="relative z-10 aspect-3/4 h-[1.94em] shrink-0 bg-card">
                   <span
-                    className={`absolute inset-0 overflow-hidden transition-transform duration-500 ease-out group-hover:z-20 group-hover:scale-110 ${flip ? "origin-left" : "origin-right"}`}
+                    className="absolute inset-0 overflow-hidden"
                   >
                     <img
                       src={item.product.image}
@@ -166,7 +126,7 @@ function CampaignSection() {
                   <span className="block whitespace-nowrap">
                     {lead} {rest.join(" ")}
                   </span>
-                  <span className="mt-[0.06em] block whitespace-nowrap text-transparent transition-colors duration-500 [-webkit-text-stroke:1.5px_white] group-hover:text-white">
+                  <span className="accent-stroke mt-[0.06em] block whitespace-nowrap text-transparent transition-colors duration-500 [-webkit-text-stroke:1.5px_white] group-hover:text-white">
                     {last}
                   </span>
                 </span>
@@ -194,7 +154,7 @@ function ShoeSection() {
   return (
     <section className="bg-background py-20 text-white lg:py-28">
       <Rail
-        title={<SectionTitle className="max-w-[16ch]">Pisada firme en cada kilómetro</SectionTitle>}
+        title={<SectionTitle className="max-w-[18ch]">Ligereza y soporte en cada kilómetro</SectionTitle>}
         action={
           <Link
             href="/zapatillas"
@@ -360,6 +320,7 @@ function GearSection() {
 
 function ManifestoSection() {
   const words = aboutValues.map((value) => value.title);
+  const whatsapp = socialLinks.find((item) => item.icon === "whatsapp");
 
   return (
     <section className="overflow-hidden bg-cream text-ink">
@@ -373,6 +334,19 @@ function ManifestoSection() {
           <p className="mt-8 max-w-[44ch] text-base leading-relaxed">
             Equipamos a personas que eligen crecer cada día. Avanzamos juntos, crecemos juntos.
           </p>
+          <p className="mt-4 max-w-[44ch] text-base leading-relaxed">
+            El deporte es bienestar. Da el primer paso: si no sabes qué elegir, te asesoramos.
+          </p>
+          {whatsapp ? (
+            <a
+              href={whatsapp.href}
+              target="_blank"
+              rel="noreferrer"
+              className={`mt-4 inline-flex text-sm font-bold underline decoration-ink/40 decoration-1 underline-offset-[6px] transition-colors hover:decoration-ink ${focusLight}`}
+            >
+              Escríbenos por WhatsApp
+            </a>
+          ) : null}
           <div className="mt-10 flex flex-wrap gap-3">
             <Link href="/nosotros" className={`group ${focusLight}`}>
               <ButtonLabel tone="dark">Conoce más</ButtonLabel>

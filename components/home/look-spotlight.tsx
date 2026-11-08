@@ -39,7 +39,7 @@ export function LookSpotlight({ items }: { items: IndexItem[] }) {
             src={item.image}
             alt=""
             loading="lazy"
-            className={`absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.03] ${
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${
               index === active ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -48,7 +48,7 @@ export function LookSpotlight({ items }: { items: IndexItem[] }) {
 
       <div className="flex flex-col lg:col-span-6 lg:py-2">
         <div>
-          <p className="font-display text-xs font-bold uppercase tracking-[0.2em] text-white/60">Compra el look</p>
+          <p className="accent-text font-display text-xs font-bold uppercase tracking-[0.2em] text-white/60">Compra el look</p>
           <h2 className="mt-4 max-w-[14ch] font-display text-[clamp(2rem,4.2vw,3.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.01em]">
             Del gimnasio a la calle
           </h2>

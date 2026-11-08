@@ -1,3 +1,5 @@
+import { accentVariant, accentVariants, isAccentVariant, type AccentVariant } from "@/lib/accent-variants";
+import { categoryMode, categoryModes, isCategoryMode, type CategoryMode } from "@/lib/category-variants";
 import { contentMode, contentModes, isContentMode, type ContentMode } from "@/lib/content-variants";
 import { footerVariant, footerVariants, isFooterVariant, type FooterVariant } from "@/lib/footer-variants";
 import { heroVariant, heroVariants, isHeroVariant, type HeroVariant } from "@/lib/hero-variants";
@@ -9,14 +11,18 @@ export type VariantPrefs = {
   nav: NavVariant;
   hero: HeroVariant;
   content: ContentMode;
+  categorias: CategoryMode;
   footer: FooterVariant;
+  acento: AccentVariant;
 };
 
 export const variantDefaults: VariantPrefs = {
   nav: navVariant,
   hero: heroVariant,
   content: contentMode,
+  categorias: categoryMode,
   footer: footerVariant,
+  acento: accentVariant,
 };
 
 function optionsWithOriginalFirst<T extends string>(
@@ -50,10 +56,24 @@ export const variantSections = [
     ),
   },
   {
+    key: "categorias" as const,
+    label: "Categorías",
+    options: optionsWithOriginalFirst(categoryModes, (value) =>
+      value === "nuevo" ? "Nuevo" : "Original",
+    ),
+  },
+  {
     key: "footer" as const,
     label: "Footer",
     options: optionsWithOriginalFirst(footerVariants, (value) =>
       value === "original" ? "Original" : value,
+    ),
+  },
+  {
+    key: "acento" as const,
+    label: "Acento",
+    options: optionsWithOriginalFirst(accentVariants, (value) =>
+      value === "arena" ? "Arena" : "Original",
     ),
   },
 ] as const;
@@ -69,25 +89,42 @@ export function resolveParam<T extends string>(
   return fallback;
 }
 
-export function readPrefs(): Partial<VariantPrefs> {
-  if (typeof window === "undefined") return {};
+export function parsePrefs(raw: string | null | undefined): Partial<VariantPrefs> {
+  if (!raw) return {};
   try {
-    const raw = window.localStorage.getItem(VARIANT_STORAGE_KEY);
-    if (!raw) return {};
     const parsed = JSON.parse(raw) as Partial<Record<keyof VariantPrefs, string>>;
     const prefs: Partial<VariantPrefs> = {};
     const nav = parsed.nav ?? null;
     const hero = parsed.hero ?? null;
     const content = parsed.content ?? null;
+    const categorias = parsed.categorias ?? null;
     const footer = parsed.footer ?? null;
+    const acento = parsed.acento ?? null;
     if (isNavVariant(nav)) prefs.nav = nav;
     if (isHeroVariant(hero)) prefs.hero = hero;
     if (isContentMode(content)) prefs.content = content;
+    if (isCategoryMode(categorias)) prefs.categorias = categorias;
     if (isFooterVariant(footer)) prefs.footer = footer;
+    if (isAccentVariant(acento)) prefs.acento = acento;
     return prefs;
   } catch {
     return {};
   }
+}
+
+export function readPrefs(): Partial<VariantPrefs> {
+  if (typeof window === "undefined") return {};
+  try {
+    return parsePrefs(window.localStorage.getItem(VARIANT_STORAGE_KEY));
+  } catch {
+    return {};
+  }
+}
+
+function writeCookie(prefs: VariantPrefs) {
+  if (typeof document === "undefined") return;
+  const value = encodeURIComponent(JSON.stringify(prefs));
+  document.cookie = `${VARIANT_STORAGE_KEY}=${value}; Path=/; Max-Age=31536000; SameSite=Lax`;
 }
 
 export function writePrefs(prefs: VariantPrefs) {
@@ -97,10 +134,13 @@ export function writePrefs(prefs: VariantPrefs) {
   } catch {
     // ignore quota / private mode
   }
+  writeCookie(prefs);
 }
 
-export function resolvePrefs(searchParams: URLSearchParams): VariantPrefs {
-  const stored = readPrefs();
+export function resolvePrefs(
+  searchParams: URLSearchParams,
+  stored: Partial<VariantPrefs> = readPrefs(),
+): VariantPrefs {
   return {
     nav: resolveParam(searchParams.get("nav"), stored.nav, variantDefaults.nav, isNavVariant),
     hero: resolveParam(searchParams.get("hero"), stored.hero, variantDefaults.hero, isHeroVariant),
@@ -110,11 +150,23 @@ export function resolvePrefs(searchParams: URLSearchParams): VariantPrefs {
       variantDefaults.content,
       isContentMode,
     ),
+    categorias: resolveParam(
+      searchParams.get("categorias"),
+      stored.categorias,
+      variantDefaults.categorias,
+      isCategoryMode,
+    ),
     footer: resolveParam(
       searchParams.get("footer"),
       stored.footer,
       variantDefaults.footer,
       isFooterVariant,
+    ),
+    acento: resolveParam(
+      searchParams.get("acento"),
+      stored.acento,
+      variantDefaults.acento,
+      isAccentVariant,
     ),
   };
 }
@@ -127,6 +179,8 @@ export function prefsToSearchParams(
   next.set("nav", prefs.nav);
   next.set("hero", prefs.hero);
   next.set("content", prefs.content);
+  next.set("categorias", prefs.categorias);
   next.set("footer", prefs.footer);
+  next.set("acento", prefs.acento);
   return next;
 }

@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { FooterLink } from "@/components/footer/footer-link";
+import { SimaMark } from "@/components/sima-mark";
 import { footerColumns, socialLinks } from "@/lib/home-content";
 import { NewsletterForm } from "@/components/newsletter-form";
 
@@ -26,12 +27,12 @@ export function FirmaFooter() {
               <ul className="mt-5 space-y-2.5">
                 {column.links.map((link) => (
                   <li key={link.href}>
-                    <Link
+                    <FooterLink
                       href={link.href}
                       className={`text-[15px] text-white/80 transition-colors hover:text-white lg:text-[17px] ${focus}`}
                     >
                       {link.label}
-                    </Link>
+                    </FooterLink>
                   </li>
                 ))}
               </ul>
@@ -77,8 +78,10 @@ export function FirmaFooter() {
         </div>
       </div>
 
-      <div className="page-wrap mt-16 lg:mt-24 max-w-360" aria-hidden>
-        <svg viewBox="0 -740 2760 752" className="block h-auto w-full overflow-visible">
+      <div className="page-wrap mt-16 max-w-360 lg:mt-24">
+        <div className="flex items-end gap-3 sm:gap-5" aria-hidden>
+          <SimaMark className="accent-text mb-1 h-8 w-auto shrink-0 sm:h-12" />
+          <svg viewBox="0 -740 2760 752" className="block h-auto min-w-0 flex-1 overflow-visible">
           <text fontSize={1000} className="fill-white font-sans font-bold">
             {wordmark.map((letter) => (
               <tspan key={letter.char} x={letter.x} y={0}>
@@ -86,7 +89,9 @@ export function FirmaFooter() {
               </tspan>
             ))}
           </text>
-        </svg>
+          </svg>
+        </div>
+        <p className="accent-text mt-3 text-[11px] font-bold uppercase tracking-[0.32em] text-white/55">Lifestyle</p>
       </div>
 
       <div className="page-wrap flex flex-col gap-3 pb-8 pt-8 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">

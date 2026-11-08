@@ -10,6 +10,9 @@ export function FicheroHome() {
         <p className="max-w-[28ch] text-sm leading-relaxed text-white/80">
           Equipamos a personas que eligen crecer cada día.
         </p>
+        <p className="mt-2 max-w-[32ch] text-sm font-bold leading-snug">
+          Disciplina te lleva donde la motivación no puede.
+        </p>
         <nav aria-label="Tipos" className="mt-8">
           <ul>
             {ficheroIndex.map((item, index) => (

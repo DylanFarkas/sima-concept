@@ -66,25 +66,25 @@ export const collections = [
   {
     icon: "shoe",
     title: "ZAPATOS",
-    text: "Pisada firme en cada kilómetro.",
+    text: "Ligereza y soporte en cada kilómetro.",
     href: "/zapatillas",
   },
   {
     icon: "headphones",
     title: "TECH",
-    text: "Mide tu progreso",
+    text: "Tecnología que impulsa tu entrenamiento.",
     href: "/tech",
   },
   {
     icon: "bottle",
     title: "SUPLEMENTOS",
-    text: "Nutrición que potencia tu mejor version.",
+    text: "Nutrición que potencia tu mejor versión.",
     href: "/suplementos",
   },
   {
     icon: "bag",
     title: "ACCESORIOS",
-    text: "Los detalles que completan tu equipo.",
+    text: "Equipamiento para cada entrenamiento.",
     href: "/accesorios",
   },
 ] as const;
@@ -103,7 +103,7 @@ export const aboutValues = [
   {
     icon: "trend",
     title: "PERSEVERANCIA",
-    text: "No nos rendimos. Mejores cada día.",
+    text: "No nos rendimos. Seamos mejores cada día.",
   },
   {
     icon: "heart",
@@ -113,7 +113,7 @@ export const aboutValues = [
   {
     icon: "heartCheck",
     title: "CONFIANZA",
-    text: "Creemos en lo que podemos lograr.",
+    text: "Creemos en nosotros y en lo que podemos lograr.",
   },
   {
     icon: "faith",
@@ -145,21 +145,17 @@ export const trustItems = [
   },
 ] as const;
 
+export const whatsappHref = "https://wa.me/573189154899";
+
 export const footerLinks = {
   enlaces: [
     { label: "Tienda", href: "/" },
     { label: "Colecciones", href: "/#colecciones" },
     { label: "Nosotros", href: "/nosotros" },
     { label: "Comunidad", href: "/comunidad" },
-    { label: "Contacto", href: "/contacto" },
+    { label: "Contacto", href: whatsappHref },
   ],
-  ayuda: [
-    { label: "Guía de tallas", href: "/guia-de-tallas" },
-    { label: "Preguntas frecuentes", href: "/preguntas-frecuentes" },
-    { label: "Envíos", href: "/envios" },
-    { label: "Cambios y devoluciones", href: "/cambios-y-devoluciones" },
-    { label: "Política de privacidad", href: "/politica-de-privacidad" },
-  ],
+  ayuda: [{ label: "Asesoría", href: whatsappHref }],
 } as const;
 
 export const footerColumns = [
@@ -179,7 +175,7 @@ export const footerColumns = [
     links: [
       { label: "Nosotros", href: "/nosotros" },
       { label: "Comunidad", href: "/comunidad" },
-      { label: "Contacto", href: "/contacto" },
+      { label: "Contacto", href: whatsappHref },
     ],
   },
   { title: "Ayuda", links: footerLinks.ayuda },
@@ -209,7 +205,7 @@ export const socialLinks = [
   {
     label: "Wa",
     name: "WhatsApp",
-    href: "https://wa.me/573189154899",
+    href: whatsappHref,
     icon: "whatsapp",
   },
 ] as const;

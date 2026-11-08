@@ -13,7 +13,7 @@ export function ProductTile({ product }: { product: Product }) {
           <img
             src={product.image}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         ) : null}
       </span>

@@ -85,7 +85,7 @@ function Editorial({ item }: { item: NavItem }) {
                 <img
                   src={card.image}
                   alt=""
-                  className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               ) : null}
             </span>
@@ -106,7 +106,7 @@ function Editorial({ item }: { item: NavItem }) {
             <img
               src={campaign.image}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           ) : null}
           <span className="absolute inset-0 bg-linear-to-t from-black via-black/25 to-black/10" />

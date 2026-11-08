@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { SimaMark } from "@/components/sima-mark";
 import { audienceNav } from "@/lib/taxonomy";
 
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -29,9 +30,13 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
         <Link
           href="/"
           onClick={onClose}
-          className="font-sans text-[1.65rem] font-bold uppercase leading-none tracking-[0.42em]"
+          className="flex items-center gap-2.5"
+          aria-label="SIMA"
         >
-          SIMA
+          <SimaMark className="accent-text h-5 w-auto shrink-0" />
+          <span className="font-sans text-[1.65rem] font-bold uppercase leading-none tracking-[0.42em]">
+            IMA
+          </span>
         </Link>
         <button
           type="button"

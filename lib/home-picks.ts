@@ -55,7 +55,7 @@ export const audienceTiles = [
   },
   {
     label: "Calzado",
-    text: "Pisada firme en cada kilómetro.",
+    text: "Ligereza y soporte en cada kilómetro.",
     href: "/zapatillas",
     product: catalogProduct("asics-ff-turbo-hombre-1"),
   },
@@ -116,7 +116,7 @@ export const lookProducts = [
 export const gearTiles = [
   {
     label: "Tech",
-    text: "Mide tu progreso.",
+    text: "Tecnología que impulsa tu entrenamiento.",
     href: "/tech",
     links: [
       { label: "Audífonos", href: "/tech?tipo=audifonos" },
@@ -133,7 +133,7 @@ export const gearTiles = [
   },
   {
     label: "Accesorios",
-    text: "Los detalles que completan tu equipo.",
+    text: "Equipamiento para cada entrenamiento.",
     href: "/accesorios",
     links: [
       { label: "Entrenamiento", href: "/accesorios?tipo=entrenamiento" },

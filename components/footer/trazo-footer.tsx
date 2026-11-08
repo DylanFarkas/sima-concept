@@ -1,5 +1,6 @@
-import Link from "next/link";
-import { footerColumns, socialLinks } from "@/lib/home-content";
+import { FooterLink } from "@/components/footer/footer-link";
+import { simaMarkPath } from "@/components/sima-mark";
+import { footerColumns, socialLinks, whatsappHref } from "@/lib/home-content";
 import { IconFacebook, IconInstagram, IconTiktok } from "@/components/icons";
 import { NewsletterForm } from "@/components/newsletter-form";
 
@@ -44,12 +45,12 @@ export function TrazoFooter() {
               <ul className="mt-4 space-y-3">
                 {column.links.map((link) => (
                   <li key={link.href}>
-                    <Link
+                    <FooterLink
                       href={link.href}
                       className={`text-sm text-white/65 transition-colors hover:text-white ${focus}`}
                     >
                       {link.label}
-                    </Link>
+                    </FooterLink>
                   </li>
                 ))}
               </ul>
@@ -77,13 +78,21 @@ export function TrazoFooter() {
 
       <div className="group/trazo relative overflow-hidden border-y border-white/25" aria-hidden>
         <span className="pointer-events-none absolute inset-x-0 top-1/2 border-t border-dashed border-white/10" />
-        <div className="page-wrap flex justify-between py-[0.03em] font-display text-[min(36vw,38rem)] font-bold uppercase leading-none *:[text-box:trim-both_cap_alphabetic]">
-          <span>S</span>
-          <span>I</span>
-          <span className="relative">
-            <span className="text-transparent transition-colors duration-500 [-webkit-text-stroke:1.5px_var(--cream)] group-hover/trazo:text-cream">
-              M
-            </span>
+        <div className="page-wrap flex items-center justify-between py-[0.03em] font-display text-[min(36vw,38rem)] font-bold uppercase leading-none *:[text-box:trim-both_cap_alphabetic]">
+          <span className="relative inline-flex items-center">
+            <svg
+              viewBox="0 0 216 175"
+              className="h-[0.81em] w-auto overflow-visible text-cream"
+              aria-hidden
+            >
+              <path
+                d={simaMarkPath}
+                fillRule="evenodd"
+                className="fill-transparent stroke-current transition-[fill,stroke] duration-500 group-hover/trazo:fill-current group-hover/trazo:stroke-transparent"
+                strokeWidth={1.5}
+                vectorEffect="nonScalingStroke"
+              />
+            </svg>
             <span className="absolute inset-0 border border-cream/50 transition-opacity duration-500 group-hover/trazo:opacity-0" />
             {handles.map((position) => (
               <span
@@ -92,9 +101,14 @@ export function TrazoFooter() {
               />
             ))}
           </span>
+          <span>I</span>
+          <span>M</span>
           <span className="mr-[-0.02em]">A</span>
         </div>
       </div>
+      <p className="accent-text page-wrap py-3 text-[11px] font-bold uppercase tracking-[0.32em] text-white/55">
+        Lifestyle
+      </p>
 
       <div className="page-wrap flex flex-col gap-5 py-6 sm:flex-row sm:items-center sm:justify-between">
         <ul className="flex items-center gap-5">
@@ -132,12 +146,9 @@ export function TrazoFooter() {
           })}
         </ul>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
-          <Link href="/politica-de-privacidad" className={`hover:text-white ${focus}`}>
-            Política de privacidad
-          </Link>
-          <Link href="/cambios-y-devoluciones" className={`hover:text-white ${focus}`}>
-            Cambios y devoluciones
-          </Link>
+          <a href={whatsappHref} target="_blank" rel="noreferrer" className={`hover:text-white ${focus}`}>
+            Asesoría
+          </a>
           <p>© 2026 SIMA. Todos los derechos reservados.</p>
         </div>
       </div>

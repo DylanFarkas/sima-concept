@@ -15,9 +15,14 @@ export function MostradorHome() {
       <div className="relative min-h-[52svh] overflow-hidden lg:min-h-0">
         <HeroVideo className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/20" />
-        <p className="absolute inset-x-0 bottom-0 p-8 font-display text-[clamp(1.7rem,2.4vw,2.35rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] lg:p-10">
-          Equipamos a personas que eligen crecer cada día.
-        </p>
+        <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10">
+          <p className="font-display text-[clamp(1.7rem,2.4vw,2.35rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em]">
+            Equipamos a personas que eligen crecer cada día.
+          </p>
+          <p className="mt-3 max-w-[28ch] text-sm leading-snug text-white/85">
+            Disciplina te lleva donde la motivación no puede.
+          </p>
+        </div>
       </div>
 
       <div className="flex min-h-0 flex-col px-5 py-8 sm:px-8 lg:px-10 lg:py-8">

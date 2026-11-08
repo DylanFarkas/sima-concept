@@ -1,4 +1,4 @@
-import { categories, type CategorySlug, type Product } from "@/lib/catalog";
+import { categories, isCategorySlug, type CategorySlug, type Product } from "@/lib/catalog";
 
 export type Audience = "hombre" | "mujer" | "unisex";
 export type Department = "ropa" | "calzado" | "tech" | "nutricion" | "accesorios";
@@ -7,6 +7,7 @@ export type ProductClass = {
   audience: Audience;
   department: Department;
   type: string;
+  brand?: string;
 };
 
 export type NavLink = { label: string; href: string };
@@ -42,11 +43,56 @@ export const audienceLabels: Record<Audience, string> = {
   unisex: "Unisex",
 };
 
+export const brandLabels: Record<string, string> = {
+  nike: "Nike",
+  adidas: "Adidas",
+  "new-balance": "New Balance",
+  asics: "Asics",
+  on: "On",
+  hoka: "Hoka",
+  salomon: "Salomon",
+  puma: "Puma",
+  brooks: "Brooks",
+  skechers: "Skechers",
+  columbia: "Columbia",
+  "under-armour": "Under Armour",
+  jordan: "Jordan",
+  stanley: "Stanley",
+  owala: "Owala",
+};
+
 function normalize(title: string) {
   return title
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
+}
+
+const brandPatterns: [RegExp, string][] = [
+  [/\bnew balance\b/, "new-balance"],
+  [/\bunder ?armour\b/, "under-armour"],
+  [/\bjordan\b/, "jordan"],
+  [/\badidas\b/, "adidas"],
+  [/\bnike\b/, "nike"],
+  [/\bpuma\b/, "puma"],
+  [/\basics\b/, "asics"],
+  [/\bhoka\b/, "hoka"],
+  [/\bsalomon\b/, "salomon"],
+  [/\bbrooks\b/, "brooks"],
+  [/\bskechers\b/, "skechers"],
+  [/\bcolumbia\b/, "columbia"],
+  [/\bstanley\b/, "stanley"],
+  [/\bowala\b/, "owala"],
+  [/\bon\b/, "on"],
+];
+
+export function detectBrand(title: string) {
+  const value = normalize(title).replace(/^bota\s+/, "");
+  for (const [pattern, key] of brandPatterns) {
+    if (pattern.test(value)) return key;
+  }
+  const first = value.split(/[\s-]+/)[0];
+  return brandLabels[first] ? first : undefined;
 }
 
 function shoeAudience(title: string): Audience {
@@ -85,28 +131,31 @@ function accessoryType(title: string) {
 }
 
 function classify(slug: CategorySlug, product: Product): ProductClass {
+  const brand = detectBrand(product.title);
   if (slug === "zapatillas") {
     return {
       audience: shoeAudience(product.title),
       department: "calzado",
       type: "calzado",
+      brand,
     };
   }
   if (slug === "tech") {
-    return { audience: "unisex", department: "tech", type: techType(product.title) };
+    return { audience: "unisex", department: "tech", type: techType(product.title), brand };
   }
   if (slug === "suplementos") {
-    return { audience: "unisex", department: "nutricion", type: "proteina" };
+    return { audience: "unisex", department: "nutricion", type: "proteina", brand };
   }
   if (slug === "accesorios") {
     return {
       audience: "unisex",
       department: "accesorios",
       type: accessoryType(product.title),
+      brand,
     };
   }
   const audience: Audience = slug === "mujer" ? "mujer" : "hombre";
-  return { audience, department: "ropa", type: ropaType(product.title, audience) };
+  return { audience, department: "ropa", type: ropaType(product.title, audience), brand };
 }
 
 export const productClass = new Map<string, ProductClass>();
@@ -307,30 +356,108 @@ function one(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export function filterCatalog(
-  products: Product[],
-  query: { tipo?: string | string[]; audiencia?: string | string[] },
-) {
+export type CatalogQuery = {
+  tipo?: string | string[];
+  audiencia?: string | string[];
+  marca?: string | string[];
+};
+
+export function filterCatalog(products: Product[], query: CatalogQuery) {
   const tipoValue = one(query.tipo);
   const audienceValue = one(query.audiencia);
+  const marcaValue = one(query.marca);
   const tipo = tipoValue && typeLabels[tipoValue] ? tipoValue : undefined;
   const audiencia =
     audienceValue === "hombre" || audienceValue === "mujer" || audienceValue === "unisex"
       ? audienceValue
       : undefined;
-  if (!tipo && !audiencia) return { products, label: null as string | null };
+  const marca = marcaValue && brandLabels[marcaValue] ? marcaValue : undefined;
+  if (!tipo && !audiencia && !marca) {
+    return { products, label: null as string | null, tipo, audiencia, marca };
+  }
 
   const next = products.filter((product) => {
     const info = productClass.get(product.handle);
     if (!info) return false;
     if (tipo && info.type !== tipo) return false;
     if (audiencia && info.audience !== audiencia) return false;
+    if (marca && info.brand !== marca) return false;
     return true;
   });
 
-  const label = [tipo ? typeLabels[tipo] : null, audiencia ? audienceLabels[audiencia] : null]
+  const label = [
+    marca ? brandLabels[marca] : null,
+    tipo ? typeLabels[tipo] : null,
+    audiencia ? audienceLabels[audiencia] : null,
+  ]
     .filter(Boolean)
     .join(" · ");
 
-  return { products: next, label };
+  return { products: next, label, tipo, audiencia, marca };
+}
+
+export type Subcategory = {
+  key: string;
+  label: string;
+  href: string;
+  count: number;
+};
+
+function navItemForCategory(slug: CategorySlug) {
+  return departmentNav.find((item) => {
+    if (item.href === `/${slug}`) return true;
+    if (slug === "zapatillas" && item.id === "calzado") return true;
+    if (slug === "suplementos" && item.id === "nutricion") return true;
+    return false;
+  });
+}
+
+export function subcategoriesOf(slug: CategorySlug): Subcategory[] {
+  const result: Subcategory[] = [];
+  const navItem = navItemForCategory(slug);
+  if (!navItem) return result;
+
+  for (const column of navItem.columns) {
+    for (const navLink of column.links) {
+      const [path, search] = navLink.href.split("?");
+      if (!search) continue;
+      const targetSlug = path.slice(1);
+      if (!isCategorySlug(targetSlug)) continue;
+
+      const params = Object.fromEntries(new URLSearchParams(search));
+      const audience = (params.audiencia as Audience | undefined) ?? undefined;
+      const tipo = params.tipo;
+      const crossCategory = targetSlug !== slug;
+      const key = crossCategory
+        ? targetSlug === "zapatillas"
+          ? "calzado"
+          : targetSlug
+        : (tipo ?? audience);
+      if (!key || result.some((entry) => entry.key === key)) continue;
+
+      const count = filterCatalog(categories[targetSlug].products, params).products.length;
+      if (count <= 0) continue;
+
+      const label = crossCategory && targetSlug === "zapatillas"
+        ? "Calzado"
+        : audience && audienceLabels[audience] && !tipo
+          ? audienceLabels[audience]
+          : navLink.label;
+
+      result.push({ key, label, href: navLink.href, count });
+    }
+  }
+  return result;
+}
+
+export function brandsOf(products: Product[]) {
+  const counts = new Map<string, Product[]>();
+  for (const product of products) {
+    const brand = productClass.get(product.handle)?.brand;
+    if (!brand) continue;
+    counts.set(brand, [...(counts.get(brand) ?? []), product]);
+  }
+  return [...counts.entries()]
+    .map(([key, list]) => ({ key, label: brandLabels[key], products: list }))
+    .sort((a, b) => b.products.length - a.products.length);
 }

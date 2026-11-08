@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { FooterLink } from "@/components/footer/footer-link";
+import { SimaMark } from "@/components/sima-mark";
 import { footerLinks, socialLinks } from "@/lib/home-content";
 import {
   IconFacebook,
@@ -28,9 +29,13 @@ export function OriginalFooter() {
         </div>
 
         <div className="flex flex-col items-center text-center lg:px-8">
-          <p className="pr-[0.42em] font-sans text-[2rem] font-bold uppercase leading-none tracking-[0.42em] text-white">
-            SIMA
-          </p>
+          <div className="flex items-center gap-3">
+            <SimaMark className="accent-text h-8 w-auto shrink-0" />
+            <p className="pr-[0.42em] font-sans text-[2rem] font-bold uppercase leading-none tracking-[0.42em] text-white">
+              SIMA
+            </p>
+          </div>
+          <p className="accent-text mt-2 text-[10px] font-bold uppercase tracking-[0.28em] text-white/60">Lifestyle</p>
           <p className="mt-3 font-display text-xs font-bold uppercase leading-[1.2] tracking-[0.03em] text-muted">
             DISCIPLINA TE LLEVA
             <br />
@@ -80,9 +85,9 @@ export function OriginalFooter() {
             <ul className="mt-3 space-y-2.25">
               {footerLinks.enlaces.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-white/70 hover:text-white">
+                  <FooterLink href={link.href} className="text-sm text-white/70 hover:text-white">
                     {link.label}
-                  </Link>
+                  </FooterLink>
                 </li>
               ))}
             </ul>
@@ -94,9 +99,9 @@ export function OriginalFooter() {
             <ul className="mt-3 space-y-2.25">
               {footerLinks.ayuda.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-white/70 hover:text-white">
+                  <FooterLink href={link.href} className="text-sm text-white/70 hover:text-white">
                     {link.label}
-                  </Link>
+                  </FooterLink>
                 </li>
               ))}
             </ul>

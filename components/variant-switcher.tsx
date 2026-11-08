@@ -24,7 +24,9 @@ function prefsMatchUrl(prefs: VariantPrefs, params: URLSearchParams) {
     params.get("nav") === prefs.nav &&
     params.get("hero") === prefs.hero &&
     params.get("content") === prefs.content &&
-    params.get("footer") === prefs.footer
+    params.get("categorias") === prefs.categorias &&
+    params.get("footer") === prefs.footer &&
+    params.get("acento") === prefs.acento
   );
 }
 
@@ -80,16 +82,14 @@ function VariantSwitcherInner() {
     applyPrefs(variantDefaults);
   }
 
-  const isAllOriginal =
-    prefs.nav === "original" &&
-    prefs.hero === "original" &&
-    prefs.content === "original" &&
-    prefs.footer === "original";
+  const isAtDefaults = (Object.keys(variantDefaults) as (keyof VariantPrefs)[]).every(
+    (key) => prefs[key] === variantDefaults[key],
+  );
 
   return (
     <div ref={rootRef} className="fixed bottom-0 right-0 z-50">
       {open ? (
-        <div className="absolute bottom-3 right-3 w-[min(calc(100vw-1.5rem),17.5rem)] overflow-hidden rounded-2xl border border-white/20 bg-[#0A0A0A] p-3.5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl backdrop-saturate-150 sm:bottom-4 sm:right-4">
+        <div className="absolute bottom-3 right-3 max-h-[calc(100svh-1.5rem)] w-[min(calc(100vw-1.5rem),17.5rem)] overflow-y-auto rounded-2xl border border-white/20 bg-[#0A0A0A] p-3.5 text-white shadow-[0_18px_50px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl backdrop-saturate-150 sm:bottom-4 sm:right-4">
           <div className="mb-3.5 flex items-center justify-between gap-3 px-0.5">
             <div>
               <p className="text-[13px] font-medium tracking-tight text-white">
@@ -139,7 +139,7 @@ function VariantSwitcherInner() {
 
           <button
             type="button"
-            disabled={isAllOriginal}
+            disabled={isAtDefaults}
             onClick={resetAll}
             className="mt-3.5 w-full cursor-pointer rounded-lg py-2 text-[11px] font-medium tracking-wide text-white/55 transition-colors hover:bg-white/8 hover:text-white disabled:cursor-default disabled:text-white/25 disabled:hover:bg-transparent"
           >
