@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import type { Tone } from "@/lib/category-pages";
 import {
   colorSwatch,
@@ -280,9 +280,11 @@ function Accordion({
   children: ReactNode;
 }) {
   const light = tone === "white";
+  const [open, setOpen] = useState(defaultOpen);
   return (
     <details
-      defaultOpen={defaultOpen}
+      open={open}
+      onToggle={(event) => setOpen(event.currentTarget.open)}
       className={`group border-b ${light ? "border-ink/12" : "border-white/12"}`}
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-4 text-sm font-bold uppercase tracking-[0.08em] [&::-webkit-details-marker]:hidden">
