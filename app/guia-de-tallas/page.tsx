@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { HelpLayout } from "@/components/help/help-layout";
 import { HelpClosing, HelpLead, SectionHead } from "@/components/help/help-blocks";
+import { menShoes, shoeMeasureSteps, womenShoes, type ShoeRow } from "@/lib/shoe-sizes";
 
 export const metadata: Metadata = {
   title: "Guía de Tallas – SIMA",
@@ -14,14 +15,6 @@ type ApparelRow = {
   chest: string;
   waist: string;
   hip: string;
-};
-
-type ShoeRow = {
-  col: string;
-  eu: string;
-  us: string;
-  uk: string;
-  cm: string;
 };
 
 const menApparel: readonly ApparelRow[] = [
@@ -38,23 +31,6 @@ const womenApparel: readonly ApparelRow[] = [
   { size: "M", chest: "86–90", waist: "70–74", hip: "96–100" },
   { size: "L", chest: "91–95", waist: "75–79", hip: "101–105" },
   { size: "XL", chest: "96–100", waist: "80–84", hip: "106–110" },
-];
-
-const womenShoes: readonly ShoeRow[] = [
-  { col: "35", eu: "36", us: "5", uk: "4.5", cm: "23.5" },
-  { col: "36", eu: "37", us: "6", uk: "5", cm: "23.5" },
-  { col: "37", eu: "38", us: "6.5", uk: "5.5", cm: "24.5" },
-  { col: "38", eu: "39", us: "7.5", uk: "6.5", cm: "25.5" },
-  { col: "39", eu: "40", us: "8.5", uk: "7.5", cm: "26.5" },
-];
-
-const menShoes: readonly ShoeRow[] = [
-  { col: "37", eu: "40", us: "8.5", uk: "7.5", cm: "26.5" },
-  { col: "38", eu: "41", us: "9.5", uk: "8.5", cm: "27.5" },
-  { col: "39", eu: "42", us: "10", uk: "9", cm: "28.5" },
-  { col: "40", eu: "43", us: "11", uk: "10", cm: "29.5" },
-  { col: "41/42", eu: "44", us: "12", uk: "11", cm: "30.5" },
-  { col: "43", eu: "45", us: "13", uk: "12", cm: "31.5" },
 ];
 
 const apparelColumns = [
@@ -225,24 +201,6 @@ const apparelSteps = [
   },
 ] as const;
 
-const shoeSteps = [
-  {
-    id: "01",
-    title: "Apoya el talón",
-    text: "Pon el pie sobre una hoja de papel, con el talón tocando la pared.",
-  },
-  {
-    id: "02",
-    title: "Marca la punta",
-    text: "Marca con un lápiz desde el talón hasta la punta del dedo más largo.",
-  },
-  {
-    id: "03",
-    title: "Mide los centímetros",
-    text: "Mide esa distancia y busca el número en la columna cm de la tabla.",
-  },
-] as const;
-
 export default function GuiaDeTallasPage() {
   return (
     <HelpLayout
@@ -303,7 +261,7 @@ export default function GuiaDeTallasPage() {
           </p>
           <div className="mt-12 lg:mt-16">
             <MeasureSteps
-              steps={shoeSteps}
+              steps={shoeMeasureSteps}
               figure={
                 <div className="mx-auto w-full max-w-md">
                   <GuideFigure src="/sima/guia-talla-pie.png" width={452} height={324} />

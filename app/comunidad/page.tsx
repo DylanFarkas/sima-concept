@@ -99,7 +99,7 @@ export default function ComunidadPage() {
                     {pad(index + 1)}
                   </span>
                   <span
-                    className={`font-display text-[clamp(1.75rem,5.8vw,6rem)] font-bold uppercase leading-[1] tracking-[-0.02em] ${
+                    className={`font-display text-[clamp(1.75rem,5.8vw,6rem)] font-bold uppercase leading-none tracking-[-0.02em] ${
                       index % 2 === 1 && !isLast ? outlineInk : ""
                     }`}
                   >
