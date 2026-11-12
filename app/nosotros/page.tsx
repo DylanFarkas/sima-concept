@@ -59,7 +59,7 @@ export default function NosotrosPage() {
             <p className={`${eyebrow} flex items-center gap-4 text-white/70`}>
               Nosotros
             </p>
-            <h1 className="mt-8 font-display text-[clamp(2.5rem,10.5vw,10rem)] font-bold uppercase leading-[1] tracking-tight">
+            <h1 className="mt-8 font-display text-[clamp(2.5rem,10.5vw,10rem)] font-bold uppercase leading-none tracking-tight">
               <span className="sm:block">Queremos</span>{" "}
               <span className="sm:block">acompañarte en el</span>{" "}
               <span className="accent-stroke block text-transparent [-webkit-text-stroke:1.5px_white]">
