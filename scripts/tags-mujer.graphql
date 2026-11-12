@@ -1,0 +1,17 @@
+mutation {
+p0: tagsAdd(id: "gid://shopify/Product/15400380858644", tags: ["audiencia:mujer","departamento:ropa","tipo:enterizos"]) { userErrors { message } }
+p1: tagsAdd(id: "gid://shopify/Product/15400486109460", tags: ["audiencia:mujer","departamento:ropa","tipo:enterizos"]) { userErrors { message } }
+p2: tagsAdd(id: "gid://shopify/Product/15410306220308", tags: ["audiencia:mujer","departamento:ropa","tipo:vestidos"]) { userErrors { message } }
+p3: tagsAdd(id: "gid://shopify/Product/15410321850644", tags: ["audiencia:mujer","departamento:ropa","tipo:enterizos"]) { userErrors { message } }
+p4: tagsAdd(id: "gid://shopify/Product/15410336497940", tags: ["audiencia:mujer","departamento:ropa","tipo:sets"]) { userErrors { message } }
+p5: tagsAdd(id: "gid://shopify/Product/15410342822164", tags: ["audiencia:mujer","departamento:ropa","tipo:sets"]) { userErrors { message } }
+p6: tagsAdd(id: "gid://shopify/Product/15410344427796", tags: ["audiencia:mujer","departamento:ropa","tipo:basics"]) { userErrors { message } }
+p7: tagsAdd(id: "gid://shopify/Product/15410347016468", tags: ["audiencia:mujer","departamento:ropa","tipo:basics"]) { userErrors { message } }
+p8: tagsAdd(id: "gid://shopify/Product/15410351735060", tags: ["audiencia:mujer","departamento:ropa","tipo:pantalonetas"]) { userErrors { message } }
+p9: tagsAdd(id: "gid://shopify/Product/15410354716948", tags: ["audiencia:mujer","departamento:ropa","tipo:chaquetas"]) { userErrors { message } }
+p10: tagsAdd(id: "gid://shopify/Product/15410355732756", tags: ["audiencia:mujer","departamento:ropa","tipo:chaquetas"]) { userErrors { message } }
+p11: tagsAdd(id: "gid://shopify/Product/15413883207956", tags: ["audiencia:mujer","departamento:ropa","tipo:pantalonetas","marca:adidas"]) { userErrors { message } }
+p12: tagsAdd(id: "gid://shopify/Product/15413887959316", tags: ["audiencia:mujer","departamento:ropa","tipo:pantalonetas","marca:nike"]) { userErrors { message } }
+p13: tagsAdd(id: "gid://shopify/Product/15413888909588", tags: ["audiencia:mujer","departamento:ropa","tipo:pantalonetas","marca:puma"]) { userErrors { message } }
+p14: tagsAdd(id: "gid://shopify/Product/15445859270932", tags: ["audiencia:mujer","departamento:ropa","tipo:pantalonetas","marca:nike"]) { userErrors { message } }
+}

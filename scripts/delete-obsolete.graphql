@@ -1,0 +1,17 @@
+mutation {
+d0: collectionDelete(input: {id: "gid://shopify/Collection/542147051796"}) { deletedCollectionId userErrors { message } }
+d1: collectionDelete(input: {id: "gid://shopify/Collection/542147084564"}) { deletedCollectionId userErrors { message } }
+d2: collectionDelete(input: {id: "gid://shopify/Collection/542147117332"}) { deletedCollectionId userErrors { message } }
+d3: collectionDelete(input: {id: "gid://shopify/Collection/542146953492"}) { deletedCollectionId userErrors { message } }
+d4: collectionDelete(input: {id: "gid://shopify/Collection/542147019028"}) { deletedCollectionId userErrors { message } }
+d5: collectionDelete(input: {id: "gid://shopify/Collection/542146986260"}) { deletedCollectionId userErrors { message } }
+d6: collectionDelete(input: {id: "gid://shopify/Collection/542146920724"}) { deletedCollectionId userErrors { message } }
+d7: collectionDelete(input: {id: "gid://shopify/Collection/542146461972"}) { deletedCollectionId userErrors { message } }
+d8: collectionDelete(input: {id: "gid://shopify/Collection/542146429204"}) { deletedCollectionId userErrors { message } }
+d9: collectionDelete(input: {id: "gid://shopify/Collection/542146363668"}) { deletedCollectionId userErrors { message } }
+d10: collectionDelete(input: {id: "gid://shopify/Collection/542146396436"}) { deletedCollectionId userErrors { message } }
+d11: collectionDelete(input: {id: "gid://shopify/Collection/542146625812"}) { deletedCollectionId userErrors { message } }
+d12: collectionDelete(input: {id: "gid://shopify/Collection/542146593044"}) { deletedCollectionId userErrors { message } }
+d13: collectionDelete(input: {id: "gid://shopify/Collection/542146527508"}) { deletedCollectionId userErrors { message } }
+d14: collectionDelete(input: {id: "gid://shopify/Collection/542146560276"}) { deletedCollectionId userErrors { message } }
+}

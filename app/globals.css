@@ -9,6 +9,7 @@
   --muted: #dfdfdf;
   --ink: #121212;
   --accent: #bcb1a6;
+  --rose: #8f4f5c;
 }
 
 @theme inline {
@@ -18,19 +19,20 @@
   --color-card: var(--card);
   --color-muted: var(--muted);
   --color-ink: var(--ink);
+  --color-rose: var(--rose);
   --font-sans: var(--font-inter);
   --font-display: var(--font-oswald);
 }
 
-html[data-acento="arena"] .accent-text {
+.accent-text {
   color: var(--accent);
 }
 
-html[data-acento="arena"] .accent-fill {
+.accent-fill {
   background-color: var(--accent);
 }
 
-html[data-acento="arena"] .accent-stroke {
+.accent-stroke {
   -webkit-text-stroke-color: var(--accent);
 }
 
@@ -141,4 +143,36 @@ body {
 
 .filter-scroll::-webkit-scrollbar-corner {
   background: #121212;
+}
+
+.filter-scroll-light {
+  color-scheme: light;
+  scrollbar-width: thin;
+  scrollbar-color: #d9d3ce #ffffff;
+}
+
+.filter-scroll-light::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+}
+
+.filter-scroll-light::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+.filter-scroll-light::-webkit-scrollbar-thumb {
+  background: #d9d3ce;
+  border: 2px solid #ffffff;
+  background-clip: padding-box;
+}
+
+.filter-scroll-light::-webkit-scrollbar-thumb:hover {
+  background: #b7aea8;
+  border: 2px solid #ffffff;
+  background-clip: padding-box;
+}
+
+.filter-scroll-light::-webkit-scrollbar-corner {
+  background: #ffffff;
 }

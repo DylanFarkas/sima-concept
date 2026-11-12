@@ -36,6 +36,7 @@ export type CategoryHeroConfig =
 
 export type CategoryModule =
   | { kind: "explore"; title: string; photos: Record<string, Product | string> }
+  | { kind: "bestsellers"; title: string; eyebrow: string; products: Product[] }
   | { kind: "brands"; title: string; text: string }
   | { kind: "feature"; eyebrow: string; text: string; product: Product; image?: string }
   | { kind: "phrase"; text: string; tone: Tone; cta?: Cta };
@@ -71,15 +72,16 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
     },
     before: [
       {
-        kind: "explore",
-        title: "Elige tu prenda",
-        photos: {
-          conjuntos: catalogProduct("conjunto-adidas"),
-          camisetas: catalogProduct("compresion-manga-larga"),
-          pantalonetas: catalogProduct("pantaloneta-jordan-diamond"),
-          sudaderas: catalogProduct("sudadera-antifluido-cargo"),
-          basics: catalogProduct("basics-algodon"),
-        },
+        kind: "bestsellers",
+        title: "Más vendidos",
+        eyebrow: "Best sellers",
+        products: [
+          catalogProduct("sudadera-antifluido-cargo"),
+          catalogProduct("conjunto-corto-algodon-nike"),
+          catalogProduct("conjunto-deportivo-dri-fit-nike-1"),
+          catalogProduct("camiseta-dri-fit-nike"),
+          catalogProduct("pantaloneta-nike-dri-fit"),
+        ],
       },
     ],
     grid: {
@@ -108,20 +110,33 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
     hero: {
       format: "pantalla",
       title: "Mujer",
-      text: "Ropa para entrenar, con rendimiento, también si estás empezando.",
+      text: "Ropa para entrenar con estilo, también si estás empezando.",
       cta: toGrid,
       product: catalogProduct("enterizo-vitalia"),
       media: { type: "video", src: "/sima/sima-category-hero-video.mp4" },
     },
-    before: [],
+    before: [
+      {
+        kind: "bestsellers",
+        title: "Más vendidos",
+        eyebrow: "Best sellers",
+        products: [
+          catalogProduct("pantaloneta-running-nike-plizada"),
+          catalogProduct("chaqueta-drifit"),
+          catalogProduct("sudadera-fit"),
+          catalogProduct("basics-leggins"),
+          catalogProduct("enterizo-vitalia"),
+        ],
+      },
+    ],
     grid: {
       aspect: "portrait",
-      tone: "dark",
+      tone: "white",
       inserts: [
         {
           after: 4,
           kind: "campaign",
-          title: "Hecha para moverte",
+          title: "Hecha para ti",
           text: "Enterizos y sets que te acompañan dentro y fuera del gimnasio.",
           cta: { label: "Ver enterizos", href: "/mujer?tipo=enterizos" },
           product: catalogProduct("enterizo-vitalia"),
@@ -130,29 +145,23 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
     },
     after: [],
   },
-  zapatillas: {
+  zapatos: {
     hero: {
-      format: "triptico",
+      format: "pantalla",
       title: "Calzado",
       text: "Ligereza y soporte en cada kilómetro.",
-      cta: { label: "Ver todo", href: "#productos" },
-      left: {
-        product: catalogProduct("asics-ff-turbo-hombre-1"),
-        label: "Hombre",
-        href: "/zapatillas?audiencia=hombre",
-      },
-      right: {
-        product: catalogProduct("new-balance-9060-dama"),
-        label: "Mujer",
-        href: "/zapatillas?audiencia=mujer",
-      },
-      extra: { label: "Unisex", href: "/zapatillas?audiencia=unisex" },
+      cta: toGrid,
+      product: catalogProduct("asics-ff-turbo-hombre-1"),
+      media: { type: "video", src: "/sima/sima-category-hero-video.mp4" },
     },
     before: [
       {
-        kind: "brands",
-        title: "Encuentra tu marca",
-        text: "Las marcas con las que entrenas, en un solo lugar.",
+        kind: "explore",
+        title: "Elige tu calzado",
+        photos: {
+          hombre: catalogProduct("asics-ff-turbo-hombre-1"),
+          mujer: "/sima/IMG_5024.webp",
+        },
       },
     ],
     grid: {
@@ -164,7 +173,7 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
           kind: "campaign",
           title: "Kilómetro a kilómetro",
           text: "Zapatillas para correr, entrenar y volver a salir mañana.",
-          cta: { label: "Zapatillas de hombre", href: "/zapatillas?audiencia=hombre" },
+          cta: { label: "Zapatillas de hombre", href: "/zapatos?audiencia=hombre" },
           product: catalogProduct("salomon-hombre"),
         },
         {
@@ -172,21 +181,21 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
           kind: "campaign",
           title: "Clásicos para todos los días",
           text: "Modelos que van del entrenamiento a la calle.",
-          cta: { label: "Ver unisex", href: "/zapatillas?audiencia=unisex" },
+          cta: { label: "Ver unisex", href: "/zapatos?audiencia=unisex" },
           product: catalogProduct("adidas-samba-unisex"),
         },
       ],
     },
     after: [],
   },
-  tech: {
+  tecnologia: {
     hero: {
-      format: "partido",
-      tone: "dark",
+      format: "pantalla",
       title: "Tech",
       text: "Tecnología que impulsa tu entrenamiento.",
+      cta: toGrid,
       product: catalogProduct("watch-ultra-serie-11"),
-      media: { type: "image", src: "/sima/tecnologia-img.webp" },
+      media: { type: "video", src: "/sima/sima-category-hero-video.mp4" },
     },
     before: [
       {

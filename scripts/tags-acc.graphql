@@ -1,0 +1,12 @@
+mutation {
+p0: tagsAdd(id: "gid://shopify/Product/15412837941524", tags: ["audiencia:unisex","departamento:accesorios","tipo:hidratacion","marca:stanley"]) { userErrors { message } }
+p1: tagsAdd(id: "gid://shopify/Product/15412846985492", tags: ["audiencia:unisex","departamento:accesorios","tipo:hidratacion","marca:stanley"]) { userErrors { message } }
+p2: tagsAdd(id: "gid://shopify/Product/15412855669012", tags: ["audiencia:unisex","departamento:accesorios","tipo:hidratacion","marca:stanley"]) { userErrors { message } }
+p3: tagsAdd(id: "gid://shopify/Product/15412862026004", tags: ["audiencia:unisex","departamento:accesorios","tipo:hidratacion","marca:owala"]) { userErrors { message } }
+p4: tagsAdd(id: "gid://shopify/Product/15412881948948", tags: ["audiencia:unisex","departamento:accesorios","tipo:hidratacion","marca:owala"]) { userErrors { message } }
+p5: tagsAdd(id: "gid://shopify/Product/15412903706900", tags: ["audiencia:unisex","departamento:accesorios","tipo:entrenamiento"]) { userErrors { message } }
+p6: tagsAdd(id: "gid://shopify/Product/15412907344148", tags: ["audiencia:unisex","departamento:accesorios","tipo:entrenamiento"]) { userErrors { message } }
+p7: tagsAdd(id: "gid://shopify/Product/15412911243540", tags: ["audiencia:unisex","departamento:accesorios","tipo:entrenamiento"]) { userErrors { message } }
+p8: tagsAdd(id: "gid://shopify/Product/15412925104404", tags: ["audiencia:unisex","departamento:accesorios","tipo:entrenamiento"]) { userErrors { message } }
+p9: tagsAdd(id: "gid://shopify/Product/15412938768660", tags: ["audiencia:unisex","departamento:accesorios","tipo:entrenamiento"]) { userErrors { message } }
+}

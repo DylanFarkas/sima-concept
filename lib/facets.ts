@@ -42,27 +42,54 @@ export const emptyFacetState: FacetState = {
   maxPrice: "",
 };
 
-const colorSwatches: Record<string, string> = {
-  Negro: "#111111",
-  Blanco: "#f5f5f5",
-  Beige: "#d6c6a8",
-  Gris: "#8a8a8a",
-  "Gris oscuro": "#4a4a4a",
-  Verde: "#2f5d3a",
-  Azul: "#2a4a7a",
-  "Azul marino": "#1a2f4d",
-  Rosa: "#e8a0b0",
-  Rojo: "#b03a3a",
-  Naranja: "#d46a2a",
-  Moca: "#7a5a42",
-  Morado: "#5a3a7a",
-  Fuscia: "#c03a7a",
-  Amarillo: "#d4b02a",
-  Violeta: "#6a3a8a",
-  Cafe: "#5a3a22",
-  Salmon: "#e09078",
-  Vinotinto: "#6a1a2a",
+const colorAliases: Record<string, string> = {
+  biege: "Beige",
+  cafe: "Café",
+  marron: "Marrón",
+  morada: "Morado",
 };
+
+const ignoredColors = new Set(["top + leggins", "camiseta + leggins"]);
+
+const swatchHex: Record<string, string> = {
+  negro: "#111111",
+  blanco: "#f4f4f4",
+  gris: "#8a8a8a",
+  "gris oscuro": "#4a4a4a",
+  plata: "#c0c0c0",
+  plateado: "#c0c0c0",
+  beige: "#d6c6a8",
+  moca: "#7a5a42",
+  cafe: "#5a3a22",
+  marron: "#6b4630",
+  azul: "#2a4a7a",
+  "azul marino": "#1a2f4d",
+  "azul cielo": "#8cb8e0",
+  verde: "#2f5d3a",
+  rojo: "#b03a3a",
+  vinotinto: "#6a1a2a",
+  rosa: "#e8a0b0",
+  rosado: "#e8a0b0",
+  fuscia: "#c03a7a",
+  salmon: "#e09078",
+  naranja: "#d46a2a",
+  amarillo: "#d4b02a",
+  dorado: "#c9a646",
+  morado: "#5a3a7a",
+  violeta: "#6a3a8a",
+};
+
+function colorKey(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .trim();
+}
+
+export function colorSwatches(value: string) {
+  return value.split("-").map((part) => swatchHex[colorKey(part)] ?? "#6b6b6b");
+}
 
 const apparelSizeOrder = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
@@ -88,8 +115,20 @@ function sizeSortKey(value: string) {
   return 1000 + value.charCodeAt(0);
 }
 
-export function colorSwatch(value: string) {
-  return colorSwatches[value] ?? null;
+function canonicalColor(value: string) {
+  const cleaned = value.trim().replace(/\s*-\s*/g, "-").replace(/\s+/g, " ");
+  const key = colorKey(cleaned);
+  if (!key || ignoredColors.has(key)) return null;
+  if (colorAliases[key]) return colorAliases[key];
+  return cleaned
+    .split("-")
+    .map((part) =>
+      part
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" "),
+    )
+    .join("-");
 }
 
 export function productColors(handle: string) {
@@ -99,7 +138,8 @@ export function productColors(handle: string) {
   for (const option of detail.options) {
     if (!isColorOption(option.name)) continue;
     for (const value of option.values) {
-      if (value && !value.includes("+")) values.add(value);
+      const color = canonicalColor(value);
+      if (color) values.add(color);
     }
   }
   return [...values];

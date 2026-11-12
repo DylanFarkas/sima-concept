@@ -1,0 +1,15 @@
+mutation {
+p0: tagsAdd(id: "gid://shopify/Product/15419788460308", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p1: tagsAdd(id: "gid://shopify/Product/15419790557460", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p2: tagsAdd(id: "gid://shopify/Product/15419791737108", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p3: tagsAdd(id: "gid://shopify/Product/15419794751764", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p4: tagsAdd(id: "gid://shopify/Product/15419811692820", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p5: tagsAdd(id: "gid://shopify/Product/15419814674708", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p6: tagsAdd(id: "gid://shopify/Product/15419817034004", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p7: tagsAdd(id: "gid://shopify/Product/15419819884820", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p8: tagsAdd(id: "gid://shopify/Product/15419823161620", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p9: tagsAdd(id: "gid://shopify/Product/15419826372884", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p10: tagsAdd(id: "gid://shopify/Product/15419828633876", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p11: tagsAdd(id: "gid://shopify/Product/15419830829332", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+p12: tagsAdd(id: "gid://shopify/Product/15419831714068", tags: ["audiencia:unisex","departamento:nutricion","tipo:proteina","suplementos"]) { userErrors { message } }
+}

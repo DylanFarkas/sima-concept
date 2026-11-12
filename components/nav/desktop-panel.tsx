@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { NavVariant } from "@/lib/nav-variants";
 import { menuSpotlight, type NavItem } from "@/lib/taxonomy";
 
 function formatPrice(value: number) {
@@ -10,47 +9,7 @@ function formatPrice(value: number) {
   return `$${formatted}`;
 }
 
-function Columnas({ item }: { item: NavItem }) {
-  return (
-    <div className="page-wrap grid min-h-90 grid-cols-1 items-center gap-12 py-16 lg:grid-cols-12">
-      <div
-        className="grid gap-x-16 gap-y-12 lg:col-span-7"
-        style={{
-          gridTemplateColumns: `repeat(${Math.min(item.columns.length, 3)}, minmax(0, 1fr))`,
-        }}
-      >
-        {item.columns.map((column) => (
-          <div key={column.title}>
-            <p className="font-display text-[11px] uppercase tracking-[0.32em] text-white/45">
-              {column.title}
-            </p>
-            <ul className="mt-8 space-y-4">
-              {column.links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="group inline-flex items-center gap-3 text-[16px] text-white/80 transition-colors duration-300 hover:text-white"
-                  >
-                    <span className="h-px w-0 bg-white transition-all duration-300 group-hover:w-5" />
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <p
-        aria-hidden
-        className="hidden text-right font-display text-[clamp(4.5rem,6vw,7.5rem)] font-bold uppercase leading-normal tracking-tighter text-white/10 lg:col-span-5 lg:block"
-      >
-        {item.label}
-      </p>
-    </div>
-  );
-}
-
-function Editorial({ item }: { item: NavItem }) {
+export function DesktopPanel({ item }: { item: NavItem }) {
   const { cards, campaign } = menuSpotlight(item.id);
 
   return (
@@ -128,60 +87,4 @@ function Editorial({ item }: { item: NavItem }) {
       ) : null}
     </div>
   );
-}
-
-function AudienciaPanel({ item }: { item: NavItem }) {
-  const giant =
-    item.label.length > 8
-      ? "text-[clamp(2.5rem,3.1vw,3.5rem)]"
-      : "text-[clamp(3rem,5vw,4.75rem)]";
-
-  return (
-    <div className="page-wrap flex min-h-80 items-stretch gap-10 py-14 lg:gap-16">
-      <p
-        className={`w-[34%] max-w-75 shrink-0 self-center font-display font-bold uppercase leading-[0.84] tracking-[-0.045em] ${giant}`}
-      >
-        {item.label}
-      </p>
-      <div className="w-px bg-white/15" />
-      <div
-        className="grid flex-1 content-center gap-12"
-        style={{
-          gridTemplateColumns: `repeat(${item.columns.length}, minmax(0, 1fr))`,
-        }}
-      >
-        {item.columns.map((column) => (
-          <div key={column.title}>
-            <p className="font-display text-[11px] uppercase tracking-[0.32em] text-white/40">
-              {column.title}
-            </p>
-            <ul className="mt-6 space-y-3">
-              {column.links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-[15px] text-white/75 transition-colors duration-300 hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export function DesktopPanel({
-  variant,
-  item,
-}: {
-  variant: Exclude<NavVariant, "original">;
-  item: NavItem;
-}) {
-  if (variant === "2") return <Editorial item={item} />;
-  if (variant === "3") return <AudienciaPanel item={item} />;
-  return <Columnas item={item} />;
 }

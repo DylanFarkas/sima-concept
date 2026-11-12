@@ -250,6 +250,33 @@ export function IconHeadset(props: IconProps) {
   );
 }
 
+export function IconPin(props: IconProps) {
+  return (
+    <LineIcon {...props}>
+      <path d="M12 20.6s-6.2-5.6-6.2-10.6a6.2 6.2 0 0 1 12.4 0c0 5-6.2 10.6-6.2 10.6Z" />
+      <circle cx="12" cy="10" r="2.3" />
+    </LineIcon>
+  );
+}
+
+export function IconClock(props: IconProps) {
+  return (
+    <LineIcon {...props}>
+      <circle cx="12" cy="12" r="9.2" />
+      <path d="M12 7v5.2l3.4 2" />
+    </LineIcon>
+  );
+}
+
+export function IconTag(props: IconProps) {
+  return (
+    <LineIcon {...props}>
+      <path d="M3.8 12.6V4.8c0-.6.4-1 1-1h7.8l7.6 7.6c.4.4.4 1 0 1.4l-7.4 7.4c-.4.4-1 .4-1.4 0l-7.6-7.6Z" />
+      <circle cx="8.4" cy="8.4" r="1.4" />
+    </LineIcon>
+  );
+}
+
 export function IconSearch(props: IconProps) {
   return (
     <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
@@ -350,6 +377,9 @@ const lineIcons = {
   lock: IconLock,
   refresh: IconRefresh,
   headset: IconHeadset,
+  pin: IconPin,
+  clock: IconClock,
+  tag: IconTag,
 } as const;
 
 export type LineIconName = keyof typeof lineIcons;

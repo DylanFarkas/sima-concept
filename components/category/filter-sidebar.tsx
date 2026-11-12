@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import type { Tone } from "@/lib/category-pages";
 import {
-  colorSwatch,
+  colorSwatches,
   emptyFacetState,
   facetSelectionCount,
   type CatalogFacets,
@@ -75,7 +75,7 @@ export function FilterSidebar({
 
   return (
     <aside
-      className={`filter-scroll lg:sticky lg:top-24 lg:max-h-[calc(100svh-6.5rem)] lg:self-start lg:overflow-y-auto lg:pr-1 ${className}`}
+      className={`${light ? "filter-scroll-light" : "filter-scroll"} lg:sticky lg:top-24 lg:max-h-[calc(100svh-6.5rem)] lg:self-start lg:overflow-y-auto lg:pr-1 ${className}`}
     >
       {showHeading || selected > 0 ? (
         <div className={`mb-6 flex items-center justify-between gap-3 lg:mb-8 ${showHeading ? "" : "lg:mb-6"}`}>
@@ -166,44 +166,12 @@ export function FilterSidebar({
 
         {facets.colors.length > 0 ? (
           <Accordion title="Color" count={state.colors.length} tone={tone} defaultOpen>
-            <div className="flex flex-wrap gap-2.5">
-              {facets.colors.map((option) => {
-                const checked = state.colors.includes(option.value);
-                const swatch = colorSwatch(option.value) ?? "#6b6b6b";
-                const lightSwatch = isLightSwatch(swatch);
-                return (
-                  <button
-                    key={option.value}
-                    type="button"
-                    aria-pressed={checked}
-                    aria-label={option.label}
-                    title={option.label}
-                    onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => toggle("colors", option.value)}
-                    className={`relative size-7 rounded-full transition ${focus} ${
-                      checked
-                        ? light
-                          ? "ring-2 ring-ink ring-offset-2 ring-offset-white"
-                          : "ring-2 ring-white ring-offset-2 ring-offset-background"
-                        : light
-                          ? "ring-1 ring-ink/15"
-                          : "ring-1 ring-white/25"
-                    }`}
-                    style={{ backgroundColor: swatch }}
-                  >
-                    {checked ? (
-                      <span
-                        className={`absolute inset-0 grid place-items-center ${
-                          lightSwatch ? "text-ink" : "text-white"
-                        }`}
-                      >
-                        <Check />
-                      </span>
-                    ) : null}
-                  </button>
-                );
-              })}
-            </div>
+            <ColorList
+              options={facets.colors}
+              selected={state.colors}
+              onToggle={(value) => toggle("colors", value)}
+              tone={tone}
+            />
           </Accordion>
         ) : null}
 
@@ -354,13 +322,84 @@ function CheckboxList({
   );
 }
 
-function isLightSwatch(hex: string) {
-  const value = hex.replace("#", "");
-  if (value.length !== 6) return false;
-  const r = Number.parseInt(value.slice(0, 2), 16);
-  const g = Number.parseInt(value.slice(2, 4), 16);
-  const b = Number.parseInt(value.slice(4, 6), 16);
-  return (r * 299 + g * 587 + b * 114) / 1000 > 160;
+const colorPreview = 8;
+
+function ColorList({
+  options,
+  selected,
+  onToggle,
+  tone,
+}: {
+  options: FacetOption[];
+  selected: string[];
+  onToggle: (value: string) => void;
+  tone: Tone;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const light = tone === "white";
+  const focus = light ? focusLight : focusDark;
+  const visible = expanded
+    ? options
+    : options.filter((option, index) => index < colorPreview || selected.includes(option.value));
+  const hidden = options.length - visible.length;
+
+  return (
+    <div>
+      <ul className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+        {visible.map((option) => {
+          const checked = selected.includes(option.value);
+          const colors = colorSwatches(option.value);
+          const fill =
+            colors.length > 1
+              ? `linear-gradient(135deg, ${colors[0]} 50%, ${colors[1]} 50%)`
+              : colors[0];
+          return (
+            <li key={option.value}>
+              <button
+                type="button"
+                aria-pressed={checked}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => onToggle(option.value)}
+                className={`flex w-full items-center gap-2.5 py-1.5 text-left text-sm transition-colors ${focus} ${
+                  checked
+                    ? light
+                      ? "text-ink"
+                      : "text-white"
+                    : light
+                      ? "text-ink/70 hover:text-ink"
+                      : "text-white/70 hover:text-white"
+                }`}
+              >
+                <span
+                  aria-hidden
+                  className={`size-4.5 shrink-0 rounded-full transition-shadow ${
+                    checked
+                      ? light
+                        ? "ring-2 ring-ink ring-offset-2 ring-offset-white"
+                        : "ring-2 ring-white ring-offset-2 ring-offset-background"
+                      : light
+                        ? "ring-1 ring-ink/15"
+                        : "ring-1 ring-white/20"
+                  }`}
+                  style={{ background: fill }}
+                />
+                <span className={`min-w-0 truncate ${checked ? "font-bold" : ""}`}>{option.label}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      {options.length > colorPreview ? (
+        <button
+          type="button"
+          onClick={() => setExpanded((value) => !value)}
+          className={`mt-3 text-xs underline underline-offset-4 ${light ? "text-ink/55" : "text-white/55"} ${focus}`}
+        >
+          {expanded ? "Ver menos" : `Ver más (${hidden})`}
+        </button>
+      ) : null}
+    </div>
+  );
 }
 
 function Chevron() {

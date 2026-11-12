@@ -71,8 +71,6 @@ export function ProductGrid({
   aspect = "square",
   tone = "dark",
   inserts = [],
-  card = "original",
-  sidebarFilters = false,
   subcategories = [],
   allHref,
   activeKey,
@@ -82,8 +80,6 @@ export function ProductGrid({
   aspect?: "portrait" | "square";
   tone?: Tone;
   inserts?: GridInsert[];
-  card?: "original" | "editorial";
-  sidebarFilters?: boolean;
   subcategories?: Subcategory[];
   allHref?: string;
   activeKey?: string;
@@ -110,23 +106,8 @@ export function ProductGrid({
   }
 
   const facets = useMemo(() => buildFacets(products), [products]);
-  const filterState = useMemo<FacetState>(
-    () =>
-      sidebarFilters
-        ? facetsState
-        : {
-            ...emptyFacetState,
-            stock: facetsState.stock,
-            minPrice: facetsState.minPrice,
-            maxPrice: facetsState.maxPrice,
-          },
-    [sidebarFilters, facetsState],
-  );
-  const selected = sidebarFilters
-    ? facetSelectionCount(facetsState)
-    : facetsState.stock.length +
-      (facetsState.minPrice.trim() ? 1 : 0) +
-      (facetsState.maxPrice.trim() ? 1 : 0);
+  const filterState = facetsState;
+  const selected = facetSelectionCount(facetsState);
 
   const visible = useMemo(() => {
     const filtered = applyFacets(products, filterState).map((product, index) => ({
@@ -171,13 +152,10 @@ export function ProductGrid({
     if (selected === 0) setCatalogMinHeight(undefined);
   }, [selected]);
 
-  const gridClass = sidebarFilters
-    ? columns === 5
+  const gridClass =
+    columns === 5
       ? "grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
-      : "grid-cols-2 md:grid-cols-3 xl:grid-cols-3"
-    : columns === 5
-      ? "grid-cols-2 md:grid-cols-3 xl:grid-cols-5"
-      : "grid-cols-2 md:grid-cols-3 xl:grid-cols-4";
+      : "grid-cols-2 md:grid-cols-3 xl:grid-cols-3";
 
   const pristine = selected === 0 && sort === "vendidos";
   const insertsAt = new Map<number, GridInsert[]>();
@@ -187,8 +165,6 @@ export function ProductGrid({
       insertsAt.set(insert.after, [...(insertsAt.get(insert.after) ?? []), insert]);
     }
   }
-  const editorial = card === "editorial";
-
   const sidebarProps = {
     facets,
     state: facetsState,
@@ -199,103 +175,27 @@ export function ProductGrid({
     tone,
   } as const;
 
-  function toggleStock(value: "in" | "out") {
-    updateFacets((current) => ({
-      ...current,
-      stock: current.stock.includes(value)
-        ? current.stock.filter((item) => item !== value)
-        : [...current.stock, value],
-    }));
-  }
-
   const toolbar = (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-wrap items-center gap-3 sm:gap-6">
-        {sidebarFilters ? (
-          <button
-            type="button"
-            onClick={() => setMobileOpen(true)}
-            className={`inline-flex items-center gap-2 px-3 py-2 text-sm lg:hidden ${t.soft} ${
-              tone === "white"
-                ? "shadow-[inset_0_0_0_1px_rgba(18,18,18,0.2)]"
-                : "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.25)]"
-            }`}
-          >
-            Filtros
-            {selected > 0 ? <span className={t.muted}>({selected})</span> : null}
-          </button>
-        ) : (
-          <>
-            <FilterMenu
-              t={t}
-              label="Disponibilidad"
-              open={open === "stock"}
-              onToggle={() => setOpen(open === "stock" ? null : "stock")}
-            >
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={facetsState.stock.includes("in")}
-                  onChange={() => toggleStock("in")}
-                />
-                En existencia
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={facetsState.stock.includes("out")}
-                  onChange={() => toggleStock("out")}
-                  disabled={!products.some((product) => !product.available)}
-                />
-                Agotado
-              </label>
-            </FilterMenu>
-            <FilterMenu
-              t={t}
-              label="Precio"
-              open={open === "price"}
-              onToggle={() => setOpen(open === "price" ? null : "price")}
-            >
-              <label className={`block text-xs ${t.muted}`}>
-                Precio bajo
-                <input
-                  inputMode="numeric"
-                  value={facetsState.minPrice}
-                  placeholder="0"
-                  onChange={(event) =>
-                    updateFacets((current) => ({ ...current, minPrice: event.target.value }))
-                  }
-                  className={`mt-1 w-full border bg-transparent px-3 py-2 text-sm outline-none ${t.input}`}
-                />
-              </label>
-              <label className={`mt-3 block text-xs ${t.muted}`}>
-                Precio alto
-                <input
-                  inputMode="numeric"
-                  value={facetsState.maxPrice}
-                  placeholder={formatPrice(facets.maxPrice)}
-                  onChange={(event) =>
-                    updateFacets((current) => ({ ...current, maxPrice: event.target.value }))
-                  }
-                  className={`mt-1 w-full border bg-transparent px-3 py-2 text-sm outline-none ${t.input}`}
-                />
-              </label>
-            </FilterMenu>
-          </>
-        )}
-        {sidebarFilters ? (
-          <p className={`text-sm ${t.count}`}>
-            {visible.length} {visible.length === 1 ? "artículo" : "artículos"}
-          </p>
-        ) : null}
+        <button
+          type="button"
+          onClick={() => setMobileOpen(true)}
+          className={`inline-flex items-center gap-2 px-3 py-2 text-sm lg:hidden ${t.soft} ${
+            tone === "white"
+              ? "shadow-[inset_0_0_0_1px_rgba(18,18,18,0.2)]"
+              : "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.25)]"
+          }`}
+        >
+          Filtros
+          {selected > 0 ? <span className={t.muted}>({selected})</span> : null}
+        </button>
+        <p className={`text-sm ${t.count}`}>
+          {visible.length} {visible.length === 1 ? "artículo" : "artículos"}
+        </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        {!sidebarFilters ? (
-          <p className={`text-sm ${t.count}`}>
-            {visible.length} {visible.length === 1 ? "artículo" : "artículos"}
-          </p>
-        ) : null}
         <FilterMenu
           t={t}
           label="Ordenar"
@@ -346,7 +246,7 @@ export function ProductGrid({
     >
       {visible.length === 0 ? (
         <p className={`mt-10 text-sm ${t.muted}`}>No hay productos con esos filtros.</p>
-      ) : editorial ? (
+      ) : (
         <ul className={`mt-8 grid grid-flow-row-dense gap-x-3 gap-y-10 ${gridClass}`}>
           {visible.map((product, index) => (
             <Fragment key={product.handle}>
@@ -359,71 +259,35 @@ export function ProductGrid({
             </Fragment>
           ))}
         </ul>
-      ) : (
-        <ul className={`mt-8 grid gap-x-4 gap-y-6 ${gridClass}`}>
-          {visible.map((product) => (
-            <li key={product.handle} className="[overflow-anchor:none]">
-              <Link href={`/producto/${product.handle}`} className="group block">
-                <span className="relative block aspect-square overflow-hidden bg-white">
-                  {product.image ? (
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <span className="flex h-full items-center justify-center bg-neutral-200 font-display text-sm tracking-[0.2em] text-ink/40">
-                      SIMA
-                    </span>
-                  )}
-                  <span className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 bg-white px-4 py-2 text-sm text-ink group-hover:block">
-                    {product.variantCount > 1 ? "Elegir" : "Agregar"}
-                  </span>
-                </span>
-                <span className="mt-2 block text-sm leading-[1.6]">{product.title}</span>
-                <span className="block font-display text-xs font-bold uppercase tracking-[0.03em]">
-                  {formatPrice(product.price)}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
       )}
     </div>
   );
 
   return (
-    <section id="productos" className={`${t.section} ${editorial ? "scroll-mt-16" : ""}`}>
-      <div className={`page-wrap ${editorial ? "pb-20 pt-12 lg:pb-28 lg:pt-16" : "py-10 lg:py-12"}`}>
+    <section id="productos" className={`${t.section} scroll-mt-16`}>
+      <div className="page-wrap pb-20 pt-12 lg:pb-28 lg:pt-16">
         {heading === null ? null : (
           <h2 className="font-display text-[clamp(2.25rem,4.8vw,3rem)] font-bold uppercase leading-none">
             {heading ?? "PRODUCTOS"}
           </h2>
         )}
 
-        {sidebarFilters ? (
-          <div
-            className={`lg:grid lg:grid-cols-[15.5rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[17rem_minmax(0,1fr)] xl:gap-12 ${
-              heading === null ? "" : "mt-8"
-            }`}
-          >
-            <div className="hidden lg:block">
-              <FilterSidebar {...sidebarProps} />
-            </div>
-            <div>
-              {toolbar}
-              {catalog}
-            </div>
+        <div
+          className={`lg:grid lg:grid-cols-[15.5rem_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[17rem_minmax(0,1fr)] xl:gap-12 ${
+            heading === null ? "" : "mt-8"
+          }`}
+        >
+          <div className="hidden lg:block">
+            <FilterSidebar {...sidebarProps} />
           </div>
-        ) : (
-          <div className={heading === null ? "" : "mt-8"}>
+          <div>
             {toolbar}
             {catalog}
           </div>
-        )}
+        </div>
       </div>
 
-      {mobileOpen && sidebarFilters ? (
+      {mobileOpen ? (
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             type="button"
@@ -444,7 +308,7 @@ export function ProductGrid({
                 Cerrar
               </button>
             </div>
-            <div className="filter-scroll flex-1 overflow-y-auto px-5 py-4">
+            <div className={`${tone === "white" ? "filter-scroll-light" : "filter-scroll"} flex-1 overflow-y-auto px-5 py-4`}>
               <FilterSidebar {...sidebarProps} showHeading={false} />
             </div>
             <div className="border-t border-inherit px-5 py-4">
@@ -474,7 +338,12 @@ function EditorialCard({
   aspect: "portrait" | "square";
   tone: Tone;
 }) {
-  const frame = aspect === "portrait" ? "aspect-3/4 bg-card" : "aspect-square bg-white";
+  const frame =
+    aspect === "portrait"
+      ? tone === "white"
+        ? "aspect-3/4 bg-cream"
+        : "aspect-3/4 bg-card"
+      : "aspect-square bg-white";
   return (
     <Link
       href={`/producto/${product.handle}`}
@@ -515,13 +384,33 @@ function InsertTile({ insert, tone }: { insert: GridInsert; tone: Tone }) {
     );
   }
 
+  if (tone === "white") {
+    return (
+      <li className="col-span-2">
+        <Link
+          href={insert.cta.href}
+          className={`group flex h-full min-h-105 flex-col overflow-hidden bg-cream text-ink ${focusLight}`}
+        >
+          <span className="relative min-h-72 flex-1">
+            <Photo product={insert.product} />
+          </span>
+          <span className="flex flex-col items-start gap-4 p-6 lg:p-8">
+            <span className="max-w-[12ch] font-display text-[clamp(2rem,3vw,3.25rem)] font-bold uppercase leading-[0.9] tracking-[-0.02em]">
+              {insert.title}
+            </span>
+            <span className="max-w-[34ch] text-sm leading-relaxed text-ink/75">{insert.text}</span>
+            <ButtonLabel tone="dark">{insert.cta.label}</ButtonLabel>
+          </span>
+        </Link>
+      </li>
+    );
+  }
+
   return (
     <li className="col-span-2">
       <Link
         href={insert.cta.href}
-        className={`group relative flex h-full min-h-105 flex-col justify-end overflow-hidden bg-card p-6 text-white lg:p-8 ${
-          tone === "white" ? focusLight : focusDark
-        }`}
+        className={`group relative flex h-full min-h-105 flex-col justify-end overflow-hidden bg-card p-6 text-white lg:p-8 ${focusDark}`}
       >
         <Photo product={insert.product} />
         <span className="absolute inset-0 bg-linear-to-t from-black/80 via-black/25 to-transparent" />

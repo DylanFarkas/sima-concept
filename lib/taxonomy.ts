@@ -132,7 +132,7 @@ function accessoryType(title: string) {
 
 function classify(slug: CategorySlug, product: Product): ProductClass {
   const brand = detectBrand(product.title);
-  if (slug === "zapatillas") {
+  if (slug === "zapatos") {
     return {
       audience: shoeAudience(product.title),
       department: "calzado",
@@ -140,7 +140,7 @@ function classify(slug: CategorySlug, product: Product): ProductClass {
       brand,
     };
   }
-  if (slug === "tech") {
+  if (slug === "tecnologia") {
     return { audience: "unisex", department: "tech", type: techType(product.title), brand };
   }
   if (slug === "suplementos") {
@@ -189,7 +189,7 @@ const hombreColumns: NavColumn[] = [
   },
   {
     title: "Calzado",
-    links: [link("Zapatillas", "/zapatillas?audiencia=hombre")],
+    links: [link("Zapatillas", "/zapatos?audiencia=hombre")],
   },
 ];
 
@@ -208,7 +208,7 @@ const mujerColumns: NavColumn[] = [
   },
   {
     title: "Calzado",
-    links: [link("Zapatillas", "/zapatillas?audiencia=mujer")],
+    links: [link("Zapatillas", "/zapatos?audiencia=mujer")],
   },
 ];
 
@@ -216,10 +216,10 @@ const calzadoColumns: NavColumn[] = [
   {
     title: "Calzado",
     links: [
-      link("Ver todo", "/zapatillas"),
-      link("Hombre", "/zapatillas?audiencia=hombre"),
-      link("Mujer", "/zapatillas?audiencia=mujer"),
-      link("Unisex", "/zapatillas?audiencia=unisex"),
+      link("Ver todo", "/zapatos"),
+      link("Hombre", "/zapatos?audiencia=hombre"),
+      link("Mujer", "/zapatos?audiencia=mujer"),
+      link("Unisex", "/zapatos?audiencia=unisex"),
     ],
   },
 ];
@@ -228,9 +228,9 @@ const techColumns: NavColumn[] = [
   {
     title: "Tech",
     links: [
-      link("Ver todo", "/tech"),
-      link("Audífonos", "/tech?tipo=audifonos"),
-      link("Relojes y bandas", "/tech?tipo=relojes"),
+      link("Ver todo", "/tecnologia"),
+      link("Audífonos", "/tecnologia?tipo=audifonos"),
+      link("Relojes y bandas", "/tecnologia?tipo=relojes"),
     ],
   },
 ];
@@ -259,7 +259,7 @@ const accesorioColumns: NavColumn[] = [
 const lineasColumn: NavColumn = {
   title: "También",
   links: [
-    link("Tech", "/tech"),
+    link("Tech", "/tecnologia"),
     link("Nutrición", "/suplementos"),
     link("Accesorios", "/accesorios"),
   ],
@@ -268,8 +268,8 @@ const lineasColumn: NavColumn = {
 export const departmentNav: NavItem[] = [
   { id: "hombre", label: "Hombre", href: "/hombre", columns: hombreColumns, tone: "primary" },
   { id: "mujer", label: "Mujer", href: "/mujer", columns: mujerColumns, tone: "primary" },
-  { id: "calzado", label: "Calzado", href: "/zapatillas", columns: calzadoColumns, tone: "primary" },
-  { id: "tech", label: "Tech", href: "/tech", columns: techColumns, tone: "primary" },
+  { id: "calzado", label: "Calzado", href: "/zapatos", columns: calzadoColumns, tone: "primary" },
+  { id: "tech", label: "Tech", href: "/tecnologia", columns: techColumns, tone: "primary" },
   { id: "nutricion", label: "Nutrición", href: "/suplementos", columns: nutricionColumns, tone: "primary" },
   { id: "accesorios", label: "Accesorios", href: "/accesorios", columns: accesorioColumns, tone: "primary" },
 ];
@@ -292,20 +292,20 @@ export const audienceNav: NavItem[] = [
   {
     id: "unisex",
     label: "Unisex",
-    href: "/zapatillas?audiencia=unisex",
+    href: "/zapatos?audiencia=unisex",
     columns: [
       {
         title: "Calzado",
         links: [
-          link("Ver zapatillas", "/zapatillas?audiencia=unisex"),
-          link("Todo el calzado", "/zapatillas"),
+          link("Ver zapatillas", "/zapatos?audiencia=unisex"),
+          link("Todo el calzado", "/zapatos"),
         ],
       },
       lineasColumn,
     ],
     tone: "primary",
   },
-  { id: "tech", label: "Tech", href: "/tech", columns: techColumns, tone: "quiet" },
+  { id: "tech", label: "Tech", href: "/tecnologia", columns: techColumns, tone: "quiet" },
   { id: "nutricion", label: "Nutrición", href: "/suplementos", columns: nutricionColumns, tone: "quiet" },
   { id: "accesorios", label: "Accesorios", href: "/accesorios", columns: accesorioColumns, tone: "quiet" },
 ];
@@ -315,7 +315,7 @@ const campaignHandles: Record<string, string> = {
   mujer: "chaqueta-drifit",
   calzado: "adizero-hombre",
   unisex: "adizero-hombre",
-  tech: "airpods-pro3",
+  tecnologia: "airpods-pro3",
   nutricion: "nitro-tech-whey-gold-proteina-5lb",
   accesorios: "termo-stanley-40oz",
 };
@@ -335,7 +335,7 @@ const pools: Record<string, () => Product[]> = {
   calzado: () => productsWhere((info) => info.department === "calzado"),
   unisex: () =>
     productsWhere((info) => info.department === "calzado" && info.audience === "unisex"),
-  tech: () => productsWhere((info) => info.department === "tech"),
+  tecnologia: () => productsWhere((info) => info.department === "tech"),
   nutricion: () => productsWhere((info) => info.department === "nutricion"),
   accesorios: () => productsWhere((info) => info.department === "accesorios"),
 };
@@ -406,7 +406,7 @@ export type Subcategory = {
 function navItemForCategory(slug: CategorySlug) {
   return departmentNav.find((item) => {
     if (item.href === `/${slug}`) return true;
-    if (slug === "zapatillas" && item.id === "calzado") return true;
+    if (slug === "zapatos" && item.id === "calzado") return true;
     if (slug === "suplementos" && item.id === "nutricion") return true;
     return false;
   });
@@ -429,7 +429,7 @@ export function subcategoriesOf(slug: CategorySlug): Subcategory[] {
       const tipo = params.tipo;
       const crossCategory = targetSlug !== slug;
       const key = crossCategory
-        ? targetSlug === "zapatillas"
+        ? targetSlug === "zapatos"
           ? "calzado"
           : targetSlug
         : (tipo ?? audience);
@@ -438,7 +438,7 @@ export function subcategoriesOf(slug: CategorySlug): Subcategory[] {
       const count = filterCatalog(categories[targetSlug].products, params).products.length;
       if (count <= 0) continue;
 
-      const label = crossCategory && targetSlug === "zapatillas"
+      const label = crossCategory && targetSlug === "zapatos"
         ? "Calzado"
         : audience && audienceLabels[audience] && !tipo
           ? audienceLabels[audience]

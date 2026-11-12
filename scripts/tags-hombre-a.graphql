@@ -1,0 +1,28 @@
+mutation {
+p0: tagsAdd(id: "gid://shopify/Product/15410495848724", tags: ["audiencia:hombre","departamento:ropa","tipo:pantalonetas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p1: tagsAdd(id: "gid://shopify/Product/15410497421588", tags: ["audiencia:hombre","departamento:ropa","tipo:pantalonetas","marca:puma"]) { node { ... on Product { id } } userErrors { message } }
+p2: tagsAdd(id: "gid://shopify/Product/15410497978644", tags: ["audiencia:hombre","departamento:ropa","tipo:pantalonetas","marca:jordan"]) { node { ... on Product { id } } userErrors { message } }
+p3: tagsAdd(id: "gid://shopify/Product/15410501124372", tags: ["audiencia:hombre","departamento:ropa","tipo:pantalonetas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p4: tagsAdd(id: "gid://shopify/Product/15410502041876", tags: ["audiencia:hombre","departamento:ropa","tipo:pantalonetas","marca:adidas"]) { node { ... on Product { id } } userErrors { message } }
+p5: tagsAdd(id: "gid://shopify/Product/15410506826004", tags: ["audiencia:hombre","departamento:ropa","tipo:pantalonetas"]) { node { ... on Product { id } } userErrors { message } }
+p6: tagsAdd(id: "gid://shopify/Product/15410508955924", tags: ["audiencia:hombre","departamento:ropa","tipo:camisetas","marca:adidas"]) { node { ... on Product { id } } userErrors { message } }
+p7: tagsAdd(id: "gid://shopify/Product/15410511020308", tags: ["audiencia:hombre","departamento:ropa","tipo:camisetas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p8: tagsAdd(id: "gid://shopify/Product/15410511479060", tags: ["audiencia:hombre","departamento:ropa","tipo:camisetas","marca:under-armour"]) { node { ... on Product { id } } userErrors { message } }
+p9: tagsAdd(id: "gid://shopify/Product/15410511905044", tags: ["audiencia:hombre","departamento:ropa","tipo:camisetas","marca:puma"]) { node { ... on Product { id } } userErrors { message } }
+p10: tagsAdd(id: "gid://shopify/Product/15410514002196", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p11: tagsAdd(id: "gid://shopify/Product/15410515149076", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p12: tagsAdd(id: "gid://shopify/Product/15410515378452", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p13: tagsAdd(id: "gid://shopify/Product/15410516820244", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p14: tagsAdd(id: "gid://shopify/Product/15410517803284", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:adidas"]) { node { ... on Product { id } } userErrors { message } }
+p15: tagsAdd(id: "gid://shopify/Product/15410518098196", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:jordan"]) { node { ... on Product { id } } userErrors { message } }
+p16: tagsAdd(id: "gid://shopify/Product/15410518458644", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p17: tagsAdd(id: "gid://shopify/Product/15410518589716", tags: ["audiencia:hombre","departamento:ropa","tipo:sudaderas","marca:puma"]) { node { ... on Product { id } } userErrors { message } }
+p18: tagsAdd(id: "gid://shopify/Product/15410522390804", tags: ["audiencia:hombre","departamento:ropa","tipo:camisetas"]) { node { ... on Product { id } } userErrors { message } }
+p19: tagsAdd(id: "gid://shopify/Product/15410534383892", tags: ["audiencia:hombre","departamento:ropa","tipo:conjuntos","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p20: tagsAdd(id: "gid://shopify/Product/15410536907028", tags: ["audiencia:hombre","departamento:ropa","tipo:conjuntos","marca:under-armour"]) { node { ... on Product { id } } userErrors { message } }
+p21: tagsAdd(id: "gid://shopify/Product/15410537791764", tags: ["audiencia:hombre","departamento:ropa","tipo:conjuntos","marca:adidas"]) { node { ... on Product { id } } userErrors { message } }
+p22: tagsAdd(id: "gid://shopify/Product/15410542543124", tags: ["audiencia:hombre","departamento:ropa","tipo:conjuntos","marca:under-armour"]) { node { ... on Product { id } } userErrors { message } }
+p23: tagsAdd(id: "gid://shopify/Product/15410543264020", tags: ["audiencia:hombre","departamento:ropa","tipo:conjuntos","marca:nike"]) { node { ... on Product { id } } userErrors { message } }
+p24: tagsAdd(id: "gid://shopify/Product/15410545819924", tags: ["audiencia:hombre","departamento:ropa","tipo:basics"]) { node { ... on Product { id } } userErrors { message } }
+p25: tagsAdd(id: "gid://shopify/Product/15410548048148", tags: ["audiencia:hombre","departamento:ropa","tipo:basics"]) { node { ... on Product { id } } userErrors { message } }
+}

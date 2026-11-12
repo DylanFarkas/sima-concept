@@ -3,12 +3,12 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { CategoryHero } from "@/components/category/category-hero";
 import { ProductGrid } from "@/components/category/product-grid";
 import { HeroPantalla } from "@/components/category/hero-pantalla";
 import { HeroTriptico } from "@/components/category/hero-triptico";
 import { HeroPartido } from "@/components/category/hero-partido";
 import { CompactHeader } from "@/components/category/compact-header";
+import { BestSellers } from "@/components/category/best-sellers";
 import { ExploreTiles } from "@/components/category/explore-tiles";
 import { BrandIndex } from "@/components/category/brand-index";
 import { FeatureSpotlight } from "@/components/category/feature-spotlight";
@@ -20,6 +20,7 @@ import {
   type CategoryModule,
   type CategoryPage as CategoryPageConfig,
   type GridInsert,
+  type Tone,
 } from "@/lib/category-pages";
 import {
   brandsOf,
@@ -28,11 +29,10 @@ import {
   type CatalogQuery,
   type Subcategory,
 } from "@/lib/taxonomy";
-import { resolveServerPrefs } from "@/lib/variant-prefs.server";
 
 type CategoryParams = {
   params: Promise<{ categoria: string }>;
-  searchParams: Promise<CatalogQuery & { categorias?: string | string[] }>;
+  searchParams: Promise<CatalogQuery>;
 };
 
 export function generateStaticParams() {
@@ -65,23 +65,12 @@ async function CategoryContent({ params, searchParams }: CategoryParams) {
   const { categoria } = await params;
   const query = await searchParams;
   if (!isCategorySlug(categoria)) notFound();
-  const prefs = await resolveServerPrefs(query);
   const filtered = filterCatalog(categories[categoria].products, query);
-  const mode = prefs.categorias;
 
-  if (mode === "original") {
-    return (
-      <>
-        <CategoryHero />
-        <ProductGrid products={filtered.products} heading={filtered.label ?? undefined} />
-      </>
-    );
-  }
-
-  return <NuevaCategory slug={categoria} filtered={filtered} />;
+  return <CategoryView slug={categoria} filtered={filtered} />;
 }
 
-function NuevaCategory({
+function CategoryView({
   slug,
   filtered,
 }: {
@@ -106,11 +95,9 @@ function NuevaCategory({
         <ProductGrid
           products={filtered.products}
           heading={null}
-          card="editorial"
           aspect={page.grid.aspect}
           tone={page.grid.tone}
           inserts={filtered.products.length >= insertMinimum ? phrasesOnly(page.grid.inserts) : []}
-          sidebarFilters
           subcategories={subcategories}
           allHref={parent.href}
           activeKey={activeKey}
@@ -121,23 +108,22 @@ function NuevaCategory({
 
   return (
     <>
-      <NuevaHero page={page} subcategories={subcategories} total={all.length} />
+      <PageHero page={page} subcategories={subcategories} total={all.length} />
       {page.before.map((module, index) => (
         <ModuleBlock
           key={`before-${index}`}
           module={module}
           slug={slug}
           subcategories={subcategories}
+          tone={page.grid.tone}
         />
       ))}
       <ProductGrid
         products={all}
         heading="Todos los productos"
-        card="editorial"
         aspect={page.grid.aspect}
         tone={page.grid.tone}
         inserts={page.grid.inserts}
-        sidebarFilters
         subcategories={subcategories}
         allHref={`/${slug}`}
       />
@@ -147,6 +133,7 @@ function NuevaCategory({
           module={module}
           slug={slug}
           subcategories={subcategories}
+          tone={page.grid.tone}
         />
       ))}
     </>
@@ -159,7 +146,7 @@ function phrasesOnly(inserts: GridInsert[]): GridInsert[] {
   );
 }
 
-function NuevaHero({
+function PageHero({
   page,
   subcategories,
   total,
@@ -178,11 +165,19 @@ function ModuleBlock({
   module,
   slug,
   subcategories,
+  tone = "dark",
 }: {
   module: CategoryModule;
   slug: CategorySlug;
   subcategories: Subcategory[];
+  tone?: Tone;
 }) {
+  if (module.kind === "bestsellers") {
+    return (
+      <BestSellers title={module.title} eyebrow={module.eyebrow} products={module.products} tone={tone} />
+    );
+  }
+
   if (module.kind === "explore") {
     const items = subcategories
       .filter((sub) => module.photos[sub.key])

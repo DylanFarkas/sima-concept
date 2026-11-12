@@ -1,0 +1,15 @@
+mutation {
+p0: tagsAdd(id: "gid://shopify/Product/15410729091348", tags: ["audiencia:unisex","departamento:tech","tipo:relojes"]) { userErrors { message } }
+p1: tagsAdd(id: "gid://shopify/Product/15410733252884", tags: ["audiencia:unisex","departamento:tech","tipo:relojes"]) { userErrors { message } }
+p2: tagsAdd(id: "gid://shopify/Product/15410735022356", tags: ["audiencia:unisex","departamento:tech","tipo:relojes"]) { userErrors { message } }
+p3: tagsAdd(id: "gid://shopify/Product/15410740068628", tags: ["audiencia:unisex","departamento:tech","tipo:relojes"]) { userErrors { message } }
+p4: tagsAdd(id: "gid://shopify/Product/15410743869716", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p5: tagsAdd(id: "gid://shopify/Product/15410748031252", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p6: tagsAdd(id: "gid://shopify/Product/15410752389396", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p7: tagsAdd(id: "gid://shopify/Product/15410756223252", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p8: tagsAdd(id: "gid://shopify/Product/15410762088724", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p9: tagsAdd(id: "gid://shopify/Product/15410764415252", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p10: tagsAdd(id: "gid://shopify/Product/15410770444564", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p11: tagsAdd(id: "gid://shopify/Product/15410773655828", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+p12: tagsAdd(id: "gid://shopify/Product/15410780766484", tags: ["audiencia:unisex","departamento:tech","tipo:audifonos"]) { userErrors { message } }
+}

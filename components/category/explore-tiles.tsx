@@ -27,16 +27,13 @@ export function ExploreTiles({ title, items }: Props) {
               >
                 <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" />
                 <span className="absolute inset-0 bg-linear-to-t from-black/75 via-black/5 to-transparent" />
-                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 lg:p-6">
+                <span className="absolute inset-x-0 bottom-0 p-4 lg:p-6">
                   <span
                     className={`font-display font-bold uppercase leading-none tracking-[-0.01em] ${
                       wide ? "text-[clamp(2rem,4vw,3.5rem)]" : "text-[clamp(1.35rem,2vw,2rem)]"
                     }`}
                   >
                     {sub.label}
-                  </span>
-                  <span className="font-display text-[11px] font-bold tracking-[0.14em] text-white/70">
-                    {String(sub.count).padStart(2, "0")}
                   </span>
                 </span>
               </Link>

@@ -1,13 +1,3 @@
-export const navLinks = [
-  { label: "INICIO", href: "/" },
-  { label: "HOMBRE", href: "/hombre" },
-  { label: "MUJER", href: "/mujer" },
-  { label: "ZAPATILLAS", href: "/zapatillas" },
-  { label: "TECH", href: "/tech" },
-  { label: "SUPLEMENTOS", href: "/suplementos" },
-  { label: "ACCESORIOS", href: "/accesorios" },
-] as const;
-
 export const heroValues = [
   "DISCIPLINA",
   "CONSTANCIA",
@@ -15,78 +5,6 @@ export const heroValues = [
   "AMOR",
   "CONFIANZA",
   "FE",
-] as const;
-
-export const valuePillars = [
-  {
-    icon: "quality",
-    title: "CALIDAD",
-    text: "Productos que rinden contigo en cada paso.",
-  },
-  {
-    icon: "purpose",
-    title: "PROPÓSITO",
-    text: "Más que una marca, un estilo de vida.",
-  },
-  {
-    icon: "community",
-    title: "COMUNIDAD",
-    text: "Avanzamos juntos, crecemos juntos.",
-  },
-  {
-    icon: "awareness",
-    title: "CONCIENCIA",
-    text: "Productos responsables, impacto positivo.",
-  },
-  {
-    icon: "inspiration",
-    title: "INSPIRACIÓN",
-    text: "Contenido que te motiva a ser mejor.",
-  },
-  {
-    icon: "faith",
-    title: "FE",
-    text: "Creemos que con fe todo es posible.",
-  },
-] as const;
-
-export const collections = [
-  {
-    icon: "shirt",
-    title: "HOMBRE",
-    text: "Ropa y calzado de entrenamiento.",
-    href: "/hombre",
-  },
-  {
-    icon: "dress",
-    title: "MUJER",
-    text: "Diseño y rendimiento en cada prenda.",
-    href: "/mujer",
-  },
-  {
-    icon: "shoe",
-    title: "ZAPATOS",
-    text: "Ligereza y soporte en cada kilómetro.",
-    href: "/zapatillas",
-  },
-  {
-    icon: "headphones",
-    title: "TECH",
-    text: "Tecnología que impulsa tu entrenamiento.",
-    href: "/tech",
-  },
-  {
-    icon: "bottle",
-    title: "SUPLEMENTOS",
-    text: "Nutrición que potencia tu mejor versión.",
-    href: "/suplementos",
-  },
-  {
-    icon: "bag",
-    title: "ACCESORIOS",
-    text: "Equipamiento para cada entrenamiento.",
-    href: "/accesorios",
-  },
 ] as const;
 
 export const aboutValues = [
@@ -147,16 +65,15 @@ export const trustItems = [
 
 export const whatsappHref = "https://wa.me/573189154899";
 
-export const footerLinks = {
-  enlaces: [
-    { label: "Tienda", href: "/" },
-    { label: "Colecciones", href: "/#colecciones" },
-    { label: "Nosotros", href: "/nosotros" },
-    { label: "Comunidad", href: "/comunidad" },
-    { label: "Contacto", href: whatsappHref },
-  ],
-  ayuda: [{ label: "Asesoría", href: whatsappHref }],
-} as const;
+export const helpPages = [
+  { label: "Guía de tallas", href: "/guia-de-tallas" },
+  { label: "Preguntas frecuentes", href: "/preguntas-frecuentes" },
+  { label: "Envíos", href: "/envios" },
+  { label: "Cambios y devoluciones", href: "/cambios-y-devoluciones" },
+  { label: "Política de privacidad", href: "/politica-de-privacidad" },
+] as const;
+
+export type HelpHref = (typeof helpPages)[number]["href"];
 
 export const footerColumns = [
   {
@@ -164,8 +81,8 @@ export const footerColumns = [
     links: [
       { label: "Hombre", href: "/hombre" },
       { label: "Mujer", href: "/mujer" },
-      { label: "Zapatillas", href: "/zapatillas" },
-      { label: "Tech", href: "/tech" },
+      { label: "Zapatillas", href: "/zapatos" },
+      { label: "Tech", href: "/tecnologia" },
       { label: "Suplementos", href: "/suplementos" },
       { label: "Accesorios", href: "/accesorios" },
     ],
@@ -178,10 +95,11 @@ export const footerColumns = [
       { label: "Contacto", href: whatsappHref },
     ],
   },
-  { title: "Ayuda", links: footerLinks.ayuda },
+  {
+    title: "Ayuda",
+    links: [...helpPages, { label: "Asesoría", href: whatsappHref }],
+  },
 ] as const;
-
-export const whatsappNumber = "+57 318 915 4899";
 
 export const socialLinks = [
   {

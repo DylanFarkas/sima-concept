@@ -1,0 +1,27 @@
+mutation {
+p0: tagsAdd(id: "gid://shopify/Product/10352744530196", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:adidas"]) { userErrors { message } }
+p1: tagsAdd(id: "gid://shopify/Product/10380352520468", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:nike"]) { userErrors { message } }
+p2: tagsAdd(id: "gid://shopify/Product/10380352880916", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:nike"]) { userErrors { message } }
+p3: tagsAdd(id: "gid://shopify/Product/10380353241364", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:new-balance"]) { userErrors { message } }
+p4: tagsAdd(id: "gid://shopify/Product/10380353634580", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:nike"]) { userErrors { message } }
+p5: tagsAdd(id: "gid://shopify/Product/10380353929492", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:asics"]) { userErrors { message } }
+p6: tagsAdd(id: "gid://shopify/Product/10380354257172", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:adidas"]) { userErrors { message } }
+p7: tagsAdd(id: "gid://shopify/Product/10389492695316", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:nike"]) { userErrors { message } }
+p8: tagsAdd(id: "gid://shopify/Product/10389518057748", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:under-armour"]) { userErrors { message } }
+p9: tagsAdd(id: "gid://shopify/Product/10389518090516", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:asics"]) { userErrors { message } }
+p10: tagsAdd(id: "gid://shopify/Product/10389518123284", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:nike"]) { userErrors { message } }
+p11: tagsAdd(id: "gid://shopify/Product/10389518156052", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:new-balance"]) { userErrors { message } }
+p12: tagsAdd(id: "gid://shopify/Product/10389518188820", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:nike"]) { userErrors { message } }
+p13: tagsAdd(id: "gid://shopify/Product/10389518221588", tags: ["departamento:calzado","tipo:calzado","audiencia:hombre","marca:nike"]) { userErrors { message } }
+p14: tagsAdd(id: "gid://shopify/Product/10389518254356", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:adidas"]) { userErrors { message } }
+p15: tagsAdd(id: "gid://shopify/Product/10389518287124", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:nike"]) { userErrors { message } }
+p16: tagsAdd(id: "gid://shopify/Product/10389532508436", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:nike"]) { userErrors { message } }
+p17: tagsAdd(id: "gid://shopify/Product/10389532541204", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:nike"]) { userErrors { message } }
+p18: tagsAdd(id: "gid://shopify/Product/10389532573972", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:new-balance"]) { userErrors { message } }
+p19: tagsAdd(id: "gid://shopify/Product/10389549154580", tags: ["departamento:calzado","tipo:calzado","audiencia:mujer","marca:nike"]) { userErrors { message } }
+p20: tagsAdd(id: "gid://shopify/Product/10389549187348", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:nike"]) { userErrors { message } }
+p21: tagsAdd(id: "gid://shopify/Product/10389549220116", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:nike"]) { userErrors { message } }
+p22: tagsAdd(id: "gid://shopify/Product/10389549285652", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:nike"]) { userErrors { message } }
+p23: tagsAdd(id: "gid://shopify/Product/10389551251732", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:nike"]) { userErrors { message } }
+p24: tagsAdd(id: "gid://shopify/Product/10389551415572", tags: ["departamento:calzado","tipo:calzado","audiencia:unisex","marca:adidas"]) { userErrors { message } }
+}

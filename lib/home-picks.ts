@@ -22,24 +22,6 @@ export function formatPrice(value: number) {
   return `$${formatted}`;
 }
 
-export const portadaProduct = catalogProduct("conjunto-deportivo-dri-fit-adidas");
-
-export const mostradorProducts = [
-  catalogProduct("camiseta-dri-fit-nike"),
-  catalogProduct("pantaloneta-running-nike-plizada"),
-  catalogProduct("adizero-hombre"),
-  catalogProduct("conjunto-deportivo-dri-fit-adidas"),
-];
-
-export const ficheroProducts = [
-  catalogProduct("conjunto-deportivo-dri-fit-adidas"),
-  catalogProduct("camiseta-dri-fit-nike"),
-  catalogProduct("pantaloneta-running-nike-plizada"),
-  catalogProduct("sudadera-antifluido-cargo"),
-  catalogProduct("basics-algodon"),
-  catalogProduct("adizero-hombre"),
-];
-
 export const audienceTiles = [
   {
     label: "Hombre",
@@ -56,8 +38,27 @@ export const audienceTiles = [
   {
     label: "Calzado",
     text: "Ligereza y soporte en cada kilómetro.",
-    href: "/zapatillas",
+    href: "/zapatos",
     product: catalogProduct("asics-ff-turbo-hombre-1"),
+  },
+  {
+    label: "Tech",
+    text: "Tecnología que impulsa tu entrenamiento.",
+    href: "/tecnologia",
+    product: catalogProduct("watch-ultra-serie-11"),
+    image: "/sima/tecnologia-img.webp",
+  },
+  {
+    label: "Nutrición",
+    text: "Nutrición que potencia tu mejor versión.",
+    href: "/suplementos",
+    product: catalogProduct("nitro-tech-whey-gold-proteina-5lb"),
+  },
+  {
+    label: "Accesorios",
+    text: "Equipamiento para cada entrenamiento.",
+    href: "/accesorios",
+    product: catalogProduct("termo-owala-32oz"),
   },
 ];
 
@@ -99,28 +100,25 @@ export const shoeShowcase = [
 ];
 
 export const basicsLine = [
-  catalogProduct("camisilla-basica"),
-  catalogProduct("basics-pants"),
-  catalogProduct("basics-algodon"),
-];
-
-export const lookProducts = [
-  catalogProduct("conjunto-underarmour"),
-  catalogProduct("set-2-piezas"),
-  catalogProduct("enterizo-nova"),
-  catalogProduct("conjunto-nike"),
-  catalogProduct("enterizo-eva"),
-  catalogProduct("vestido-yoga-rose"),
+  { product: catalogProduct("camisilla-basica") },
+  {
+    product: catalogProduct("basics-leggins"),
+    image: "/sima/leggings-basic-mujer.webp",
+  },
+  {
+    product: catalogProduct("basics"),
+    image: "/sima/camisa-basic-mujer.webp",
+  },
 ];
 
 export const gearTiles = [
   {
     label: "Tech",
     text: "Tecnología que impulsa tu entrenamiento.",
-    href: "/tech",
+    href: "/tecnologia",
     links: [
-      { label: "Audífonos", href: "/tech?tipo=audifonos" },
-      { label: "Relojes y bandas", href: "/tech?tipo=relojes" },
+      { label: "Audífonos", href: "/tecnologia?tipo=audifonos" },
+      { label: "Relojes y bandas", href: "/tecnologia?tipo=relojes" },
     ],
     product: catalogProduct("watch-ultra-serie-11"),
   },
@@ -142,13 +140,3 @@ export const gearTiles = [
     product: catalogProduct("termo-owala-32oz"),
   },
 ];
-
-export const ficheroIndex = [
-  { label: "Conjuntos", href: "/hombre?tipo=conjuntos" },
-  { label: "Camisetas", href: "/hombre?tipo=camisetas" },
-  { label: "Pantalonetas", href: "/hombre?tipo=pantalonetas" },
-  { label: "Zapatillas", href: "/zapatillas" },
-  { label: "Tech", href: "/tech" },
-  { label: "Nutrición", href: "/suplementos" },
-  { label: "Accesorios", href: "/accesorios" },
-] as const;

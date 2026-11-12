@@ -1,28 +1,10 @@
 import { FooterLink } from "@/components/footer/footer-link";
-import { simaMarkPath } from "@/components/sima-mark";
-import { footerColumns, socialLinks, whatsappHref } from "@/lib/home-content";
-import { IconFacebook, IconInstagram, IconTiktok } from "@/components/icons";
+import { SimaMark } from "@/components/sima-mark";
+import { footerColumns, socialLinks } from "@/lib/home-content";
 import { NewsletterForm } from "@/components/newsletter-form";
 
 const focus =
   "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
-
-const socialIcons = {
-  facebook: IconFacebook,
-  instagram: IconInstagram,
-  tiktok: IconTiktok,
-} as const;
-
-const handles = [
-  "left-0 top-0",
-  "left-1/2 top-0",
-  "left-full top-0",
-  "left-0 top-1/2",
-  "left-full top-1/2",
-  "left-0 top-full",
-  "left-1/2 top-full",
-  "left-full top-full",
-];
 
 export function TrazoFooter() {
   return (
@@ -76,81 +58,29 @@ export function TrazoFooter() {
         </div>
       </div>
 
-      <div className="group/trazo relative overflow-hidden border-y border-white/25" aria-hidden>
-        <span className="pointer-events-none absolute inset-x-0 top-1/2 border-t border-dashed border-white/10" />
-        <div className="page-wrap flex items-center justify-between py-[0.03em] font-display text-[min(36vw,38rem)] font-bold uppercase leading-none *:[text-box:trim-both_cap_alphabetic]">
-          <span className="relative inline-flex items-center">
-            <svg
-              viewBox="0 0 216 175"
-              className="h-[0.81em] w-auto overflow-visible text-cream"
-              aria-hidden
-            >
-              <path
-                d={simaMarkPath}
-                fillRule="evenodd"
-                className="fill-transparent stroke-current transition-[fill,stroke] duration-500 group-hover/trazo:fill-current group-hover/trazo:stroke-transparent"
-                strokeWidth={1.5}
-                vectorEffect="nonScalingStroke"
-              />
-            </svg>
-            <span className="absolute inset-0 border border-cream/50 transition-opacity duration-500 group-hover/trazo:opacity-0" />
-            {handles.map((position) => (
-              <span
-                key={position}
-                className={`absolute size-2 -translate-x-1/2 -translate-y-1/2 border border-cream bg-background transition-opacity duration-500 group-hover/trazo:opacity-0 ${position}`}
-              />
-            ))}
-          </span>
+      <div className="page-wrap pb-6 pt-10 sm:pt-14" aria-hidden>
+        <p className="flex justify-between font-sans text-[min(34vw,34rem)] font-bold uppercase leading-none *:[text-box:trim-both_cap_alphabetic]">
+          <span>S</span>
           <span>I</span>
           <span>M</span>
-          <span className="mr-[-0.02em]">A</span>
-        </div>
+          <span>A</span>
+        </p>
       </div>
-      <p className="accent-text page-wrap py-3 text-[11px] font-bold uppercase tracking-[0.32em] text-white/55">
-        Lifestyle
-      </p>
 
-      <div className="page-wrap flex flex-col gap-5 py-6 sm:flex-row sm:items-center sm:justify-between">
-        <ul className="flex items-center gap-5">
-          {socialLinks.map((item) => {
-            if (item.icon === "whatsapp") {
-              return (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={item.name}
-                    className={`font-display text-xs font-bold uppercase tracking-[0.03em] text-white/80 hover:text-white ${focus}`}
-                  >
-                    Wa
-                  </a>
-                </li>
-              );
-            }
-
-            const Icon = socialIcons[item.icon];
-            return (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={item.name}
-                  className={`block text-white/80 hover:text-white ${focus}`}
-                >
-                  <Icon className="h-5 w-5" />
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/60">
-          <a href={whatsappHref} target="_blank" rel="noreferrer" className={`hover:text-white ${focus}`}>
-            Asesoría
-          </a>
-          <p>© 2026 SIMA. Todos los derechos reservados.</p>
+      <div className="page-wrap grid grid-cols-1 items-end gap-4 py-5 text-xs text-white/55 sm:grid-cols-3">
+        <div className="flex flex-col items-start gap-2">
+          <SimaMark className="h-5 w-auto text-cream sm:h-6" />
+          <p className="text-[9px] font-bold uppercase tracking-[0.32em] text-white/80 sm:text-[10px]">
+            Lifestyle
+          </p>
+          <p className="mt-1">© 2026 SIMA. Todos los derechos reservados.</p>
         </div>
+        <p className="font-display font-bold uppercase tracking-[0.28em] sm:text-center sm:self-center">
+          Disciplina · Propósito · Fe
+        </p>
+        <a href="#" className={`transition-colors hover:text-white sm:justify-self-end sm:self-center ${focus}`}>
+          Volver arriba ↑
+        </a>
       </div>
     </footer>
   );

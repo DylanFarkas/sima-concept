@@ -10,8 +10,8 @@ export type Product = {
 export type CategorySlug =
   | "hombre"
   | "mujer"
-  | "zapatillas"
-  | "tech"
+  | "zapatos"
+  | "tecnologia"
   | "suplementos"
   | "accesorios";
 
@@ -567,7 +567,7 @@ export const categories: Record<CategorySlug, Category> = {
       }
     ]
   },
-  "zapatillas": {
+  "zapatos": {
     "label": "ZAPATILLAS",
     "products": [
       {
@@ -1212,7 +1212,7 @@ export const categories: Record<CategorySlug, Category> = {
       }
     ]
   },
-  "tech": {
+  "tecnologia": {
     "label": "TECH",
     "products": [
       {

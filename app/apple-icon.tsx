@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { simaMarkPath } from "@/components/sima-mark";
+import { simaMarkPath, simaMarkViewBox } from "@/components/sima-mark";
 
 export const size = {
   width: 180,
@@ -21,8 +21,8 @@ export default function AppleIcon() {
           background: "#121212",
         }}
       >
-        <svg width="124" height="100" viewBox="0 0 216 175">
-          <path fill="#ffffff" fillRule="evenodd" d={simaMarkPath} />
+        <svg width="148" height="60" viewBox={simaMarkViewBox}>
+          <path fill="#ffffff" d={simaMarkPath} />
         </svg>
       </div>
     ),

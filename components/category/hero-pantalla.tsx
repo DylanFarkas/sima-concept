@@ -14,8 +14,8 @@ export function HeroPantalla({ hero }: Props) {
           loop
           playsInline
           preload="auto"
-          poster={hero.product.image}
           src={hero.media.src}
+          poster={hero.product.image}
         />
       ) : (
         <img
