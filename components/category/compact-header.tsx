@@ -30,7 +30,7 @@ export function CompactHeader({ parent, title, count, tone }: Props) {
           <h1 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-bold uppercase leading-[0.88] tracking-tight">
             {title}
           </h1>
-          <p className={`font-display text-sm font-bold uppercase tracking-[0.14em] sm:pb-3 ${light ? "text-ink/60" : "text-white/60"}`}>
+          <p id="catalog-count" className={`font-display text-sm font-bold uppercase tracking-[0.14em] sm:pb-3 ${light ? "text-ink/60" : "text-white/60"}`}>
             {count} {count === 1 ? "artículo" : "artículos"}
           </p>
         </div>

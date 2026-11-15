@@ -571,6 +571,46 @@ export const categories: Record<CategorySlug, Category> = {
     "label": "ZAPATILLAS",
     "products": [
       {
+        "title": "Nike Vomero 18 - Mujer",
+        "handle": "nike-vomero-18-mujer",
+        "price": 185000,
+        "available": true,
+        "variantCount": 30,
+        "image": "https://cdn.shopify.com/s/files/1/1027/2342/0436/files/96229.jpg?v=1794332329"
+      },
+      {
+        "title": "Nike Metcon 10 - Mujer",
+        "handle": "nike-metcon-10-mujer",
+        "price": 165000,
+        "available": true,
+        "variantCount": 1,
+        "image": "https://cdn.shopify.com/s/files/1/1027/2342/0436/files/96209.jpg?v=1794331949"
+      },
+      {
+        "title": "Adidas Hyperboost- Hombre",
+        "handle": "adidas-hyperboost-hombre",
+        "price": 185000,
+        "available": true,
+        "variantCount": 5,
+        "image": "https://cdn.shopify.com/s/files/1/1027/2342/0436/files/rn-image_picker_lib_temp_9815d159-c47a-4034-a433-5a89918c231e.jpg?v=1792548735"
+      },
+      {
+        "title": "Adidas Hyperboost- Mujer",
+        "handle": "adidas-hyperboost-dama",
+        "price": 185000,
+        "available": true,
+        "variantCount": 8,
+        "image": "https://cdn.shopify.com/s/files/1/1027/2342/0436/files/rn-image_picker_lib_temp_c5703169-a92f-405d-9379-0ddfb6cc7584.jpg?v=1792548459"
+      },
+      {
+        "title": "Adidas Ultrabost- Unisex",
+        "handle": "adidas-ultrabost-unisex",
+        "price": 165000,
+        "available": false,
+        "variantCount": 14,
+        "image": "https://cdn.shopify.com/s/files/1/1027/2342/0436/files/rn-image_picker_lib_temp_79ff8fc4-283d-40cb-b7a8-52dcca84d7ab.jpg?v=1791431634"
+      },
+      {
         "title": "Asics FF Leap - Hombre",
         "handle": "asics-ff-leap",
         "price": 175000,

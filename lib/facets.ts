@@ -4,6 +4,8 @@ import {
   audienceLabels,
   brandLabels,
   productClass,
+  shoeDisciplines,
+  typeLabels,
   type Audience,
 } from "@/lib/taxonomy";
 
@@ -19,6 +21,7 @@ export type CatalogFacets = {
   colors: FacetOption[];
   sizes: FacetOption[];
   audiences: FacetOption[];
+  disciplines: FacetOption[];
   maxPrice: number;
 };
 
@@ -28,6 +31,7 @@ export type FacetState = {
   colors: string[];
   sizes: string[];
   audiences: Audience[];
+  disciplines: string[];
   minPrice: string;
   maxPrice: string;
 };
@@ -38,6 +42,7 @@ export const emptyFacetState: FacetState = {
   colors: [],
   sizes: [],
   audiences: [],
+  disciplines: [],
   minPrice: "",
   maxPrice: "",
 };
@@ -170,6 +175,8 @@ export function buildFacets(products: Product[]): CatalogFacets {
   const colors = new Map<string, number>();
   const sizes = new Map<string, number>();
   const audiences = new Map<Audience, number>();
+  const disciplines = new Map<string, number>();
+  let shoeCatalog = false;
   let inStock = 0;
   let outStock = 0;
   let maxPrice = 0;
@@ -185,6 +192,10 @@ export function buildFacets(products: Product[]): CatalogFacets {
     }
     if (info?.audience) {
       audiences.set(info.audience, (audiences.get(info.audience) ?? 0) + 1);
+    }
+    if (info?.department === "calzado") {
+      shoeCatalog = true;
+      if (info.type) disciplines.set(info.type, (disciplines.get(info.type) ?? 0) + 1);
     }
     for (const color of productColors(product.handle)) {
       colors.set(color, (colors.get(color) ?? 0) + 1);
@@ -217,6 +228,13 @@ export function buildFacets(products: Product[]): CatalogFacets {
         label: audienceLabels[value],
         count: audiences.get(value) ?? 0,
       })),
+    disciplines: shoeCatalog
+      ? shoeDisciplines.map((value) => ({
+          value,
+          label: typeLabels[value],
+          count: disciplines.get(value) ?? 0,
+        }))
+      : [],
     maxPrice,
   };
 }
@@ -240,6 +258,9 @@ export function applyFacets(products: Product[], state: FacetState) {
     if (state.audiences.length > 0) {
       if (!info?.audience || !state.audiences.includes(info.audience)) return false;
     }
+    if (state.disciplines.length > 0) {
+      if (!info?.type || !state.disciplines.includes(info.type)) return false;
+    }
     if (state.colors.length > 0) {
       const colors = productColors(product.handle);
       if (!state.colors.some((color) => colors.includes(color))) return false;
@@ -259,6 +280,7 @@ export function facetSelectionCount(state: FacetState) {
     state.colors.length +
     state.sizes.length +
     state.audiences.length +
+    state.disciplines.length +
     (state.minPrice.trim() ? 1 : 0) +
     (state.maxPrice.trim() ? 1 : 0)
   );

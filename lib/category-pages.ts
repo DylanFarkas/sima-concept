@@ -163,6 +163,17 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
           mujer: "/sima/IMG_5024.webp",
         },
       },
+      {
+        kind: "explore",
+        title: "Por disciplina",
+        photos: {
+          running: catalogProduct("nike-vomero-18-hombre"),
+          hiking: catalogProduct("new-balance-fresh-foam-mujer-copia"),
+          training: catalogProduct("nike-metcon-10-mujer"),
+          basketball: "/sima/sima-category.png",
+          classic: catalogProduct("adidas-samba-unisex"),
+        },
+      },
     ],
     grid: {
       aspect: "square",

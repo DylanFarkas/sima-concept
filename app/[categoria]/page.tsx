@@ -22,9 +22,11 @@ import {
   type GridInsert,
   type Tone,
 } from "@/lib/category-pages";
+import { applyFacets, emptyFacetState } from "@/lib/facets";
 import {
   brandsOf,
   filterCatalog,
+  shoeDisciplines,
   subcategoriesOf,
   type CatalogQuery,
   type Subcategory,
@@ -66,41 +68,53 @@ async function CategoryContent({ params, searchParams }: CategoryParams) {
   const query = await searchParams;
   if (!isCategorySlug(categoria)) notFound();
   const filtered = filterCatalog(categories[categoria].products, query);
+  const discipline = Array.isArray(query.disciplina) ? query.disciplina[0] : query.disciplina;
+  const initialDisciplines = shoeDisciplines.filter((item) => item === discipline);
 
-  return <CategoryView slug={categoria} filtered={filtered} />;
+  return (
+    <CategoryView slug={categoria} filtered={filtered} initialDisciplines={initialDisciplines} />
+  );
 }
 
 function CategoryView({
   slug,
   filtered,
+  initialDisciplines,
 }: {
   slug: CategorySlug;
   filtered: ReturnType<typeof filterCatalog>;
+  initialDisciplines: string[];
 }) {
   const page = categoryPages[slug];
   const all = categories[slug].products;
   const subcategories = subcategoriesOf(slug);
+  const filterSubs = slug === "zapatos" ? [] : subcategories;
   const parent = { label: page.hero.title, href: `/${slug}` };
 
   if (filtered.label) {
     const activeKey = filtered.tipo ?? filtered.audiencia ?? "marca";
+    const shown = initialDisciplines.length
+      ? applyFacets(filtered.products, { ...emptyFacetState, disciplines: initialDisciplines })
+      : filtered.products;
     return (
       <>
         <CompactHeader
           parent={parent}
           title={filtered.label}
-          count={filtered.products.length}
+          count={shown.length}
           tone={page.grid.tone}
         />
         <ProductGrid
+          key={`${filtered.audiencia ?? ""}-${filtered.tipo ?? ""}-${initialDisciplines.join(",")}`}
           products={filtered.products}
           heading={null}
           aspect={page.grid.aspect}
           tone={page.grid.tone}
           inserts={filtered.products.length >= insertMinimum ? phrasesOnly(page.grid.inserts) : []}
-          subcategories={subcategories}
+          subcategories={filterSubs}
           allHref={parent.href}
           activeKey={activeKey}
+          initialDisciplines={initialDisciplines}
         />
       </>
     );
@@ -119,13 +133,15 @@ function CategoryView({
         />
       ))}
       <ProductGrid
+        key={initialDisciplines.join(",")}
         products={all}
         heading="Todos los productos"
         aspect={page.grid.aspect}
         tone={page.grid.tone}
         inserts={page.grid.inserts}
-        subcategories={subcategories}
+        subcategories={filterSubs}
         allHref={`/${slug}`}
+        initialDisciplines={initialDisciplines}
       />
       {page.after.map((module, index) => (
         <ModuleBlock

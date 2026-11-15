@@ -71,8 +71,24 @@ body {
   animation: sima-nav-rise 280ms ease-out;
 }
 
+@keyframes sima-nav-shift {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nav-shift {
+  animation: sima-nav-shift 280ms ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .nav-rise {
+  .nav-rise,
+  .nav-shift {
     animation: none;
   }
 }

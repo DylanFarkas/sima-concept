@@ -74,6 +74,7 @@ export function ProductGrid({
   subcategories = [],
   allHref,
   activeKey,
+  initialDisciplines = [],
 }: {
   products: Product[];
   heading?: string | null;
@@ -83,9 +84,13 @@ export function ProductGrid({
   subcategories?: Subcategory[];
   allHref?: string;
   activeKey?: string;
+  initialDisciplines?: string[];
 }) {
   const t = toneClasses[tone];
-  const [facetsState, setFacetsState] = useState<FacetState>(emptyFacetState);
+  const [facetsState, setFacetsState] = useState<FacetState>({
+    ...emptyFacetState,
+    disciplines: initialDisciplines,
+  });
   const [sort, setSort] = useState<SortKey>("vendidos");
   const [columns, setColumns] = useState<4 | 5>(5);
   const [open, setOpen] = useState<"stock" | "price" | "sort" | null>(null);
@@ -131,6 +136,12 @@ export function ProductGrid({
 
     return filtered.map(({ product }) => product);
   }, [products, filterState, sort]);
+
+  useLayoutEffect(() => {
+    const node = document.getElementById("catalog-count");
+    if (!node) return;
+    node.textContent = `${visible.length} ${visible.length === 1 ? "artículo" : "artículos"}`;
+  }, [visible.length]);
 
   useLayoutEffect(() => {
     if (!retainScrollRef.current) return;

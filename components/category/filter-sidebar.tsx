@@ -73,6 +73,13 @@ export function FilterSidebar({
     onChange({ ...state, audiences: next });
   }
 
+  function toggleDiscipline(value: string) {
+    const next = state.disciplines.includes(value)
+      ? state.disciplines.filter((item) => item !== value)
+      : [...state.disciplines, value];
+    onChange({ ...state, disciplines: next });
+  }
+
   return (
     <aside
       className={`${light ? "filter-scroll-light" : "filter-scroll"} lg:sticky lg:top-24 lg:max-h-[calc(100svh-6.5rem)] lg:self-start lg:overflow-y-auto lg:pr-1 ${className}`}
@@ -132,11 +139,27 @@ export function FilterSidebar({
 
       <div className={subcategories.length > 0 ? "mt-2" : ""}>
         {facets.audiences.length > 1 ? (
-          <Accordion title="Género" count={state.audiences.length} tone={tone}>
+          <Accordion
+            title="Género"
+            count={state.audiences.length}
+            tone={tone}
+            defaultOpen={facets.disciplines.length > 0}
+          >
             <CheckboxList
               options={facets.audiences}
               selected={state.audiences}
               onToggle={(value) => toggleAudience(value as Audience)}
+              tone={tone}
+            />
+          </Accordion>
+        ) : null}
+
+        {facets.disciplines.length > 0 ? (
+          <Accordion title="Disciplina" count={state.disciplines.length} tone={tone} defaultOpen>
+            <CheckboxList
+              options={facets.disciplines}
+              selected={state.disciplines}
+              onToggle={toggleDiscipline}
               tone={tone}
             />
           </Accordion>

@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SimaMark } from "@/components/sima-mark";
-import { audienceNav } from "@/lib/taxonomy";
+import { audienceNav, type NavLink } from "@/lib/taxonomy";
 
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [expanded, setExpanded] = useState<string | null>(audienceNav[0]?.id ?? null);
+  const [audience, setAudience] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -72,22 +73,22 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
               >
                 <div className="overflow-hidden">
                   <div className="pb-6">
-                    {item.columns.map((column) => (
+                    {item.columns
+                      .filter((column) => column.title !== "Disciplina")
+                      .map((column) => (
                       <div key={column.title} className="mb-5 last:mb-0">
                         <p className="mb-2 font-display text-[11px] uppercase tracking-[0.28em] text-white/50">
                           {column.title}
                         </p>
                         <ul>
                           {column.links.map((link) => (
-                            <li key={link.href}>
-                              <Link
-                                href={link.href}
-                                onClick={onClose}
-                                className="block py-2 text-[15px] text-white/85"
-                              >
-                                {link.label}
-                              </Link>
-                            </li>
+                            <MobileLink
+                              key={link.href}
+                              link={link}
+                              openAudience={audience}
+                              onOpenAudience={setAudience}
+                              onClose={onClose}
+                            />
                           ))}
                         </ul>
                       </div>
@@ -100,5 +101,62 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
         })}
       </div>
     </div>
+  );
+}
+
+function MobileLink({
+  link,
+  openAudience,
+  onOpenAudience,
+  onClose,
+}: {
+  link: NavLink;
+  openAudience: string | null;
+  onOpenAudience: (href: string | null) => void;
+  onClose: () => void;
+}) {
+  const open = Boolean(link.children?.length) && openAudience === link.href;
+  return (
+    <li>
+      <div className="flex items-center justify-between gap-3">
+        <Link href={link.href} onClick={onClose} className="block py-2 text-[15px] text-white/85">
+          {link.label}
+        </Link>
+        {link.children?.length ? (
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-label={`Disciplinas de ${link.label}`}
+            onClick={() => onOpenAudience(open ? null : link.href)}
+            className="px-2 font-display text-xl leading-none text-white/45"
+          >
+            {open ? "−" : "+"}
+          </button>
+        ) : null}
+      </div>
+      {link.children?.length ? (
+        <div
+          className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${
+            open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <ul className="mb-2 ml-3 border-l border-white/15 pl-3">
+              {link.children.map((child) => (
+                <li key={child.href}>
+                  <Link
+                    href={child.href}
+                    onClick={onClose}
+                    className="block py-1.5 text-[13px] uppercase tracking-[0.08em] text-white/55"
+                  >
+                    {child.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
+    </li>
   );
 }

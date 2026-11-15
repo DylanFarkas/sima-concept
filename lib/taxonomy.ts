@@ -10,7 +10,7 @@ export type ProductClass = {
   brand?: string;
 };
 
-export type NavLink = { label: string; href: string };
+export type NavLink = { label: string; href: string; children?: NavLink[] };
 export type NavColumn = { title: string; links: NavLink[] };
 export type NavItem = {
   id: string;
@@ -35,6 +35,11 @@ export const typeLabels: Record<string, string> = {
   proteina: "Proteína",
   entrenamiento: "Entrenamiento",
   hidratacion: "Hidratación",
+  running: "Running",
+  hiking: "Hiking",
+  training: "Training",
+  basketball: "Basketball",
+  classic: "Classic",
 };
 
 export const audienceLabels: Record<Audience, string> = {
@@ -130,13 +135,58 @@ function accessoryType(title: string) {
   return "entrenamiento";
 }
 
+type ShoeDiscipline = "running" | "hiking" | "training" | "basketball" | "classic";
+
+const shoeDisciplineByHandle: Record<string, ShoeDiscipline> = {
+  "brooks-running-hombre": "running",
+  "nike-pegasus-42-mujer": "running",
+  "nike-zoom-pegasus-hombre": "running",
+  "adidas-eq21-run-unisex": "running",
+  "asics-running-hombre": "running",
+  "new-balance-hierro-mujer-copia": "running",
+  "nike-zoom-mujer-copia-3": "running",
+  "nik-vomero-premium": "running",
+  "nike-vomero-18-hombre": "running",
+  "nike-vomero-18-mujer": "running",
+  "nike-vomero-gorotex-hombre": "running",
+  "adidas-adizero-mujer": "running",
+  "adizero-hombre": "running",
+  "adidas-adizero-hombre-copia-2": "running",
+  "adidas-duramo-speed-mujer": "running",
+  "nike-initiator-hombre": "running",
+  "adidas-adistar-hombre": "running",
+  "nike-v2k-mujer-copia": "running",
+  "adidas-questar-mujer": "running",
+  "adidas-hyperboost-edge-hombre": "running",
+  "new-balance-fresh-foam-mujer-copia": "hiking",
+  "nike-metcon-v1-mujer": "training",
+  "new-balance-hierro-mujer-copia-2": "training",
+  "nike-metcon-10-mujer": "training",
+  "adidas-samba-unisex": "classic",
+  "nikeaf1-unisex": "classic",
+  "nikeaf1-bota-unisex": "classic",
+  "nike-jordanr1-unisex": "classic",
+  "nike-blazer-unisex": "classic",
+  "nike-air-max-90-hombre": "classic",
+  "nike-air-270-mujer": "classic",
+  "nike-tn-unisex": "classic",
+  "nike-p6000-hombre": "classic",
+  "nike-p6000-mujer": "classic",
+  "nike-v2k-mujer": "classic",
+  "new-balance-574-mujer": "classic",
+  "new-balance-530-unisex": "classic",
+  "new-balance-9060-dama": "classic",
+  "new-balance-9060-cafe-negro-hombre": "classic",
+  "new-balance-1906r-unisex": "classic",
+};
+
 function classify(slug: CategorySlug, product: Product): ProductClass {
   const brand = detectBrand(product.title);
   if (slug === "zapatos") {
     return {
       audience: shoeAudience(product.title),
       department: "calzado",
-      type: "calzado",
+      type: shoeDisciplineByHandle[product.handle] ?? "calzado",
       brand,
     };
   }
@@ -171,8 +221,16 @@ for (const [slug, category] of Object.entries(categories) as [
   }
 }
 
-function link(label: string, href: string): NavLink {
-  return { label, href };
+function link(label: string, href: string, children?: NavLink[]): NavLink {
+  return children?.length ? { label, href, children } : { label, href };
+}
+
+export const shoeDisciplines = ["running", "hiking", "training", "basketball", "classic"] as const;
+
+function disciplineLinks(audience: Audience): NavLink[] {
+  return shoeDisciplines.map((tipo) =>
+    link(typeLabels[tipo], `/zapatos?audiencia=${audience}&disciplina=${tipo}`),
+  );
 }
 
 const hombreColumns: NavColumn[] = [
@@ -189,7 +247,7 @@ const hombreColumns: NavColumn[] = [
   },
   {
     title: "Calzado",
-    links: [link("Zapatillas", "/zapatos?audiencia=hombre")],
+    links: [link("Zapatillas", "/zapatos?audiencia=hombre", disciplineLinks("hombre"))],
   },
 ];
 
@@ -208,7 +266,7 @@ const mujerColumns: NavColumn[] = [
   },
   {
     title: "Calzado",
-    links: [link("Zapatillas", "/zapatos?audiencia=mujer")],
+    links: [link("Zapatillas", "/zapatos?audiencia=mujer", disciplineLinks("mujer"))],
   },
 ];
 
@@ -217,9 +275,19 @@ const calzadoColumns: NavColumn[] = [
     title: "Calzado",
     links: [
       link("Ver todo", "/zapatos"),
-      link("Hombre", "/zapatos?audiencia=hombre"),
-      link("Mujer", "/zapatos?audiencia=mujer"),
-      link("Unisex", "/zapatos?audiencia=unisex"),
+      link("Hombre", "/zapatos?audiencia=hombre", disciplineLinks("hombre")),
+      link("Mujer", "/zapatos?audiencia=mujer", disciplineLinks("mujer")),
+      link("Unisex", "/zapatos?audiencia=unisex", disciplineLinks("unisex")),
+    ],
+  },
+  {
+    title: "Disciplina",
+    links: [
+      link("Running", "/zapatos?tipo=running"),
+      link("Hiking", "/zapatos?tipo=hiking"),
+      link("Training", "/zapatos?tipo=training"),
+      link("Basketball", "/zapatos?tipo=basketball"),
+      link("Classic", "/zapatos?tipo=classic"),
     ],
   },
 ];
@@ -297,7 +365,7 @@ export const audienceNav: NavItem[] = [
       {
         title: "Calzado",
         links: [
-          link("Ver zapatillas", "/zapatos?audiencia=unisex"),
+          link("Ver zapatillas", "/zapatos?audiencia=unisex", disciplineLinks("unisex")),
           link("Todo el calzado", "/zapatos"),
         ],
       },
@@ -305,6 +373,7 @@ export const audienceNav: NavItem[] = [
     ],
     tone: "primary",
   },
+  { id: "calzado", label: "Calzado", href: "/zapatos", columns: calzadoColumns, tone: "primary" },
   { id: "tech", label: "Tech", href: "/tecnologia", columns: techColumns, tone: "quiet" },
   { id: "nutricion", label: "Nutrición", href: "/suplementos", columns: nutricionColumns, tone: "quiet" },
   { id: "accesorios", label: "Accesorios", href: "/accesorios", columns: accesorioColumns, tone: "quiet" },
@@ -360,6 +429,7 @@ export type CatalogQuery = {
   tipo?: string | string[];
   audiencia?: string | string[];
   marca?: string | string[];
+  disciplina?: string | string[];
 };
 
 export function filterCatalog(products: Product[], query: CatalogQuery) {
@@ -386,9 +456,9 @@ export function filterCatalog(products: Product[], query: CatalogQuery) {
   });
 
   const label = [
-    marca ? brandLabels[marca] : null,
-    tipo ? typeLabels[tipo] : null,
     audiencia ? audienceLabels[audiencia] : null,
+    tipo ? typeLabels[tipo] : null,
+    marca ? brandLabels[marca] : null,
   ]
     .filter(Boolean)
     .join(" · ");
@@ -436,7 +506,7 @@ export function subcategoriesOf(slug: CategorySlug): Subcategory[] {
       if (!key || result.some((entry) => entry.key === key)) continue;
 
       const count = filterCatalog(categories[targetSlug].products, params).products.length;
-      if (count <= 0) continue;
+      if (count <= 0 && tipo !== "basketball") continue;
 
       const label = crossCategory && targetSlug === "zapatos"
         ? "Calzado"
