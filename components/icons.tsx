@@ -268,6 +268,16 @@ export function IconClock(props: IconProps) {
   );
 }
 
+export function IconCard(props: IconProps) {
+  return (
+    <LineIcon {...props}>
+      <rect x="3.2" y="5.6" width="17.6" height="12.8" rx="1.6" />
+      <path d="M3.2 9.6h17.6" />
+      <path d="M6.6 14.6h4" />
+    </LineIcon>
+  );
+}
+
 export function IconTag(props: IconProps) {
   return (
     <LineIcon {...props}>
@@ -379,6 +389,7 @@ const lineIcons = {
   headset: IconHeadset,
   pin: IconPin,
   clock: IconClock,
+  card: IconCard,
   tag: IconTag,
 } as const;
 

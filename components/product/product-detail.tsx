@@ -147,7 +147,7 @@ export function ProductDetail({ product }: { product: ProductDetailData }) {
         )}
       </div>
 
-      <div className="py-6 lg:sticky lg:top-[66px] lg:py-6 lg:pl-6">
+      <div className="py-6 lg:sticky lg:top-(--site-header-offset) lg:py-6 lg:pl-6">
         <h1 className="font-display text-[2rem] font-bold uppercase leading-[1.1] tracking-[0.03em]">
           {product.title}
         </h1>

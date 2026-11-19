@@ -10,6 +10,7 @@
   --ink: #121212;
   --accent: #bcb1a6;
   --rose: #8f4f5c;
+  --site-header-offset: 4.125rem;
 }
 
 @theme inline {
@@ -56,6 +57,14 @@ body {
   }
 }
 
+.announce-track {
+  transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.announce-track[data-instant] {
+  transition: none;
+}
+
 @keyframes sima-nav-rise {
   from {
     opacity: 0;
@@ -87,6 +96,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .announce-track {
+    transition: none;
+  }
+
   .nav-rise,
   .nav-shift {
     animation: none;

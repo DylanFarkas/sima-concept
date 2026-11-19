@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { IconAccount, IconCart, IconSearch } from "@/components/icons";
 import { SimaMark } from "@/components/sima-mark";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { DesktopPanel } from "@/components/nav/desktop-panel";
 import { MobileMenu } from "@/components/nav/mobile-menu";
 import { departmentNav, type NavItem } from "@/lib/taxonomy";
@@ -76,11 +77,13 @@ function MegaHeader() {
   }, [active]);
 
   return (
-    <header
-      className="sticky top-0 z-40 bg-background text-white"
-      onMouseLeave={() => setActive(null)}
-    >
-      <div className="page-wrap mt-2 grid h-16.5 grid-cols-[auto_1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]">
+    <>
+      <AnnouncementBar />
+      <header
+        className="sticky top-0 z-40 bg-background text-white"
+        onMouseLeave={() => setActive(null)}
+      >
+      <div className="page-wrap grid h-16.5 grid-cols-[auto_1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
           className="flex items-center gap-2 justify-self-start text-white sm:gap-3 lg:mr-50"
@@ -124,7 +127,7 @@ function MegaHeader() {
       </div>
 
       {current ? (
-        <div className="absolute inset-x-0 top-full z-30 hidden max-h-[calc(100svh-5.5rem)] overflow-y-auto border-y border-white/10 bg-background shadow-[0_28px_70px_rgba(0,0,0,0.55)] lg:block">
+        <div className="absolute inset-x-0 top-full z-30 hidden max-h-[calc(100svh-var(--site-header-offset))] overflow-y-auto border-y border-white/10 bg-background shadow-[0_28px_70px_rgba(0,0,0,0.55)] lg:block">
           <div key={current.id} className="nav-rise">
             <DesktopPanel item={current} />
           </div>
@@ -132,7 +135,8 @@ function MegaHeader() {
       ) : null}
 
       <MobileMenu open={mobile} onClose={closeMobile} />
-    </header>
+      </header>
+    </>
   );
 }
 

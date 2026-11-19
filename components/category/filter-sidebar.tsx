@@ -82,7 +82,7 @@ export function FilterSidebar({
 
   return (
     <aside
-      className={`${light ? "filter-scroll-light" : "filter-scroll"} lg:sticky lg:top-24 lg:max-h-[calc(100svh-6.5rem)] lg:self-start lg:overflow-y-auto lg:pr-1 ${className}`}
+      className={`${light ? "filter-scroll-light" : "filter-scroll"} lg:sticky lg:top-(--site-header-offset) lg:max-h-[calc(100svh-var(--site-header-offset)-1.5rem)] lg:self-start lg:overflow-y-auto lg:pr-1 ${className}`}
     >
       {showHeading || selected > 0 ? (
         <div className={`mb-6 flex items-center justify-between gap-3 lg:mb-8 ${showHeading ? "" : "lg:mb-6"}`}>
