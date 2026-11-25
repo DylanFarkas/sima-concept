@@ -1,0 +1,218 @@
+{%- assign sima_match = blank -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.handle == collection.handle -%}
+    {%- assign sima_match = block -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if sima_match != blank -%}
+  {% style %}
+    #shopify-section-{{ section.id }} + .shopify-section,
+    #shopify-section-{{ section.id }} + .shopify-section + .shopify-section {
+      display: none;
+    }
+  {% endstyle %}
+
+  <div
+    class="sima-subcoleccion{% if sima_match.settings.tone == 'light' %} sima-subcoleccion--light{% endif %}"
+    {{ sima_match.shopify_attributes }}
+  >
+    <nav class="sima-subcoleccion__path" aria-label="Ruta">
+      <a href="{{ routes.root_url }}">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="/collections/{{ sima_match.settings.parent_handle }}">{{ sima_match.settings.parent_label }}</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ sima_match.settings.title }}</span>
+    </nav>
+    <div class="sima-subcoleccion__row">
+      <h1 class="sima-subcoleccion__title">{{ sima_match.settings.title }}</h1>
+      <p class="sima-subcoleccion__count">
+        {{ collection.products_count }}
+        {%- if collection.products_count == 1 %} artículo{% else %} artículos{% endif -%}
+      </p>
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .sima-subcoleccion-section:not(:has(.sima-subcoleccion)) {
+    display: none;
+  }
+
+  .sima-subcoleccion {
+    background: #121212;
+    color: #fff;
+  }
+
+  .sima-subcoleccion--light {
+    background: #fff;
+    color: #121212;
+  }
+
+  .sima-subcoleccion__path,
+  .sima-subcoleccion__row {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-subcoleccion__path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 3.5rem;
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .sima-subcoleccion--light .sima-subcoleccion__path {
+    color: rgb(18 18 18 / 0.55);
+  }
+
+  .sima-subcoleccion__path a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-subcoleccion__path a:hover {
+    text-decoration: underline;
+  }
+
+  .sima-subcoleccion__path a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  .sima-subcoleccion--light .sima-subcoleccion__path a:focus-visible {
+    outline-color: #121212;
+  }
+
+  .sima-subcoleccion__path [aria-current='page'] {
+    color: #fff;
+  }
+
+  .sima-subcoleccion--light .sima-subcoleccion__path [aria-current='page'] {
+    color: #121212;
+  }
+
+  .sima-subcoleccion__row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .sima-subcoleccion__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    font-weight: 700;
+    line-height: 0.88;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+
+  .sima-subcoleccion__count {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  .sima-subcoleccion--light .sima-subcoleccion__count {
+    color: rgb(18 18 18 / 0.6);
+  }
+
+  @media screen and (min-width: 640px) {
+    .sima-subcoleccion__row {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .sima-subcoleccion__count {
+      padding-bottom: 0.75rem;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .sima-subcoleccion__path {
+      padding-top: 5rem;
+    }
+
+    .sima-subcoleccion__row {
+      padding-bottom: 3rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Subcolección",
+  "tag": "section",
+  "class": "sima-subcoleccion-section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "subcoleccion",
+      "name": "Subcolección",
+      "settings": [
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Handle",
+          "info": "Handle de la subcolección. En las seis categorías padre esta cabecera no aparece."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Hombre"
+        },
+        {
+          "type": "text",
+          "id": "parent_label",
+          "label": "Padre",
+          "default": "Zapatillas"
+        },
+        {
+          "type": "text",
+          "id": "parent_handle",
+          "label": "Handle del padre",
+          "default": "zapatos"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Fondo",
+          "options": [
+            { "value": "dark", "label": "Oscuro" },
+            { "value": "light", "label": "Claro" }
+          ],
+          "default": "dark"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [
+    {
+      "name": "SIMA — Subcolección"
+    }
+  ]
+}
+{% endschema %}

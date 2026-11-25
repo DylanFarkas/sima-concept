@@ -1,0 +1,137 @@
+mutation {
+  menuUpdate(
+    id: "gid://shopify/Menu/328780579092"
+    title: "Menú concepto (preview)"
+    handle: "main-menu-concepto"
+    items: [
+      {
+        title: "Hombre"
+        type: COLLECTION
+        resourceId: "gid://shopify/Collection/542146199828"
+        items: [
+          {
+            title: "Ropa"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/542146199828"
+            items: [
+              { title: "Ver todo", type: COLLECTION, resourceId: "gid://shopify/Collection/542146199828" }
+              { title: "Conjuntos", type: COLLECTION, resourceId: "gid://shopify/Collection/548412260628" }
+              { title: "Camisetas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412293396" }
+              { title: "Pantalonetas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412326164" }
+              { title: "Sudaderas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412358932" }
+              { title: "Basics", type: COLLECTION, resourceId: "gid://shopify/Collection/548412391700" }
+            ]
+          }
+          {
+            title: "Zapatillas"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/548412621076"
+            items: [
+              { title: "Zapatillas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412621076" }
+            ]
+          }
+        ]
+      }
+      {
+        title: "Mujer"
+        type: COLLECTION
+        resourceId: "gid://shopify/Collection/542146232596"
+        items: [
+          {
+            title: "Ropa"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/542146232596"
+            items: [
+              { title: "Ver todo", type: COLLECTION, resourceId: "gid://shopify/Collection/542146232596" }
+              { title: "Pantalonetas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412424468" }
+              { title: "Chaquetas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412457236" }
+              { title: "Sets", type: COLLECTION, resourceId: "gid://shopify/Collection/548412490004" }
+              { title: "Enterizos", type: COLLECTION, resourceId: "gid://shopify/Collection/548412522772" }
+              { title: "Vestidos", type: COLLECTION, resourceId: "gid://shopify/Collection/548412555540" }
+              { title: "Basics", type: COLLECTION, resourceId: "gid://shopify/Collection/548412588308" }
+            ]
+          }
+          {
+            title: "Zapatillas"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/548412653844"
+            items: [
+              { title: "Zapatillas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412653844" }
+            ]
+          }
+        ]
+      }
+      {
+        title: "Zapatillas"
+        type: COLLECTION
+        resourceId: "gid://shopify/Collection/542148100372"
+        items: [
+          {
+            title: "Zapatillas"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/542148100372"
+            items: [
+              { title: "Ver todo", type: COLLECTION, resourceId: "gid://shopify/Collection/542148100372" }
+              { title: "Hombre", type: COLLECTION, resourceId: "gid://shopify/Collection/548412621076" }
+              { title: "Mujer", type: COLLECTION, resourceId: "gid://shopify/Collection/548412653844" }
+              { title: "Unisex", type: COLLECTION, resourceId: "gid://shopify/Collection/548412686612" }
+            ]
+          }
+        ]
+      }
+      {
+        title: "Tech"
+        type: COLLECTION
+        resourceId: "gid://shopify/Collection/542146298132"
+        items: [
+          {
+            title: "Tech"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/542146298132"
+            items: [
+              { title: "Ver todo", type: COLLECTION, resourceId: "gid://shopify/Collection/542146298132" }
+              { title: "Audífonos", type: COLLECTION, resourceId: "gid://shopify/Collection/548412719380" }
+              { title: "Relojes y bandas", type: COLLECTION, resourceId: "gid://shopify/Collection/548412752148" }
+            ]
+          }
+        ]
+      }
+      {
+        title: "Nutrición"
+        type: COLLECTION
+        resourceId: "gid://shopify/Collection/542147182868"
+        items: [
+          {
+            title: "Nutrición"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/542147182868"
+            items: [
+              { title: "Ver todo", type: COLLECTION, resourceId: "gid://shopify/Collection/542147182868" }
+              { title: "Proteína", type: COLLECTION, resourceId: "gid://shopify/Collection/548412784916" }
+            ]
+          }
+        ]
+      }
+      {
+        title: "Accesorios"
+        type: COLLECTION
+        resourceId: "gid://shopify/Collection/542146265364"
+        items: [
+          {
+            title: "Accesorios"
+            type: COLLECTION
+            resourceId: "gid://shopify/Collection/542146265364"
+            items: [
+              { title: "Ver todo", type: COLLECTION, resourceId: "gid://shopify/Collection/542146265364" }
+              { title: "Entrenamiento", type: COLLECTION, resourceId: "gid://shopify/Collection/548412817684" }
+              { title: "Hidratación", type: COLLECTION, resourceId: "gid://shopify/Collection/548412850452" }
+            ]
+          }
+        ]
+      }
+    ]
+  ) {
+    menu { id handle }
+    userErrors { field message }
+  }
+}

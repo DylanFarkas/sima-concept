@@ -1,0 +1,94 @@
+{% doc %}
+  Light tone for the product page of nutrition products, so the detail matches
+  the white Nutrición grid. Re-declares the palette variables of color-palette.liquid
+  inside <main data-sima-tone="light">; header, footer and drawers keep the dark palette.
+{% enddoc %}
+
+{% style %}
+  main[data-sima-tone='light'] {
+    --color-background: #ffffff;
+    --color-background-rgb: 255 255 255;
+    --color-foreground: #121212;
+    --color-foreground-rgb: 18 18 18;
+    --color-border: #121212;
+    --color-border-rgb: 18 18 18;
+
+    --color-primary-button-text: rgb(255 255 255);
+    --color-primary-button-background: rgb(18 18 18);
+    --color-primary-button-border: rgb(18 18 18);
+    --color-primary-button-focus-outline: rgb(18 18 18);
+    --color-primary-button-hover-text: rgb(255 255 255);
+    --color-primary-button-hover-background: #333333;
+    --color-primary-button-hover-border: #333333;
+
+    --color-secondary-button-text: rgb(18 18 18);
+    --color-secondary-button-background: rgb(255 255 255 / 0);
+    --color-secondary-button-border: rgb(18 18 18);
+    --color-secondary-button-hover-text: rgb(255 255 255);
+    --color-secondary-button-hover-background: #121212;
+    --color-secondary-button-hover-border: #121212;
+
+    --color-input-background: rgb(255 255 255);
+    --color-input-text: rgb(18 18 18);
+    --color-input-text-rgb: 18 18 18;
+    --color-input-border: rgb(18 18 18);
+
+    --color-variant-background: rgb(255 255 255);
+    --color-variant-border: rgb(18 18 18 / 0.2);
+    --color-variant-text: rgb(18 18 18);
+    --color-variant-text-rgb: 18 18 18;
+    --color-variant-hover-background: #f2efe9;
+    --color-variant-hover-text: rgb(18 18 18);
+    --color-variant-hover-border: #121212;
+
+    --color-selected-variant-background: rgb(18 18 18);
+    --color-selected-variant-border: rgb(18 18 18);
+    --color-selected-variant-text: rgb(255 255 255);
+    --color-selected-variant-text-rgb: 255 255 255;
+    --color-selected-variant-hover-background: #333333;
+    --color-selected-variant-hover-text: rgb(255 255 255);
+    --color-selected-variant-hover-border: #333333;
+
+    /* Derived on :root in theme-styles-variables.liquid, so they keep the dark values
+       unless re-declared here. */
+    --input-disabled-background-color: rgb(18 18 18 / var(--opacity-10));
+    --input-disabled-border-color: rgb(18 18 18 / var(--opacity-5));
+    --input-disabled-text-color: rgb(18 18 18 / var(--opacity-50));
+    --checkbox-border: 1px solid rgb(18 18 18 / 0.35);
+    --border-color: rgb(18 18 18 / var(--opacity-50));
+    --variant-option-label-color: #121212;
+    --card-bg-hover: rgb(18 18 18 / var(--opacity-5));
+    --card-border-hover: rgb(18 18 18 / var(--opacity-30));
+    --card-border-focus: rgb(18 18 18 / var(--opacity-10));
+
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+  }
+
+  /* Sections with their own background (contrast-override.liquid) re-declare these on
+     .color-custom-*; the attribute selector outranks that single class. */
+  main[data-sima-tone='light'] [class*='color-custom-template--'],
+  main[data-sima-tone='light'] [class*='color-custom-template--'] .text-block {
+    --color-background: #ffffff;
+    --color-background-rgb: 255 255 255;
+    --opacity-5-15: 0.05;
+    --opacity-10-25: 0.1;
+    --opacity-35-55: 0.35;
+    --opacity-40-60: 0.4;
+    --opacity-30-60: 0.3;
+    --color: #121212;
+    --color-rgb: 18 18 18;
+    --color-foreground: #121212;
+    --color-foreground-rgb: 18 18 18;
+    --color-foreground-muted: rgb(18 18 18 / var(--opacity-muted-text));
+    --color-foreground-subdued: rgb(18 18 18 / var(--opacity-subdued-text));
+    --color-border: #121212;
+    --color-border-rgb: 18 18 18;
+  }
+
+  main[data-sima-tone='light'] [class*='color-custom-template--'] {
+    --input-disabled-background-color: rgb(18 18 18 / var(--opacity-10));
+    --input-disabled-border-color: rgb(18 18 18 / var(--opacity-5));
+    --input-disabled-text-color: rgb(18 18 18 / var(--opacity-50));
+  }
+{% endstyle %}

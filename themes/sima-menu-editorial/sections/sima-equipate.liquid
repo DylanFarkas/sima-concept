@@ -1,0 +1,579 @@
+<sima-equipate class="sima-equipate" style="--sima-equipate-bg: {{ section.settings.background }};">
+  <div class="sima-equipate__inner">
+    <div class="sima-equipate__head">
+      <h2 class="sima-equipate__title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <p class="sima-equipate__lead">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="sima-equipate__rail">
+      <div class="sima-equipate__viewport">
+        <div class="sima-equipate__track" data-track>
+          {%- assign page_size = 3 -%}
+          {%- for block in section.blocks -%}
+            {%- assign page_start = forloop.index0 | modulo: page_size -%}
+            {%- if page_start == 0 -%}
+              <ul class="sima-equipate__page" data-page>
+            {%- endif -%}
+
+            {%- liquid
+              assign photo = blank
+              assign photo_asset = false
+              if block.settings.image != blank
+                assign photo = block.settings.image
+              elsif block.settings.photo_source == 'tecnologia'
+                assign photo_asset = true
+              elsif block.settings.product != blank and block.settings.product.featured_image != blank
+                assign photo = block.settings.product.featured_image
+              elsif block.settings.collection != blank and block.settings.collection.image != blank
+                assign photo = block.settings.collection.image
+              endif
+
+              assign label = block.settings.label
+              if label == blank and block.settings.collection != blank
+                assign label = block.settings.collection.title
+              endif
+
+              assign card_url = ''
+              if block.settings.collection != blank
+                assign card_url = block.settings.collection.url
+              endif
+
+              assign button_label = block.settings.button_label
+              if button_label == blank
+                assign button_label = 'Comprar'
+              endif
+            -%}
+
+            <li class="sima-equipate__item" {{ block.shopify_attributes }}>
+              {%- if card_url != blank -%}
+                <a class="sima-equipate__card" href="{{ card_url }}">
+              {%- else -%}
+                <div class="sima-equipate__card">
+              {%- endif -%}
+                {%- if photo_asset -%}
+                  <img
+                    class="sima-equipate__photo"
+                    src="{{ 'sima-tecnologia.webp' | asset_url }}"
+                    alt=""
+                    width="1200"
+                    height="1500"
+                    loading="lazy"
+                  >
+                {%- elsif photo != blank -%}
+                  {{
+                    photo
+                    | image_url: width: 1600
+                    | image_tag:
+                      class: 'sima-equipate__photo',
+                      alt: '',
+                      loading: 'lazy',
+                      widths: '400, 600, 800, 1200, 1600',
+                      sizes: '(min-width: 990px) 30vw, 90vw'
+                  }}
+                {%- endif -%}
+                <span class="sima-equipate__shade"></span>
+                <span class="sima-equipate__copy">
+                  <span>
+                    <span class="sima-equipate__label">{{ label }}</span>
+                    {%- if block.settings.text != blank -%}
+                      <span class="sima-equipate__text">{{ block.settings.text }}</span>
+                    {%- endif -%}
+                  </span>
+                  <span class="sima-equipate__buy">{{ button_label }}</span>
+                </span>
+              {%- if card_url != blank -%}
+                </a>
+              {%- else -%}
+                </div>
+              {%- endif -%}
+            </li>
+
+            {%- assign page_end = forloop.index | modulo: page_size -%}
+            {%- if page_end == 0 or forloop.last -%}
+              </ul>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <button class="sima-equipate__nav sima-equipate__nav--prev" type="button" data-dir="-1" aria-label="Categorías anteriores">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path d="m15 19-7-7 7-7" />
+        </svg>
+      </button>
+      <button class="sima-equipate__nav sima-equipate__nav--next" type="button" data-dir="1" aria-label="Más categorías">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path d="m9 5 7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</sima-equipate>
+
+{% stylesheet %}
+  .sima-equipate {
+    display: block;
+    background: var(--sima-equipate-bg, #121212);
+    color: #fff;
+    padding-block: 5rem;
+  }
+
+  .sima-equipate__inner {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-equipate__head {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sima-equipate__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .sima-equipate__lead {
+    margin: 0;
+    max-width: 34ch;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .sima-equipate__rail {
+    position: relative;
+    margin-top: 2.5rem;
+  }
+
+  .sima-equipate__viewport {
+    overflow: hidden;
+  }
+
+  .sima-equipate__track {
+    display: flex;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sima-equipate__page {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    width: 100%;
+    flex: 0 0 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sima-equipate__card {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #1c1c1c;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-equipate__card:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  .sima-equipate__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-equipate__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0.1), transparent);
+  }
+
+  .sima-equipate__copy {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .sima-equipate__label {
+    display: block;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: clamp(2rem, 3.4vw, 3rem);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .sima-equipate__text {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  .sima-equipate__buy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.25rem;
+    background: #fff;
+    color: #121212;
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sima-equipate__card:hover .sima-equipate__buy {
+    background: #f2efe9;
+  }
+
+  .sima-equipate__nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: #121212;
+    box-shadow: 0 2px 12px rgb(0 0 0 / 0.28);
+    cursor: pointer;
+  }
+
+  .sima-equipate__nav svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .sima-equipate__nav--prev {
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .sima-equipate__nav--next {
+    right: 0;
+    transform: translate(50%, -50%);
+  }
+
+  .sima-equipate__nav:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sima-equipate__nav:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  @media screen and (min-width: 640px) {
+    .sima-equipate__head {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .sima-equipate__rail {
+      margin-inline: calc(var(--page-margin) * -1);
+    }
+
+    .sima-equipate__viewport {
+      overflow: visible;
+    }
+
+    .sima-equipate__track {
+      gap: 0.75rem;
+      padding-inline: var(--page-margin);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--page-margin);
+      transition: none;
+      scrollbar-width: none;
+    }
+
+    .sima-equipate__track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sima-equipate__page {
+      display: flex;
+      gap: 0.75rem;
+      width: max-content;
+      flex: 0 0 auto;
+    }
+
+    .sima-equipate__page + .sima-equipate__page {
+      margin-inline-start: 0.75rem;
+    }
+
+    .sima-equipate__item {
+      flex: 0 0 auto;
+      width: 78vw;
+      scroll-snap-align: start;
+    }
+
+    .sima-equipate__nav {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 640px) and (max-width: 989px) {
+    .sima-equipate__item {
+      flex-basis: 46vw;
+      width: 46vw;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .sima-equipate {
+      padding-block: 7rem;
+    }
+
+    .sima-equipate__rail {
+      margin-top: 3rem;
+      margin-inline: 0;
+    }
+
+    .sima-equipate__viewport {
+      overflow: hidden;
+    }
+
+    .sima-equipate__track {
+      gap: 0;
+      padding-inline: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+
+    .sima-equipate__page {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      width: 100%;
+      flex: 0 0 100%;
+    }
+
+    .sima-equipate__page + .sima-equipate__page {
+      margin-inline-start: 0;
+    }
+
+    .sima-equipate__item {
+      width: auto;
+      scroll-snap-align: none;
+    }
+
+    .sima-equipate__nav {
+      display: flex;
+    }
+
+    .sima-equipate__card {
+      aspect-ratio: 3 / 4;
+    }
+
+    .sima-equipate__copy {
+      padding: 2rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-equipate__track {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class SimaEquipate extends HTMLElement {
+    connectedCallback() {
+      this.track = this.querySelector('[data-track]');
+      this.pages = [...this.querySelectorAll('[data-page]')];
+      this.prev = this.querySelector('[data-dir="-1"]');
+      this.next = this.querySelector('[data-dir="1"]');
+      this.index = 0;
+      this.animating = false;
+
+      if (!this.track || this.pages.length < 2) {
+        if (this.prev) this.prev.hidden = true;
+        if (this.next) this.next.hidden = true;
+        return;
+      }
+
+      this.onPrev = () => this.go(-1);
+      this.onNext = () => this.go(1);
+      this.prev.addEventListener('click', this.onPrev);
+      this.next.addEventListener('click', this.onNext);
+      this.onMode = () => this.update();
+      this.mode = window.matchMedia('(min-width: 990px)');
+      this.mode.addEventListener('change', this.onMode);
+      this.update();
+    }
+
+    disconnectedCallback() {
+      if (this.prev && this.onPrev) this.prev.removeEventListener('click', this.onPrev);
+      if (this.next && this.onNext) this.next.removeEventListener('click', this.onNext);
+      if (this.mode && this.onMode) this.mode.removeEventListener('change', this.onMode);
+    }
+
+    go(direction) {
+      if (!this.desktop || this.animating) return;
+      const next = this.index + direction;
+      if (next < 0 || next >= this.pages.length) return;
+      this.animating = true;
+      this.index = next;
+      this.update();
+      window.setTimeout(() => {
+        this.animating = false;
+      }, 520);
+    }
+
+    update() {
+      this.desktop = window.matchMedia('(min-width: 990px)').matches;
+      this.prev.hidden = !this.desktop;
+      this.next.hidden = !this.desktop;
+
+      if (!this.desktop) {
+        this.track.style.transform = 'none';
+        this.pages.forEach((page) => {
+          page.removeAttribute('inert');
+          page.removeAttribute('aria-hidden');
+        });
+        return;
+      }
+
+      this.track.style.transform = `translate3d(${this.index * -100}%, 0, 0)`;
+      this.prev.disabled = this.index === 0;
+      this.next.disabled = this.index === this.pages.length - 1;
+      this.pages.forEach((page, index) => {
+        const current = index === this.index;
+        page.toggleAttribute('inert', !current);
+        page.setAttribute('aria-hidden', current ? 'false' : 'true');
+      });
+    }
+  }
+
+  if (!customElements.get('sima-equipate')) {
+    customElements.define('sima-equipate', SimaEquipate);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "SIMA — Equípate",
+  "tag": "section",
+  "class": "sima-equipate-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Equípate para crecer"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Ropa, calzado y lo que necesitas para dar el primer paso, en un solo lugar."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Fondo",
+      "default": "#121212"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Categoría",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Colección"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Nombre"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Botón",
+          "default": "Comprar"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto de la foto"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto propia"
+        },
+        {
+          "type": "select",
+          "id": "photo_source",
+          "label": "Foto si no hay una propia",
+          "options": [
+            {
+              "value": "product",
+              "label": "Foto del producto"
+            },
+            {
+              "value": "tecnologia",
+              "label": "Foto de tecnología"
+            }
+          ],
+          "default": "product"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "SIMA — Equípate"
+    }
+  ]
+}
+{% endschema %}

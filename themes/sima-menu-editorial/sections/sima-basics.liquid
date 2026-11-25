@@ -1,0 +1,430 @@
+<sima-basics class="sima-basics" style="--sima-basics-bg: {{ section.settings.background }};">
+  <div class="sima-basics__wrap">
+  <div class="sima-basics__frame">
+    <div class="sima-basics__intro">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="sima-basics__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <div class="sima-basics__body">
+        <h2 class="sima-basics__title">{{ section.settings.heading }}</h2>
+        <div class="sima-basics__copy">
+          {%- if section.settings.text != blank -%}
+            <p>{{ section.settings.text }}</p>
+          {%- endif -%}
+          <div class="sima-basics__actions">
+            {%- if section.settings.collection_hombre != blank and section.settings.button_hombre != blank -%}
+              <a class="sima-basics__cta" href="{{ section.settings.collection_hombre.url }}">{{ section.settings.button_hombre }}</a>
+            {%- endif -%}
+            {%- if section.settings.collection_mujer != blank and section.settings.button_mujer != blank -%}
+              <a class="sima-basics__cta" href="{{ section.settings.collection_mujer.url }}">{{ section.settings.button_mujer }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign piece = block.settings.product
+        assign photo = block.settings.image
+        if photo == blank and piece != blank
+          assign photo = piece.featured_image
+        endif
+
+        assign label = block.settings.label
+        if label == blank and piece != blank
+          assign label = piece.title
+        endif
+
+        assign number = forloop.index | prepend: '00' | slice: -2, 2
+        assign featured = block.settings.featured
+        if featured
+          assign sizes = '(min-width: 990px) 34vw, 100vw'
+        else
+          assign sizes = '(min-width: 990px) 28vw, 50vw'
+        endif
+      -%}
+
+      {%- if piece != blank -%}
+        <a class="sima-basics__piece{% if featured %} is-feature{% endif %}" href="{{ piece.url }}" {{ block.shopify_attributes }}>
+      {%- else -%}
+        <div class="sima-basics__piece{% if featured %} is-feature{% endif %}" {{ block.shopify_attributes }}>
+      {%- endif -%}
+        <span class="sima-basics__photo">
+          {%- if photo != blank -%}
+            {{
+              photo
+              | image_url: width: 1400
+              | image_tag:
+                alt: '',
+                loading: 'lazy',
+                widths: '400, 600, 800, 1000, 1400',
+                sizes: sizes
+            }}
+          {%- endif -%}
+        </span>
+        {%- if label != blank -%}
+          <span class="sima-basics__caption">
+            <span class="sima-basics__num">{{ number }}</span>
+            <span class="sima-basics__name">{{ label }}</span>
+          </span>
+        {%- endif -%}
+      {%- if piece != blank -%}
+        </a>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  </div>
+</sima-basics>
+
+{% stylesheet %}
+  .sima-basics {
+    display: block;
+    background: var(--sima-basics-bg, #f2efe9);
+    color: #121212;
+    padding-block: 5rem;
+  }
+
+  .sima-basics__wrap {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-basics__frame {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    border: 2px solid #121212;
+    background: #121212;
+  }
+
+  .sima-basics__intro,
+  .sima-basics__piece {
+    background: #f2efe9;
+  }
+
+  .sima-basics__intro {
+    display: flex;
+    grid-column: 1 / -1;
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .sima-basics__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .sima-basics__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .sima-basics__title {
+    max-width: 10ch;
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .sima-basics__copy {
+    max-width: 34ch;
+  }
+
+  .sima-basics__copy p {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    line-height: 1.625;
+  }
+
+  .sima-basics__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .sima-basics__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.25rem;
+    background: #121212;
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .sima-basics__cta:hover {
+    background: #000;
+  }
+
+  .sima-basics__piece {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-basics__piece.is-feature {
+    grid-column: 1 / -1;
+  }
+
+  .sima-basics__photo {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #e4e0d8;
+  }
+
+  .sima-basics__piece.is-feature .sima-basics__photo {
+    aspect-ratio: 4 / 5;
+  }
+
+  .sima-basics__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-basics__caption {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    border-top: 2px solid #121212;
+    padding: 0.875rem 1rem;
+    transition: background-color 300ms ease, color 300ms ease;
+  }
+
+  .sima-basics__piece:hover .sima-basics__caption {
+    background: #121212;
+    color: #f2efe9;
+  }
+
+  .sima-basics__num {
+    flex-shrink: 0;
+    font-family: var(--font-heading--family);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    opacity: 0.4;
+  }
+
+  .sima-basics__name {
+    min-width: 0;
+    overflow: hidden;
+    font-family: var(--font-heading--family);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .sima-basics__piece:focus-visible,
+  .sima-basics__cta:focus-visible {
+    outline: 2px solid #121212;
+    outline-offset: 4px;
+  }
+
+  .sima-basics__piece:focus-visible {
+    outline-offset: -4px;
+  }
+
+  @media screen and (min-width: 640px) {
+    .sima-basics__intro {
+      padding: 2.5rem;
+    }
+
+    .sima-basics__copy p {
+      font-size: 1rem;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .sima-basics {
+      padding-block: 7rem;
+    }
+
+    .sima-basics__frame {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .sima-basics__intro {
+      grid-column: 1 / span 8;
+      grid-row: 1;
+      padding: 3rem;
+    }
+
+    .sima-basics__body {
+      margin-top: auto;
+      padding-top: 2.5rem;
+    }
+
+    .sima-basics__piece {
+      grid-column: span 4;
+    }
+
+    .sima-basics__piece.is-feature {
+      grid-column: 9 / span 4;
+      grid-row: 1 / span 2;
+      height: 100%;
+    }
+
+    .sima-basics__photo,
+    .sima-basics__piece.is-feature .sima-basics__photo {
+      aspect-ratio: 4 / 5;
+    }
+
+    .sima-basics__piece.is-feature .sima-basics__photo {
+      flex: 1;
+      min-height: 0;
+      aspect-ratio: auto;
+    }
+
+    .sima-basics__caption {
+      padding-inline: 1.25rem;
+    }
+
+    .sima-basics__name {
+      font-size: 15px;
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    .sima-basics__body {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .sima-basics__copy {
+      max-width: 30ch;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-basics__caption {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Todos los días",
+  "tag": "section",
+  "class": "sima-basics-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Antetítulo",
+      "default": "Línea Basics"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Para todos los días"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Algodón, pants y camisillas para entrenar y para el resto del día. Lo esencial, sin ruido."
+    },
+    {
+      "type": "text",
+      "id": "button_hombre",
+      "label": "Botón hombre",
+      "default": "Hombre"
+    },
+    {
+      "type": "collection",
+      "id": "collection_hombre",
+      "label": "Colección hombre"
+    },
+    {
+      "type": "text",
+      "id": "button_mujer",
+      "label": "Botón mujer",
+      "default": "Mujer"
+    },
+    {
+      "type": "collection",
+      "id": "collection_mujer",
+      "label": "Colección mujer"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Fondo",
+      "default": "#F2EFE9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "piece",
+      "name": "Pieza",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Nombre",
+          "info": "Si lo dejas vacío, usa el nombre del producto."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto"
+        },
+        {
+          "type": "checkbox",
+          "id": "featured",
+          "label": "Pieza alta",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "SIMA — Todos los días"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,265 @@
+{% liquid
+  assign background = section.settings.background_color
+  if background == blank
+    assign background = '#F2EFE9'
+  endif
+
+  assign ink = section.settings.text_color
+  if ink == blank
+    assign ink = '#121212'
+  endif
+
+  assign visible = 0
+  for block in section.blocks
+    assign lead = block.settings.lead | strip
+    assign strong = block.settings.strong | strip
+    unless lead == blank and strong == blank
+      assign visible = visible | plus: 1
+    endunless
+  endfor
+%}
+
+{% if visible > 1 %}
+  <script
+    src="{{ 'sima-anuncios.js' | asset_url }}"
+    type="module"
+  ></script>
+{% endif %}
+
+{% if visible > 0 %}
+  <sima-anuncios
+    class="sima-anuncios"
+    style="--sima-anuncio-bg: {{ background }}; --sima-anuncio-ink: {{ ink }}; display: block; overflow: hidden; background: {{ background }}; color: {{ ink }};"
+    data-interval="{{ section.settings.interval | times: 1000 | round }}"
+    role="region"
+    aria-label="{{ 'accessibility.announcements' | t }}"
+  >
+    <div class="sima-anuncios__viewport" data-region aria-live="off" style="height: 2.75rem; overflow: hidden;">
+      <div class="sima-anuncios__track" data-track>
+        {% liquid
+          assign shown = false
+        %}
+        {% for block in section.blocks %}
+          {% liquid
+            assign lead = block.settings.lead | strip
+            assign strong = block.settings.strong | strip
+          %}
+          {% if lead != blank or strong != blank %}
+            {% if shown %}
+              {% render 'sima-anuncio-slide', block: block, hidden: true %}
+            {% else %}
+              {% render 'sima-anuncio-slide', block: block %}
+              {% assign shown = true %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% if visible > 1 %}
+          {% render 'sima-anuncio-slide', block: section.blocks.first, clone: true %}
+        {% endif %}
+      </div>
+    </div>
+  </sima-anuncios>
+{% endif %}
+
+{% stylesheet %}
+  .sima-anuncios {
+    --sima-anuncio-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: var(--sima-anuncio-bg);
+    color: var(--sima-anuncio-ink);
+    border-bottom: 1px solid rgb(18 18 18 / 0.15);
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sima-anuncios {
+      font-size: 14px;
+    }
+  }
+
+  .sima-anuncios__viewport {
+    height: 2.75rem;
+    overflow: hidden;
+  }
+
+  .sima-anuncios__track {
+    transition: transform 780ms var(--sima-anuncio-ease);
+  }
+
+  .sima-anuncios[data-instant] .sima-anuncios__track {
+    transition: none;
+  }
+
+  .sima-anuncios__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    height: 2.75rem;
+    margin: 0;
+    padding-inline: 1.25rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sima-anuncios__slide {
+      gap: 0.5rem;
+    }
+  }
+
+  .sima-anuncios__icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    color: var(--sima-anuncio-ink);
+    opacity: 0.55;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sima-anuncios__icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  .sima-anuncios__copy {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sima-anuncios__lead {
+    color: var(--sima-anuncio-ink);
+    opacity: 0.6;
+  }
+
+  .sima-anuncios__strong {
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--sima-anuncio-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-anuncios__track {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.sima_bar",
+  "tag": "div",
+  "class": "sima-anuncios-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "t:settings.scroll_speed",
+      "min": 3,
+      "max": 8,
+      "step": 0.1,
+      "unit": "s",
+      "default": 5.2
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#F2EFE9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#121212"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mensaje",
+      "name": "t:names.announcement",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:settings.icon",
+          "options": [
+            { "value": "lock", "label": "Candado" },
+            { "value": "truck", "label": "Envío" },
+            { "value": "card", "label": "Tarjeta" },
+            { "value": "tag", "label": "Etiqueta" }
+          ],
+          "default": "lock"
+        },
+        {
+          "type": "text",
+          "id": "lead",
+          "label": "t:settings.sima_phrase",
+          "default": "Compra rápida y"
+        },
+        {
+          "type": "text",
+          "id": "strong",
+          "label": "t:settings.sima_emphasis",
+          "default": "100 % segura"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.sima_bar",
+      "settings": {
+        "interval": 5.2,
+        "background_color": "#F2EFE9",
+        "text_color": "#121212"
+      },
+      "blocks": [
+        {
+          "type": "mensaje",
+          "settings": {
+            "icon": "lock",
+            "lead": "Compra rápida y",
+            "strong": "100 % segura"
+          }
+        },
+        {
+          "type": "mensaje",
+          "settings": {
+            "icon": "truck",
+            "lead": "Envíos a toda Colombia desde",
+            "strong": "$14.000"
+          }
+        },
+        {
+          "type": "mensaje",
+          "settings": {
+            "icon": "card",
+            "lead": "Recibimos",
+            "strong": "todas las tarjetas"
+          }
+        },
+        {
+          "type": "mensaje",
+          "settings": {
+            "icon": "tag",
+            "lead": "Compra ahora y financia con",
+            "strong": "Addi"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

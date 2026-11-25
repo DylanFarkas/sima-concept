@@ -1,0 +1,399 @@
+<sima-sobre class="sima-sobre" style="--sima-sobre-bg: {{ section.settings.background }};">
+  <div class="sima-sobre__grid">
+    <div class="sima-sobre__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="sima-sobre__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="sima-sobre__title">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_muted != blank -%}
+          <span>{{ section.settings.heading_muted }}</span>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.text != blank -%}
+        <p class="sima-sobre__lead">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if section.settings.text_secondary != blank -%}
+        <p class="sima-sobre__note">{{ section.settings.text_secondary }}</p>
+      {%- endif -%}
+      {%- if section.settings.whatsapp_link != blank and section.settings.whatsapp_label != blank -%}
+        <a class="sima-sobre__whatsapp" href="{{ section.settings.whatsapp_link }}" target="_blank" rel="noreferrer">
+          {{ section.settings.whatsapp_label }}
+        </a>
+      {%- endif -%}
+      <div class="sima-sobre__actions">
+        {%- if section.settings.button_link != blank and section.settings.button_label != blank -%}
+          <a class="sima-sobre__button" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.button_secondary_link != blank and section.settings.button_secondary_label != blank -%}
+          <a class="sima-sobre__button is-line" href="{{ section.settings.button_secondary_link }}">{{ section.settings.button_secondary_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="sima-sobre__stage">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1080
+          | image_tag:
+            class: 'sima-sobre__image',
+            alt: '',
+            loading: 'lazy',
+            widths: '540, 800, 1080',
+            sizes: '(min-width: 990px) 42vw, 100vw'
+        }}
+      {%- elsif section.settings.video != blank -%}
+        {{
+          section.settings.video
+          | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            class: 'sima-sobre__video',
+            image_size: '1200x'
+        }}
+      {%- else -%}
+        <video
+          class="sima-sobre__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          src="{{ 'sima-sobre.mp4' | asset_url }}"
+        ></video>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="sima-sobre__ticker" aria-hidden="true">
+      <div class="sima-sobre__track">
+        {%- for copy in (1..2) -%}
+          <div class="sima-sobre__group">
+            {%- for block in section.blocks -%}
+              {%- assign outlined = forloop.index0 | modulo: 2 -%}
+              <span class="{% if outlined == 1 %}is-stroke{% endif %}">{{ block.settings.word }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</sima-sobre>
+
+{% stylesheet %}
+  .sima-sobre {
+    display: block;
+    overflow: hidden;
+    background: var(--sima-sobre-bg, #f2efe9);
+    color: #121212;
+  }
+
+  .sima-sobre__grid {
+    display: grid;
+    align-items: end;
+    gap: 3rem;
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding: 6rem var(--page-margin);
+  }
+
+  .sima-sobre__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .sima-sobre__title {
+    margin: 1.5rem 0 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.75rem, 6.4vw, 6rem);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .sima-sobre__title span {
+    color: rgb(18 18 18 / 0.35);
+  }
+
+  .sima-sobre__lead,
+  .sima-sobre__note {
+    max-width: 44ch;
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    line-height: 1.625;
+  }
+
+  .sima-sobre__lead {
+    margin-top: 2rem;
+  }
+
+  .sima-sobre__note {
+    margin-top: 1rem;
+  }
+
+  .sima-sobre__whatsapp {
+    display: inline-flex;
+    margin-top: 1rem;
+    color: inherit;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.4;
+    text-decoration: underline;
+    text-decoration-color: rgb(18 18 18 / 0.4);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+
+  .sima-sobre__whatsapp:hover {
+    text-decoration-color: #121212;
+  }
+
+  .sima-sobre__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+
+  .sima-sobre__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.25rem;
+    background: #121212;
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 300ms ease, color 300ms ease;
+  }
+
+  .sima-sobre__button:hover {
+    background: #000;
+  }
+
+  .sima-sobre__button.is-line {
+    background: transparent;
+    color: #121212;
+    box-shadow: inset 0 0 0 1.5px #121212;
+  }
+
+  .sima-sobre__button.is-line:hover {
+    background: #121212;
+    color: #f2efe9;
+  }
+
+  .sima-sobre__stage {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #121212;
+  }
+
+  .sima-sobre__video,
+  .sima-sobre__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-sobre__whatsapp:focus-visible,
+  .sima-sobre__button:focus-visible {
+    outline: 2px solid #121212;
+    outline-offset: 4px;
+  }
+
+  .sima-sobre__ticker {
+    overflow: hidden;
+    border-top: 2px solid #121212;
+    padding-block: 1.5rem;
+  }
+
+  .sima-sobre__track {
+    display: flex;
+    width: max-content;
+    animation: sima-sobre-ticker 28s linear infinite;
+  }
+
+  .sima-sobre__group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .sima-sobre__group span {
+    padding-inline: 1.5rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(3.5rem, 9vw, 8.5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .sima-sobre__group span.is-stroke {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #121212;
+  }
+
+  @media screen and (min-width: 990px) {
+    .sima-sobre__grid {
+      grid-template-columns: 1.35fr 1fr;
+      gap: 4rem;
+      padding-block: 8rem;
+    }
+
+    .sima-sobre__ticker {
+      padding-block: 2rem;
+    }
+
+    .sima-sobre__group span {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @keyframes sima-sobre-ticker {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-sobre__button,
+    .sima-sobre__track {
+      transition: none;
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Sobre SIMA",
+  "tag": "section",
+  "class": "sima-sobre-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Antetítulo",
+      "default": "Sobre SIMA"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Frase",
+      "default": "No es solo lo que usas."
+    },
+    {
+      "type": "text",
+      "id": "heading_muted",
+      "label": "Frase en gris",
+      "default": "Es lo que te impulsa a seguir adelante."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Primer texto",
+      "default": "Equipamos a personas que eligen crecer cada día. Avanzamos juntos, crecemos juntos."
+    },
+    {
+      "type": "textarea",
+      "id": "text_secondary",
+      "label": "Segundo texto",
+      "default": "El deporte es bienestar. Da el primer paso: si no sabes qué elegir, te asesoramos."
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_label",
+      "label": "WhatsApp",
+      "default": "Escríbenos por WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_link",
+      "label": "Enlace de WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Botón principal",
+      "default": "Conoce más"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace principal"
+    },
+    {
+      "type": "text",
+      "id": "button_secondary_label",
+      "label": "Botón secundario",
+      "default": "Únete a la comunidad"
+    },
+    {
+      "type": "url",
+      "id": "button_secondary_link",
+      "label": "Enlace secundario"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Fondo",
+      "default": "#F2EFE9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "word",
+      "name": "Palabra",
+      "settings": [
+        {
+          "type": "text",
+          "id": "word",
+          "label": "Palabra",
+          "default": "Disciplina"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "SIMA — Sobre SIMA"
+    }
+  ]
+}
+{% endschema %}

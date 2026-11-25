@@ -1,0 +1,371 @@
+{%- assign sima_match = blank -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.handle == collection.handle -%}
+    {%- assign sima_match = block -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if sima_match != blank -%}
+  {% render 'measure-header-heights', only_on_desktop: true %}
+  {% style %}
+    #shopify-section-{{ section.id }} + .shopify-section,
+    #shopify-section-{{ section.id }} + .shopify-section + .shopify-section,
+    #shopify-section-{{ section.id }} + .shopify-section + .shopify-section + .shopify-section {
+      display: none;
+    }
+  {% endstyle %}
+
+  {%- assign sima_pos = sima_match.settings.image_position | default: 'center' -%}
+  {%- assign sima_pos_m = sima_match.settings.image_position_mobile | default: sima_pos -%}
+  {%- assign sima_img_m = sima_match.settings.image_mobile -%}
+  {%- capture sima_style -%}--sima-pos: {{ sima_pos }}; --sima-pos-m: {{ sima_pos_m }};{%- endcapture -%}
+  <sima-coleccion
+    class="sima-coleccion{% if sima_img_m != blank %} sima-coleccion--mobile-art{% endif %}"
+    {{ sima_match.shopify_attributes }}
+  >
+    <div class="sima-coleccion__frame">
+      {%- if sima_match.settings.image != blank -%}
+        {%- assign sima_img = sima_match.settings.image -%}
+        {%- assign sima_w = sima_img.width | at_most: 3840 -%}
+        {%- assign sima_widths = '750, 1100, 1500, ' | append: sima_w -%}
+        <picture>
+          {%- if sima_img_m != blank -%}
+            <source
+              media="(max-width: 749px)"
+              srcset="{{ sima_img_m | image_url: width: 750 }} 750w, {{ sima_img_m | image_url: width: 1100 }} 1100w, {{ sima_img_m | image_url: width: 1500 }} 1500w"
+              sizes="100vw"
+            >
+          {%- endif -%}
+          {{
+            sima_img
+            | image_url: width: sima_w
+            | image_tag:
+              class: 'sima-coleccion__media',
+              widths: sima_widths,
+              sizes: '100vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: '',
+              style: sima_style
+          }}
+        </picture>
+      {%- elsif section.settings.video != blank -%}
+        {{
+          section.settings.video
+          | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            class: 'sima-coleccion__media',
+            image_size: '1600x'
+        }}
+      {%- else -%}
+        <video
+          class="sima-coleccion__media"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          src="{{ 'sima-coleccion.mp4' | asset_url }}"
+        ></video>
+      {%- endif -%}
+      <div class="sima-coleccion__shade"></div>
+    </div>
+    <div class="sima-coleccion__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="sima-coleccion__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="sima-coleccion__title">{{ sima_match.settings.title }}</h1>
+      <div class="sima-coleccion__row">
+        {%- if sima_match.settings.text != blank -%}
+          <p class="sima-coleccion__text">{{ sima_match.settings.text }}</p>
+        {%- endif -%}
+        <a class="sima-coleccion__cta" href="#productos">{{ section.settings.button_label }}</a>
+      </div>
+    </div>
+  </sima-coleccion>
+
+  <script>
+    if (!customElements.get('sima-coleccion')) {
+      customElements.define(
+        'sima-coleccion',
+        class extends HTMLElement {
+          connectedCallback() {
+            const link = this.querySelector('.sima-coleccion__cta');
+            link?.addEventListener('click', (event) => {
+              const grid = document.querySelector('#productos') || document.querySelector('[id$="__main"]');
+              if (!grid) return;
+              event.preventDefault();
+              const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+              const wrapper = document.querySelector('.page-wrapper');
+              const wrapperScrolls = wrapper && wrapper.scrollHeight > wrapper.clientHeight + 2;
+              const header = document.querySelector('.header-section');
+              const offset = header ? header.getBoundingClientRect().height : 0;
+              if (wrapperScrolls) {
+                const top = grid.getBoundingClientRect().top - wrapper.getBoundingClientRect().top + wrapper.scrollTop;
+                wrapper.scrollTo({ top, behavior });
+              } else {
+                const top = grid.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top, behavior });
+              }
+            });
+          }
+        }
+      );
+    }
+  </script>
+{%- endif -%}
+
+{% stylesheet %}
+  .sima-coleccion-hero-section:not(:has(.sima-coleccion)) {
+    display: none;
+  }
+
+  .sima-coleccion {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* Alto = 16:9 de la foto, sin pasar del espacio visible bajo el header (todo el hero cabe en pantalla). */
+    min-height: max(26rem, min(56.25vw, calc(100svh - var(--header-group-height, 110px))));
+    overflow: hidden;
+    background: #121212;
+    color: #fff;
+  }
+
+  .sima-coleccion__frame {
+    position: absolute;
+    inset: 0;
+  }
+
+  .sima-coleccion__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--sima-pos, center);
+  }
+
+  .sima-coleccion__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.85), rgb(0 0 0 / 0.35), rgb(0 0 0 / 0.1));
+  }
+
+  .sima-coleccion__content {
+    position: relative;
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding: 8rem var(--page-margin) 3rem;
+  }
+
+  .sima-coleccion__eyebrow {
+    margin: 0;
+    color: rgb(255 255 255 / 0.75);
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .sima-coleccion__title {
+    margin: 1rem 0 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(4.5rem, min(15vw, 22svh), 14rem);
+    font-weight: 700;
+    line-height: 0.85;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+
+  .sima-coleccion__row {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .sima-coleccion__text {
+    max-width: 38ch;
+    margin: 0;
+    color: rgb(255 255 255 / 0.85);
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    line-height: 1.625;
+  }
+
+  .sima-coleccion__cta {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    padding: 0.875rem 1.25rem;
+    background: #fff;
+    color: #121212;
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 300ms ease;
+  }
+
+  .sima-coleccion__cta:hover {
+    background: #f2efe9;
+  }
+
+  .sima-coleccion__cta:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .sima-coleccion {
+      justify-content: flex-start;
+      min-height: 0;
+    }
+
+    .sima-coleccion__frame {
+      position: relative;
+      aspect-ratio: 4 / 3;
+    }
+
+    .sima-coleccion--mobile-art .sima-coleccion__frame {
+      aspect-ratio: 4 / 5;
+    }
+
+    .sima-coleccion__media {
+      object-position: var(--sima-pos-m, var(--sima-pos, center));
+    }
+
+    .sima-coleccion__shade {
+      background: linear-gradient(to top, #121212 0%, rgb(18 18 18 / 0.55) 22%, rgb(0 0 0 / 0) 50%);
+    }
+
+    /* El título siempre cabe en una línea: "ACCESORIOS" y "ZAPATILLAS" partían la palabra. */
+    .sima-coleccion__title {
+      font-size: clamp(2.75rem, 14vw, 4.5rem);
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .sima-coleccion__content {
+      margin-top: -2.75rem;
+      padding-top: 0;
+      padding-bottom: 2.5rem;
+    }
+  }
+
+  @media screen and (min-width: 640px) {
+    .sima-coleccion__row {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .sima-coleccion__content {
+      padding-bottom: 4rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-coleccion__cta {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Hero colección",
+  "tag": "section",
+  "class": "sima-coleccion-hero-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Antetítulo",
+      "default": "Colección SIMA"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Botón",
+      "default": "Ver productos"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "coleccion",
+      "name": "Colección",
+      "settings": [
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Handle",
+          "info": "El handle de la colección padre. En las demás colecciones este hero no aparece."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Hombre"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Frase"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen",
+          "info": "Reemplaza el video solo en esta colección. Sube la imagen al tamaño más grande que tengas."
+        },
+        {
+          "type": "text",
+          "id": "image_position",
+          "label": "Encuadre de la imagen",
+          "info": "Posición horizontal y vertical, por ejemplo 72% 25%. Mueve la imagen cuando la pantalla la recorta.",
+          "default": "center"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Imagen en celular",
+          "info": "Opcional. Una versión vertical (4:5) para el celular. Si está vacía, el celular usa la imagen de arriba."
+        },
+        {
+          "type": "text",
+          "id": "image_position_mobile",
+          "label": "Encuadre en celular",
+          "info": "Opcional. Igual que el encuadre, solo en el celular. Por ejemplo 80% 30%. Si está vacío, usa el encuadre de arriba."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "SIMA — Hero colección"
+    }
+  ]
+}
+{% endschema %}

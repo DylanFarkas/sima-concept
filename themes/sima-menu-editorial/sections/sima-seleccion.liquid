@@ -1,0 +1,851 @@
+{%- liquid
+  assign total = 0
+  assign first_product = blank
+  for block in section.blocks
+    if block.settings.product != blank
+      assign total = total | plus: 1
+      if first_product == blank
+        assign first_product = block.settings.product
+      endif
+    endif
+  endfor
+
+  assign total_label = total
+  if total < 10
+    assign total_label = total | prepend: '0'
+  endif
+-%}
+
+<sima-seleccion class="sima-seleccion" style="--sima-seleccion-bg: {{ section.settings.background }};">
+  <div class="sima-seleccion__inner">
+    <div class="sima-seleccion__head">
+      <h2 class="sima-seleccion__title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <p class="sima-seleccion__lead">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if total > 0 -%}
+      <div class="sima-seleccion__layout">
+        <div class="sima-seleccion__stage">
+          <a
+            class="sima-seleccion__stage-link"
+            href="{{ first_product.url }}"
+            tabindex="-1"
+            aria-hidden="true"
+            data-stage-link
+          >
+            {%- assign frame_index = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.product != blank -%}
+                {%- assign frame_index = frame_index | plus: 1 -%}
+                {%- assign photo = block.settings.image -%}
+                {%- if photo == blank -%}
+                  {%- assign photo = block.settings.product.featured_image -%}
+                {%- endif -%}
+                {%- if photo != blank -%}
+                  <img
+                    class="sima-seleccion__frame{% if frame_index == 1 %} is-active{% endif %}"
+                    src="{{ photo | image_url: width: 1400 }}"
+                    alt=""
+                    width="1400"
+                    height="1600"
+                    loading="lazy"
+                    data-frame="{{ frame_index }}"
+                  >
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <span class="sima-seleccion__shade"></span>
+            <span class="sima-seleccion__caption">
+              <span class="sima-seleccion__caption-copy">
+                <span class="sima-seleccion__counter" data-stage-counter>01 / {{ total_label }}</span>
+                <span class="sima-seleccion__piece" data-stage-title>{{ first_product.title }}</span>
+              </span>
+              <span class="sima-seleccion__caption-meta">
+                <span class="sima-seleccion__stage-price" data-stage-price>{{ first_product.price | money }}</span>
+                <span class="sima-seleccion__cta">{{ section.settings.button_label }}</span>
+              </span>
+            </span>
+          </a>
+        </div>
+
+        <ol class="sima-seleccion__list">
+          {%- assign shown = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.product != blank -%}
+              {%- assign shown = shown | plus: 1 -%}
+              {%- assign product = block.settings.product -%}
+              {%- assign num = shown -%}
+              {%- if shown < 10 -%}
+                {%- assign num = shown | prepend: '0' -%}
+              {%- endif -%}
+              {%- assign photo = block.settings.image -%}
+              {%- if photo == blank -%}
+                {%- assign photo = product.featured_image -%}
+              {%- endif -%}
+              {%- assign row_title = block.settings.label -%}
+              {%- if row_title == blank -%}
+                {%- assign row_title = product.title -%}
+              {%- endif -%}
+              <li class="sima-seleccion__item" {{ block.shopify_attributes }}>
+                <div class="sima-seleccion__fold">
+                  <button
+                    type="button"
+                    class="sima-seleccion__toggle{% if shown == 1 %} is-open{% endif %}"
+                    aria-expanded="{% if shown == 1 %}true{% else %}false{% endif %}"
+                    aria-controls="sima-fold-{{ section.id }}-{{ shown }}"
+                    data-fold
+                  >
+                    <span class="sima-seleccion__toggle-num">{{ num }}</span>
+                    <span class="sima-seleccion__toggle-name">{{ row_title }}</span>
+                    <span class="sima-seleccion__toggle-price">{{ product.price | money }}</span>
+                    <span class="sima-seleccion__plus" aria-hidden="true"></span>
+                  </button>
+                  <div
+                    id="sima-fold-{{ section.id }}-{{ shown }}"
+                    class="sima-seleccion__panel{% if shown == 1 %} is-open{% endif %}"
+                    data-panel
+                    {% unless shown == 1 %}inert{% endunless %}
+                  >
+                    <div class="sima-seleccion__panel-clip">
+                      <a class="sima-seleccion__shot" href="{{ product.url }}">
+                        {%- if photo != blank -%}
+                          <img
+                            src="{{ photo | image_url: width: 1200 }}"
+                            alt=""
+                            width="900"
+                            height="1125"
+                            loading="{% if shown == 1 %}eager{% else %}lazy{% endif %}"
+                          >
+                        {%- endif -%}
+                        <span class="sima-seleccion__shot-shade"></span>
+                        <span class="sima-seleccion__shot-cta">{{ section.settings.button_label }}</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  class="sima-seleccion__row{% if shown == 1 %} is-active{% endif %}"
+                  href="{{ product.url }}"
+                  data-index="{{ shown }}"
+                  data-title="{{ row_title | escape }}"
+                  data-price="{{ product.price | money | escape }}"
+                  data-counter="{{ num }} / {{ total_label }}"
+                >
+                  <span class="sima-seleccion__thumb">
+                    {%- if photo != blank -%}
+                      {{
+                        photo
+                        | image_url: width: 200
+                        | image_tag:
+                          alt: '',
+                          loading: 'lazy',
+                          class: 'sima-seleccion__thumb-img'
+                      }}
+                    {%- endif -%}
+                  </span>
+                  <span class="sima-seleccion__num">{{ num }}</span>
+                  <span class="sima-seleccion__name">{{ row_title }}</span>
+                  <span class="sima-seleccion__price">{{ product.price | money }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ol>
+      </div>
+    {%- endif -%}
+  </div>
+</sima-seleccion>
+
+{% stylesheet %}
+  .sima-seleccion {
+    display: block;
+    background: var(--sima-seleccion-bg, #f2efe9);
+    color: #121212;
+    padding-block: 5rem;
+  }
+
+  .sima-seleccion__inner {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-seleccion__head {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sima-seleccion__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .sima-seleccion__lead {
+    margin: 0;
+    max-width: 34ch;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(18 18 18 / 0.7);
+  }
+
+  .sima-seleccion__layout {
+    margin-top: 2.5rem;
+  }
+
+  .sima-seleccion__stage {
+    display: none;
+  }
+
+  .sima-seleccion__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgb(18 18 18 / 0.15);
+  }
+
+  .sima-seleccion__item {
+    border-bottom: 1px solid rgb(18 18 18 / 0.15);
+  }
+
+  .sima-seleccion__row {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.875rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-seleccion__toggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding-block: 1rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .sima-seleccion__toggle:focus-visible,
+  .sima-seleccion__shot:focus-visible {
+    outline: 2px solid #121212;
+    outline-offset: 2px;
+  }
+
+  .sima-seleccion__shot:focus-visible {
+    outline-color: #fff;
+    outline-offset: -4px;
+  }
+
+  .sima-seleccion__toggle-num {
+    width: 1.5rem;
+    flex-shrink: 0;
+    font-family: var(--font-heading--family);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: rgb(18 18 18 / 0.4);
+    transition: color 300ms ease;
+  }
+
+  .sima-seleccion__toggle.is-open .sima-seleccion__toggle-num {
+    color: #121212;
+  }
+
+  .sima-seleccion__toggle-name {
+    min-width: 0;
+    flex: 1;
+    font-family: var(--font-heading--family);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: rgb(18 18 18 / 0.75);
+    transition: font-size 300ms ease, color 300ms ease;
+  }
+
+  .sima-seleccion__toggle.is-open .sima-seleccion__toggle-name {
+    font-size: 1.25rem;
+    color: #121212;
+  }
+
+  .sima-seleccion__toggle-price {
+    flex-shrink: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: rgb(18 18 18 / 0.7);
+  }
+
+  .sima-seleccion__plus {
+    position: relative;
+    width: 0.75rem;
+    height: 0.75rem;
+    flex-shrink: 0;
+    transition: transform 300ms ease;
+  }
+
+  .sima-seleccion__plus::before,
+  .sima-seleccion__plus::after {
+    content: '';
+    position: absolute;
+    background: #121212;
+  }
+
+  .sima-seleccion__plus::before {
+    inset-inline: 0;
+    top: 50%;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+
+  .sima-seleccion__plus::after {
+    inset-block: 0;
+    left: 50%;
+    width: 1.5px;
+    transform: translateX(-50%);
+  }
+
+  .sima-seleccion__toggle.is-open .sima-seleccion__plus {
+    transform: rotate(45deg);
+  }
+
+  .sima-seleccion__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sima-seleccion__panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .sima-seleccion__panel-clip {
+    overflow: hidden;
+  }
+
+  .sima-seleccion__shot {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    background: #e4e0d8;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-seleccion__shot img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.06);
+    transition: transform 700ms ease-out;
+  }
+
+  .sima-seleccion__panel.is-open .sima-seleccion__shot img {
+    transform: scale(1);
+  }
+
+  .sima-seleccion__shot-shade {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 33%;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.5), transparent);
+  }
+
+  .sima-seleccion__shot-cta {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    background: #fff;
+    color: #121212;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body--family);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .sima-seleccion__shot:hover .sima-seleccion__shot-cta {
+    background: #f2efe9;
+  }
+
+  .sima-seleccion__row:focus-visible {
+    outline: 2px solid #121212;
+    outline-offset: 2px;
+  }
+
+  .sima-seleccion__thumb {
+    position: relative;
+    display: block;
+    width: 3.25rem;
+    height: 4rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: #e4e0d8;
+  }
+
+  .sima-seleccion__thumb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-seleccion__num {
+    display: none;
+  }
+
+  .sima-seleccion__name {
+    min-width: 0;
+    flex: 1;
+    font-family: var(--font-heading--family);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .sima-seleccion__price {
+    flex-shrink: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  @media screen and (min-width: 640px) {
+    .sima-seleccion__head {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .sima-seleccion__toggle {
+      gap: 1.25rem;
+    }
+
+    .sima-seleccion__toggle-name {
+      font-size: 1rem;
+    }
+
+    .sima-seleccion__toggle.is-open .sima-seleccion__toggle-name {
+      font-size: 1.5rem;
+    }
+
+    .sima-seleccion__toggle-price {
+      font-size: 0.875rem;
+    }
+
+    .sima-seleccion__shot {
+      aspect-ratio: 3 / 2;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .sima-seleccion {
+      padding-block: 7rem;
+    }
+
+    .sima-seleccion__layout {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: 2rem;
+      align-items: stretch;
+      margin-top: 3.5rem;
+    }
+
+    .sima-seleccion__stage,
+    .sima-seleccion__list {
+      height: min(70svh, 700px);
+    }
+
+    .sima-seleccion__stage {
+      display: block;
+      position: relative;
+      background: #e4e0d8;
+    }
+
+    .sima-seleccion__stage-link {
+      position: absolute;
+      inset: 0;
+      display: block;
+      overflow: hidden;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .sima-seleccion__frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 700ms ease-out, transform 700ms ease-out;
+    }
+
+    .sima-seleccion__frame.is-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .sima-seleccion__shade {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.2) 45%, rgb(0 0 0 / 0.05));
+    }
+
+    .sima-seleccion__caption {
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.75rem;
+    }
+
+    .sima-seleccion__caption-copy {
+      min-width: 0;
+    }
+
+    .sima-seleccion__counter {
+      display: block;
+      font-family: var(--font-heading--family);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgb(255 255 255 / 0.65);
+    }
+
+    .sima-seleccion__piece {
+      display: block;
+      max-width: 16ch;
+      margin-top: 0.75rem;
+      font-family: var(--font-heading--family);
+      font-size: clamp(1.85rem, 2.6vw, 3rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.015em;
+      text-transform: uppercase;
+    }
+
+    .sima-seleccion__caption-meta {
+      display: flex;
+      flex-shrink: 0;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    .sima-seleccion__stage-price {
+      font-family: var(--font-heading--family);
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .sima-seleccion__cta {
+      background: #fff;
+      color: #121212;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-body--family);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .sima-seleccion__stage-link:hover .sima-seleccion__cta {
+      background: #f2efe9;
+    }
+
+    .sima-seleccion__fold {
+      display: none;
+    }
+
+    .sima-seleccion__list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 0;
+    }
+
+    .sima-seleccion__item {
+      border-bottom-color: rgb(18 18 18 / 0.12);
+    }
+
+    .sima-seleccion__item:first-child {
+      border-top: 1px solid rgb(18 18 18 / 0.12);
+    }
+
+    .sima-seleccion__row {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1rem 1.25rem;
+      color: rgb(18 18 18 / 0.75);
+    }
+
+    .sima-seleccion__row:hover {
+      background: rgb(18 18 18 / 0.04);
+      color: #121212;
+    }
+
+    .sima-seleccion__row:hover .sima-seleccion__name {
+      transform: translateX(0.25rem);
+    }
+
+    .sima-seleccion__row.is-active,
+    .sima-seleccion__row.is-active:hover {
+      background: #121212;
+      color: #f2efe9;
+    }
+
+    .sima-seleccion__thumb {
+      display: none;
+    }
+
+    .sima-seleccion__num {
+      display: block;
+      width: 1.75rem;
+      flex-shrink: 0;
+      font-family: var(--font-heading--family);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: rgb(18 18 18 / 0.4);
+    }
+
+    .sima-seleccion__row.is-active .sima-seleccion__num {
+      color: rgb(242 239 233 / 0.55);
+    }
+
+    .sima-seleccion__name {
+      font-size: 1.0625rem;
+      transition: transform 300ms ease;
+    }
+
+    .sima-seleccion__price {
+      color: rgb(18 18 18 / 0.7);
+    }
+
+    .sima-seleccion__row.is-active .sima-seleccion__price {
+      color: rgb(242 239 233 / 0.8);
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    .sima-seleccion__layout {
+      gap: 3rem;
+    }
+
+    .sima-seleccion__caption {
+      padding: 2.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-seleccion__frame,
+    .sima-seleccion__name,
+    .sima-seleccion__toggle-name,
+    .sima-seleccion__toggle-num,
+    .sima-seleccion__plus,
+    .sima-seleccion__panel,
+    .sima-seleccion__shot img {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class SimaSeleccion extends HTMLElement {
+    connectedCallback() {
+      this.rows = [...this.querySelectorAll('[data-index]')];
+      this.frames = [...this.querySelectorAll('[data-frame]')];
+      this.stageLink = this.querySelector('[data-stage-link]');
+      this.stageCounter = this.querySelector('[data-stage-counter]');
+      this.stageTitle = this.querySelector('[data-stage-title]');
+      this.stagePrice = this.querySelector('[data-stage-price]');
+      if (!this.rows.length) return;
+
+      this.onEnter = (event) => {
+        const row = event.currentTarget;
+        if (row instanceof HTMLElement) this.activate(row);
+      };
+
+      this.rows.forEach((row) => {
+        row.addEventListener('mouseenter', this.onEnter);
+        row.addEventListener('focus', this.onEnter);
+      });
+
+      const current = this.rows.find((row) => row.classList.contains('is-active')) || this.rows[0];
+      this.activate(current);
+
+      this.folds = [...this.querySelectorAll('[data-fold]')];
+      this.onFold = (event) => this.openFold(event.currentTarget);
+      this.folds.forEach((fold) => fold.addEventListener('click', this.onFold));
+    }
+
+    disconnectedCallback() {
+      this.holdUntil = 0;
+      if (this.holdFrame) cancelAnimationFrame(this.holdFrame);
+      if (this.rows && this.onEnter) {
+        this.rows.forEach((row) => {
+          row.removeEventListener('mouseenter', this.onEnter);
+          row.removeEventListener('focus', this.onEnter);
+        });
+      }
+      if (this.folds && this.onFold) {
+        this.folds.forEach((fold) => fold.removeEventListener('click', this.onFold));
+      }
+    }
+
+    openFold(button) {
+      if (!(button instanceof HTMLElement)) return;
+      const closing = button.getAttribute('aria-expanded') === 'true';
+      const anchor = button.getBoundingClientRect().top;
+      const panelId = button.getAttribute('aria-controls');
+
+      this.folds.forEach((fold) => {
+        const open = !closing && fold === button;
+        fold.classList.toggle('is-open', open);
+        fold.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      this.querySelectorAll('[data-panel]').forEach((panel) => {
+        const open = !closing && panel.id === panelId;
+        panel.classList.toggle('is-open', open);
+        if (open) panel.removeAttribute('inert');
+        else panel.setAttribute('inert', '');
+      });
+
+      if (this.holdFrame) cancelAnimationFrame(this.holdFrame);
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.holdUntil = performance.now() + (motion ? 80 : 600);
+      const tick = () => {
+        const drift = button.getBoundingClientRect().top - anchor;
+        if (drift) {
+          const scroller = this.scroller();
+          if (scroller) scroller.scrollTop += drift;
+          else window.scrollBy({ top: drift, behavior: 'instant' });
+        }
+        if (performance.now() < this.holdUntil) this.holdFrame = requestAnimationFrame(tick);
+      };
+      this.holdFrame = requestAnimationFrame(tick);
+    }
+
+    scroller() {
+      const wrapper = document.querySelector('.page-wrapper');
+      if (wrapper && wrapper.scrollHeight > wrapper.clientHeight + 2) return wrapper;
+      return null;
+    }
+
+    activate(row) {
+      const index = row.dataset.index;
+      this.rows.forEach((item) => item.classList.toggle('is-active', item === row));
+      this.frames.forEach((frame) => {
+        frame.classList.toggle('is-active', frame.dataset.frame === index);
+      });
+      if (this.stageCounter) this.stageCounter.textContent = row.dataset.counter || '';
+      if (this.stageTitle) this.stageTitle.textContent = row.dataset.title || '';
+      if (this.stagePrice) this.stagePrice.textContent = row.dataset.price || '';
+      if (this.stageLink) this.stageLink.href = row.getAttribute('href') || '#';
+    }
+  }
+
+  if (!customElements.get('sima-seleccion')) {
+    customElements.define('sima-seleccion', SimaSeleccion);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "SIMA — Selección",
+  "tag": "section",
+  "class": "sima-seleccion-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Selección SIMA"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Piezas para empezar, volver o seguir. Calidad a buen precio."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Botón de la foto",
+      "default": "Ver pieza"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Fondo",
+      "default": "#F2EFE9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "piece",
+      "name": "Pieza",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Nombre",
+          "info": "Si queda vacío, se usa el nombre del producto."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto propia"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "SIMA — Selección"
+    }
+  ]
+}
+{% endschema %}

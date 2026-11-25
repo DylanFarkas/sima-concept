@@ -1,0 +1,614 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "t:names.footer",
+  "sections": {
+    "sima_footer": {
+      "type": "footer",
+      "disabled": true,
+      "blocks": {
+        "news": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 6,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "news_title": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>INSPIRACIÓN, CONSEJOS Y NOVEDADES.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "h6",
+                "font": "var(--font-heading--family)",
+                "font_size": "0.875rem",
+                "line_height": "normal",
+                "letter_spacing": "loose",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "news_text": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>Recibe contenido exclusivo para tu mejor versión.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color2 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 14,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "news_form": {
+              "type": "email-signup",
+              "name": "t:names.email_signup",
+              "settings": {
+                "width": "fill",
+                "custom_width": 100,
+                "heading": "",
+                "heading_text_color": "",
+                "heading_preset": "",
+                "border_style": "all",
+                "input_style": "custom",
+                "border_width": 1,
+                "border_radius": 0,
+                "input_background_color": "rgba(0,0,0,0)",
+                "input_text_color": "{{ settings.color_palette.foreground }}",
+                "input_border_color": "#4a4a4a",
+                "input_type_preset": "paragraph",
+                "style_class": "button-unstyled",
+                "custom_button_background": "rgba(0,0,0,0)",
+                "custom_button_text": "{{ settings.color_palette.foreground }}",
+                "custom_button_border": "rgba(0,0,0,0)",
+                "link_text_color": "{{ settings.color_palette.foreground }}",
+                "display_type": "text",
+                "label": "SUSCRIBIRME",
+                "integrated_button": true,
+                "button_type_preset": "h6",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "news_title",
+            "news_text",
+            "news_form"
+          ]
+        },
+        "brand": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 0,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "brand_logo": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<div class=\"sima-footer-logo\">SIMA</div>"
+              },
+              "blocks": {}
+            },
+            "brand_lema": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>DISCIPLINA TE LLEVA<br/>DONDE LA MOTIVACIÓN NO PUEDE.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "h6",
+                "font": "var(--font-heading--family)",
+                "font_size": "0.6875rem",
+                "line_height": "normal",
+                "letter_spacing": "loose",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color2 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 10,
+                "padding-block-end": 18,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "social_links_maJx8T": {
+              "type": "social-links",
+              "name": "t:names.social_media_links",
+              "settings": {
+                "icon_color": "#ffffff",
+                "facebook_url": "https://www.facebook.com/simalifestyle.co/",
+                "instagram_url": "https://www.instagram.com/sima._co_?stkn=dThleXpvMHVtZjh4",
+                "youtube_url": "",
+                "tiktok_url": "https://www.tiktok.com/@sima16547?_r=1&_t=ZS-99vCDbUdrSm",
+                "twitter_url": "",
+                "threads_url": "",
+                "linkedin_url": "",
+                "bluesky_url": "",
+                "snapchat_url": "",
+                "pinterest_url": "",
+                "tumblr_url": "",
+                "vimeo_url": "",
+                "custom_url": "https://wa.me/573189154899"
+              },
+              "blocks": {}
+            },
+            "brand_redes": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": ""
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "brand_logo",
+            "brand_lema",
+            "social_links_maJx8T",
+            "brand_redes"
+          ]
+        },
+        "nav": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 30,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "nav_enlaces": {
+              "type": "menu",
+              "name": "t:names.menu",
+              "settings": {
+                "menu": "footer-enlaces",
+                "heading": "ENLACES",
+                "menu_spacing": 9,
+                "show_as_accordion": false,
+                "accordion_icon": "caret",
+                "accordion_dividers": false,
+                "background_color": "",
+                "text_color": "",
+                "heading_preset": "h6",
+                "link_preset": "paragraph",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "nav_ayuda": {
+              "type": "menu",
+              "name": "t:names.menu",
+              "settings": {
+                "menu": "footer-ayuda",
+                "heading": "AYUDA",
+                "menu_spacing": 9,
+                "show_as_accordion": false,
+                "accordion_icon": "caret",
+                "accordion_dividers": false,
+                "background_color": "",
+                "text_color": "",
+                "heading_preset": "h6",
+                "link_preset": "paragraph",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "nav_enlaces",
+            "nav_ayuda"
+          ]
+        }
+      },
+      "block_order": [
+        "news",
+        "brand",
+        "nav"
+      ],
+      "name": "SIMA — Footer",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 40,
+        "background_color": "",
+        "padding-block-start": 56,
+        "padding-block-end": 40
+      }
+    },
+    "sima_footer_bar": {
+      "type": "footer",
+      "disabled": true,
+      "blocks": {
+        "bar_left": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 0,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "inner": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<p class=\"sima-bar\">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.</p>"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "inner"
+          ]
+        },
+        "bar_right": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-end",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-end",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 0,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "inner": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<p class=\"sima-bar sima-bar--right\">Hecho con propósito. Diseñado para crecer.</p>"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "inner"
+          ]
+        }
+      },
+      "block_order": [
+        "bar_left",
+        "bar_right"
+      ],
+      "name": "SIMA — Pie legal",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 20,
+        "background_color": "",
+        "padding-block-start": 22,
+        "padding-block-end": 26
+      }
+    },
+    "sima_trazo": {
+      "type": "sima-trazo",
+      "blocks": {
+        "tienda": {
+          "type": "column",
+          "settings": {
+            "title": "Tienda",
+            "link_1_label": "Hombre",
+            "link_1_url": "shopify://collections/hombre",
+            "link_2_label": "Mujer",
+            "link_2_url": "shopify://collections/mujer",
+            "link_3_label": "Zapatillas",
+            "link_3_url": "shopify://collections/zapatos",
+            "link_4_label": "Tech",
+            "link_4_url": "shopify://collections/tecnologia",
+            "link_5_label": "Suplementos",
+            "link_5_url": "shopify://collections/suplementos",
+            "link_6_label": "Accesorios",
+            "link_6_url": "shopify://collections/accesorios"
+          }
+        },
+        "sima": {
+          "type": "column",
+          "settings": {
+            "title": "SIMA",
+            "link_1_label": "Nosotros",
+            "link_1_url": "shopify://pages/nosotros",
+            "link_2_label": "Comunidad",
+            "link_2_url": "shopify://pages/comunidad",
+            "link_3_label": "Contacto",
+            "link_3_url": "https://wa.me/573189154899"
+          }
+        },
+        "ayuda": {
+          "type": "column",
+          "settings": {
+            "title": "Ayuda",
+            "link_1_label": "Guía de tallas",
+            "link_1_url": "shopify://pages/guia-de-tallas",
+            "link_2_label": "Preguntas frecuentes",
+            "link_2_url": "shopify://pages/preguntas-frecuentes",
+            "link_3_label": "Envíos",
+            "link_3_url": "shopify://pages/envios",
+            "link_4_label": "Cambios y devoluciones",
+            "link_4_url": "shopify://pages/cambios-y-devoluciones",
+            "link_5_label": "Política de privacidad",
+            "link_5_url": "shopify://pages/politica-de-privacidad",
+            "link_6_label": "Asesoría",
+            "link_6_url": "https://wa.me/573189154899"
+          }
+        },
+        "facebook": {
+          "type": "social",
+          "settings": {
+            "label": "Facebook",
+            "link": "https://www.facebook.com/simalifestyle.co/",
+            "icon": "none"
+          }
+        },
+        "instagram": {
+          "type": "social",
+          "settings": {
+            "label": "Instagram",
+            "link": "https://www.instagram.com/sima._co_/",
+            "icon": "none"
+          }
+        },
+        "tiktok": {
+          "type": "social",
+          "settings": {
+            "label": "TikTok",
+            "link": "https://www.tiktok.com/@sima16547",
+            "icon": "none"
+          }
+        },
+        "whatsapp": {
+          "type": "social",
+          "settings": {
+            "label": "WhatsApp",
+            "link": "https://wa.me/573189154899",
+            "icon": "whatsapp"
+          }
+        }
+      },
+      "block_order": [
+        "tienda",
+        "sima",
+        "ayuda",
+        "facebook",
+        "instagram",
+        "tiktok",
+        "whatsapp"
+      ],
+      "name": "SIMA — Trazo",
+      "settings": {
+        "heading": "Disciplina te lleva",
+        "heading_muted": "donde la motivación no puede.",
+        "newsletter_text": "Recibe contenido exclusivo para tu mejor versión.",
+        "newsletter_placeholder": "Dirección de correo electrónico",
+        "newsletter_button": "Suscribirme",
+        "newsletter_success": "Gracias. Ya estás en la lista.",
+        "social_title": "Conecta",
+        "logo": "shopify://shop_images/logo.jpg",
+        "logo_caption": "Lifestyle",
+        "copyright": "Todos los derechos reservados.",
+        "motto": "Disciplina · Propósito · Fe",
+        "back_label": "Volver arriba ↑",
+        "background": "#121212"
+      }
+    },
+    "sima_asesoria": {
+      "type": "sima-asesoria",
+      "settings": {
+        "enabled": true,
+        "label": "Asesoría por WhatsApp",
+        "link": "https://wa.me/573189154899",
+        "message": "Hola, quiero asesoría."
+      }
+    }
+  },
+  "order": [
+    "sima_trazo",
+    "sima_footer",
+    "sima_footer_bar",
+    "sima_asesoria"
+  ]
+}

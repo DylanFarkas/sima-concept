@@ -1,0 +1,33 @@
+{%- doc -%}
+  Línea inicial de equivalencia, siempre en talla Colombia.
+  El script la actualiza cuando el cliente cambia a EUR o US.
+
+  @param {string} col - Talla de Colombia seleccionada.
+  @param {string} audience - hombre, mujer o unisex.
+{%- enddoc -%}
+{%- liquid
+  assign clean_col = col | strip
+  if audience == 'unisex'
+    echo 'Elige mujer u hombre para ver EUR y US.'
+  else
+    if audience == 'mujer'
+      assign rows = '35|36|5,36|37|6,37|38|6.5,38|39|7.5,39|40|8.5'
+    else
+      assign rows = '37|40|8.5,38|41|9.5,39|42|10,40|43|11,41-42|44|12,43|45|13'
+    endif
+    assign key = clean_col | replace: ' ', '' | replace: '/', '-'
+    assign found = false
+    assign parts = rows | split: ','
+    for row in parts
+      assign cell = row | split: '|'
+      if cell[0] == key
+        echo clean_col | append: ' Colombia - ' | append: cell[1] | append: ' EUR - ' | append: cell[2] | append: ' US'
+        assign found = true
+        break
+      endif
+    endfor
+    unless found
+      echo clean_col | append: ' Colombia no tiene equivalencia de ' | append: audience | append: '.'
+    endunless
+  endif
+-%}

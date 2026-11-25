@@ -1,0 +1,20 @@
+{% doc %}
+  Frase editorial con la última palabra en contorno.
+  @param {string} title - Frase completa
+  @param {string} [label] - Texto del enlace
+  @param {string} [link] - Destino del enlace
+  @example
+  {% render 'sima-grilla-frase', title: block.settings.title, label: block.settings.button_label, link: block.settings.button_link %}
+{% enddoc %}
+
+{%- assign sima_words = title | split: ' ' -%}
+{%- assign sima_last = sima_words | last -%}
+{%- capture sima_rest -%}
+  {%- for sima_word in sima_words -%}
+    {%- unless forloop.last -%}{{ sima_word }} {% endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+<p>{{ sima_rest | strip }} <span class="sima-grilla__stroke">{{ sima_last }}</span></p>
+{%- if label != blank and link != blank -%}
+  <a href="{{ link }}">{{ label }}</a>
+{%- endif -%}

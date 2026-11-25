@@ -1,0 +1,834 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "sima_coleccion": {
+      "type": "sima-coleccion-hero",
+      "blocks": {
+        "hombre": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "hombre",
+            "title": "Hombre",
+            "text": "Ropa de entrenamiento para cada sesión, del calentamiento a la última serie.",
+            "image": "shopify://shop_images/prueba-hero-hombre.jpg",
+            "image_position": "100% 15%",
+            "image_position_mobile": ""
+          }
+        },
+        "mujer": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "mujer",
+            "title": "Mujer",
+            "text": "Ropa para entrenar con estilo, también si estás empezando.",
+            "image": "shopify://shop_images/sima-mujer-hero2.png",
+            "image_position": "100% 70%",
+            "image_position_mobile": ""
+          }
+        },
+        "zapatos": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "zapatos",
+            "title": "Zapatillas",
+            "text": "Ligereza y soporte en cada kilómetro.",
+            "image": "shopify://shop_images/zapatillas-hero3.png",
+            "image_position": "center",
+            "image_position_mobile": ""
+          }
+        },
+        "tecnologia": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "tecnologia",
+            "title": "Tech",
+            "text": "Tecnología que impulsa tu entrenamiento.",
+            "image": "shopify://shop_images/sima-tech-hero4.jpg",
+            "image_position": "center",
+            "image_position_mobile": ""
+          }
+        },
+        "suplementos": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "suplementos",
+            "title": "Nutrición",
+            "text": "Nutrición que potencia tu mejor versión.",
+            "image": "shopify://shop_images/sima-nutricion-hero3.jpg",
+            "image_position": "center",
+            "image_position_mobile": ""
+          }
+        },
+        "accesorios": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "accesorios",
+            "title": "Accesorios",
+            "text": "Equipamiento para cada entrenamiento.",
+            "image": "shopify://shop_images/sima-accesorios-hero1.jpg",
+            "image_position": "",
+            "image_position_mobile": ""
+          }
+        }
+      },
+      "block_order": [
+        "hombre",
+        "mujer",
+        "zapatos",
+        "tecnologia",
+        "suplementos",
+        "accesorios"
+      ],
+      "name": "SIMA — Hero colección",
+      "settings": {
+        "eyebrow": "Colección SIMA",
+        "button_label": "Ver productos"
+      }
+    },
+    "sima_subcoleccion": {
+      "type": "sima-subcoleccion",
+      "blocks": {
+        "hombre_conjuntos": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "hombre-conjuntos",
+            "title": "Conjuntos",
+            "parent_label": "Hombre",
+            "parent_handle": "hombre",
+            "tone": "dark"
+          }
+        },
+        "hombre_camisetas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "hombre-camisetas",
+            "title": "Camisetas",
+            "parent_label": "Hombre",
+            "parent_handle": "hombre",
+            "tone": "dark"
+          }
+        },
+        "hombre_pantalonetas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "hombre-pantalonetas",
+            "title": "Pantalonetas",
+            "parent_label": "Hombre",
+            "parent_handle": "hombre",
+            "tone": "dark"
+          }
+        },
+        "hombre_sudaderas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "hombre-sudaderas",
+            "title": "Sudaderas",
+            "parent_label": "Hombre",
+            "parent_handle": "hombre",
+            "tone": "dark"
+          }
+        },
+        "hombre_basics": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "hombre-basics",
+            "title": "Basics",
+            "parent_label": "Hombre",
+            "parent_handle": "hombre",
+            "tone": "dark"
+          }
+        },
+        "mujer_pantalonetas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-pantalonetas",
+            "title": "Pantalonetas",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
+        },
+        "mujer_chaquetas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-chaquetas",
+            "title": "Chaquetas",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
+        },
+        "mujer_sets": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-sets",
+            "title": "Sets",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
+        },
+        "mujer_enterizos": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-enterizos",
+            "title": "Enterizos",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
+        },
+        "mujer_vestidos": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-vestidos",
+            "title": "Vestidos",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
+        },
+        "mujer_basics": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-basics",
+            "title": "Basics",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
+        },
+        "zapatos_hombre": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "zapatos-hombre",
+            "title": "Hombre",
+            "parent_label": "Zapatillas",
+            "parent_handle": "zapatos",
+            "tone": "dark"
+          }
+        },
+        "zapatos_mujer": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "zapatos-mujer",
+            "title": "Mujer",
+            "parent_label": "Zapatillas",
+            "parent_handle": "zapatos",
+            "tone": "dark"
+          }
+        },
+        "zapatos_unisex": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "zapatos-unisex",
+            "title": "Unisex",
+            "parent_label": "Zapatillas",
+            "parent_handle": "zapatos",
+            "tone": "dark"
+          }
+        },
+        "tecnologia_audifonos": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "tecnologia-audifonos",
+            "title": "Audífonos",
+            "parent_label": "Tech",
+            "parent_handle": "tecnologia",
+            "tone": "dark"
+          }
+        },
+        "tecnologia_relojes": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "tecnologia-relojes",
+            "title": "Relojes y bandas",
+            "parent_label": "Tech",
+            "parent_handle": "tecnologia",
+            "tone": "dark"
+          }
+        },
+        "suplementos_proteina": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "suplementos-proteina",
+            "title": "Proteína",
+            "parent_label": "Nutrición",
+            "parent_handle": "suplementos",
+            "tone": "light"
+          }
+        },
+        "suplementos_aminoacidos": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "suplementos-aminoacidos",
+            "title": "Aminoácidos",
+            "parent_label": "Nutrición",
+            "parent_handle": "suplementos",
+            "tone": "light"
+          }
+        },
+        "suplementos_creatinas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "suplementos-creatinas",
+            "title": "Creatinas",
+            "parent_label": "Nutrición",
+            "parent_handle": "suplementos",
+            "tone": "light"
+          }
+        },
+        "suplementos_preentreno": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "suplementos-preentreno",
+            "title": "Preentreno",
+            "parent_label": "Nutrición",
+            "parent_handle": "suplementos",
+            "tone": "light"
+          }
+        },
+        "accesorios_entrenamiento": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "accesorios-entrenamiento",
+            "title": "Entrenamiento",
+            "parent_label": "Accesorios",
+            "parent_handle": "accesorios",
+            "tone": "dark"
+          }
+        },
+        "accesorios_hidratacion": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "accesorios-hidratacion",
+            "title": "Hidratación",
+            "parent_label": "Accesorios",
+            "parent_handle": "accesorios",
+            "tone": "dark"
+          }
+        }
+      },
+      "block_order": [
+        "hombre_conjuntos",
+        "hombre_camisetas",
+        "hombre_pantalonetas",
+        "hombre_sudaderas",
+        "hombre_basics",
+        "mujer_pantalonetas",
+        "mujer_chaquetas",
+        "mujer_sets",
+        "mujer_enterizos",
+        "mujer_vestidos",
+        "mujer_basics",
+        "zapatos_hombre",
+        "zapatos_mujer",
+        "zapatos_unisex",
+        "tecnologia_audifonos",
+        "tecnologia_relojes",
+        "suplementos_proteina",
+        "suplementos_aminoacidos",
+        "suplementos_creatinas",
+        "suplementos_preentreno",
+        "accesorios_entrenamiento",
+        "accesorios_hidratacion"
+      ],
+      "name": "SIMA — Subcolección",
+      "settings": {}
+    },
+    "hero_4UwKwP": {
+      "type": "hero",
+      "blocks": {
+        "spacer_zVqNmb": {
+          "type": "spacer",
+          "settings": {
+            "size": "pixel",
+            "percent_size": 100,
+            "pixel_size": 24,
+            "custom_mobile_size": false,
+            "size_mobile": "percent",
+            "percent_size_mobile": 100,
+            "pixel_size_mobile": 120
+          },
+          "blocks": {}
+        },
+        "marquee_9UyhpP": {
+          "type": "_marquee",
+          "settings": {
+            "movement_direction": "normal",
+            "background_color": "",
+            "transparent_background": true,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "gap_between_elements": 24
+          },
+          "blocks": {
+            "text_WfDiTn": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Explora nuestras últimas referencias.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h1",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_WfDiTn"
+          ]
+        },
+        "button_9eD7bj": {
+          "type": "button",
+          "settings": {
+            "label": "Comprar ahora",
+            "link": "shopify://collections/zapatos",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "custom_button_background": "{{ settings.color_palette.foreground }}",
+            "custom_button_text": "{{ settings.color_palette.background }}",
+            "custom_button_border": "{{ settings.color_palette.background }}",
+            "link_text_color": "",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "spacer_zVqNmb",
+        "marquee_9UyhpP",
+        "button_9eD7bj"
+      ],
+      "name": "t:names.hero_marquee",
+      "settings": {
+        "media_type_1": "video",
+        "video_1": "shopify://files/videos/Man_running_in_sports_arena_20260922182806.mp4",
+        "media_type_2": "video",
+        "stack_media_on_mobile": true,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "space-between",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "background_color": "",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 0,
+        "padding-block-end": 40
+      }
+    },
+    "section": {
+      "type": "section",
+      "blocks": {
+        "text_tqQTNE": {
+          "type": "text",
+          "name": "t:names.title",
+          "settings": {
+            "text": "<p>PRODUCTOS</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_tqQTNE"
+      ],
+      "name": "t:names.heading",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "{{ settings.color_palette.background }}",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "sima_explora": {
+      "type": "sima-explora",
+      "blocks": {
+        "accesorios_entrenamiento": {
+          "type": "panel",
+          "settings": {
+            "parent": "accesorios",
+            "collection": "accesorios-entrenamiento",
+            "title": "Entrenamiento",
+            "text": "Straps, calleras, muñequeras y rodilleras para levantar más pesado y con seguridad.",
+            "button_label": "Explorar",
+            "image": "shopify://shop_images/sima-entrenamiento-section1.jpg",
+            "image_position": "center"
+          }
+        },
+        "accesorios_hidratacion": {
+          "type": "panel",
+          "settings": {
+            "parent": "accesorios",
+            "collection": "accesorios-hidratacion",
+            "title": "Hidratación",
+            "text": "Termos Stanley y Owala que te acompañan del gimnasio a la oficina.",
+            "button_label": "Explorar",
+            "image": "shopify://shop_images/sima-explora-hidratacion.webp",
+            "image_position": "center"
+          }
+        }
+      },
+      "block_order": [
+        "accesorios_entrenamiento",
+        "accesorios_hidratacion"
+      ],
+      "name": "SIMA — Explora",
+      "settings": {}
+    },
+    "sima_vendidos": {
+      "type": "sima-vendidos",
+      "blocks": {
+        "hombre": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "hombre",
+            "tone": "dark",
+            "product_1": "sudadera-antifluido-cargo",
+            "product_2": "conjunto-corto-algodon-nike",
+            "product_3": "conjunto-deportivo-dri-fit-nike-1",
+            "product_4": "camiseta-dri-fit-nike",
+            "product_5": "pantaloneta-nike-dri-fit"
+          }
+        },
+        "mujer": {
+          "type": "coleccion",
+          "settings": {
+            "handle": "mujer",
+            "tone": "light",
+            "product_1": "pantaloneta-running-nike-plizada",
+            "product_2": "chaqueta-drifit",
+            "product_3": "sudadera-fit",
+            "product_4": "basics-leggins",
+            "product_5": "enterizo-vitalia"
+          }
+        }
+      },
+      "block_order": [
+        "hombre",
+        "mujer"
+      ],
+      "name": "SIMA — Más vendidos",
+      "settings": {
+        "heading": "Más vendidos",
+        "eyebrow": "Best sellers"
+      }
+    },
+    "sima_grilla": {
+      "type": "sima-grilla",
+      "blocks": {
+        "hombre_constancia": {
+          "type": "pieza",
+          "settings": {
+            "parent": "hombre",
+            "kind": "campaign",
+            "after": 8,
+            "title": "Constancia en cada serie",
+            "text": "Conjuntos completos para entrenar sin pensar qué ponerte.",
+            "button_label": "Ver conjuntos",
+            "button_link": "shopify://collections/hombre-conjuntos",
+            "product": "conjunto-nike-tech"
+          }
+        },
+        "hombre_frase": {
+          "type": "pieza",
+          "settings": {
+            "parent": "hombre",
+            "kind": "phrase",
+            "after": 20,
+            "title": "Entrena con disciplina",
+            "text": "",
+            "button_label": "Ver sudaderas",
+            "button_link": "shopify://collections/hombre-sudaderas",
+            "product": ""
+          }
+        },
+        "mujer_hecha": {
+          "type": "pieza",
+          "settings": {
+            "parent": "mujer",
+            "kind": "campaign",
+            "after": 4,
+            "title": "Hecha para ti",
+            "text": "Enterizos y sets que te acompañan dentro y fuera del gimnasio.",
+            "button_label": "Ver enterizos",
+            "button_link": "shopify://collections/mujer-enterizos",
+            "image": "shopify://shop_images/CBF44CAC-645A-451C-9F9E-37EE2B2A1683.jpg",
+            "product": "enterizo-vitalia"
+          }
+        },
+        "zapatos_km": {
+          "type": "pieza",
+          "settings": {
+            "parent": "zapatos",
+            "kind": "campaign",
+            "after": 8,
+            "title": "Kilómetro a kilómetro",
+            "text": "Zapatillas para correr, entrenar y volver a salir mañana.",
+            "button_label": "Zapatillas de hombre",
+            "button_link": "shopify://collections/zapatos-hombre",
+            "product": "adizero-hombre"
+          }
+        },
+        "zapatos_clasicos": {
+          "type": "pieza",
+          "settings": {
+            "parent": "zapatos",
+            "kind": "campaign",
+            "after": 26,
+            "title": "Clásicos para todos los días",
+            "text": "Modelos que van del entrenamiento a la calle.",
+            "button_label": "Ver unisex",
+            "button_link": "shopify://collections/zapatos-unisex",
+            "product": "adidas-samba-unisex"
+          }
+        },
+        "nutri_cierre": {
+          "type": "pieza",
+          "settings": {
+            "parent": "suplementos",
+            "kind": "cierre",
+            "after": 8,
+            "title": "Nutre tu disciplina",
+            "text": "",
+            "button_label": "Completa tu equipo",
+            "button_link": "shopify://collections/accesorios",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "hombre_constancia",
+        "hombre_frase",
+        "mujer_hecha",
+        "zapatos_km",
+        "zapatos_clasicos",
+        "nutri_cierre"
+      ],
+      "settings": {
+        "products_per_page": 24
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "blocks": {
+        "filters": {
+          "type": "filters",
+          "static": true,
+          "settings": {
+            "enable_filtering": true,
+            "filter_style": "horizontal",
+            "filter_width": "centered",
+            "text_label_case": "default",
+            "show_swatch_label": false,
+            "show_filter_label": false,
+            "enable_sorting": true,
+            "enable_grid_density": true,
+            "background_color": "",
+            "text_color": "",
+            "padding-block-start": 8,
+            "padding-block-end": 8,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0,
+            "facets_margin_bottom": 8,
+            "facets_margin_right": 20
+          },
+          "blocks": {}
+        },
+        "product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 4,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_4nY4eT": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_EzJzMm": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "product_title_4nY4eT",
+            "price_EzJzMm"
+          ]
+        }
+      },
+      "settings": {
+        "layout_type": "grid",
+        "product_card_size": "medium",
+        "mobile_product_card_size": "small",
+        "enable_infinite_scroll": true,
+        "products_per_page": 24,
+        "product_grid_width": "centered",
+        "full_width_on_mobile": true,
+        "columns_gap_horizontal": 16,
+        "columns_gap_vertical": 24,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 0,
+        "padding-block-end": 32
+      }
+    }
+  },
+  "order": [
+    "sima_coleccion",
+    "sima_subcoleccion",
+    "hero_4UwKwP",
+    "section",
+    "sima_explora",
+    "sima_vendidos",
+    "sima_grilla",
+    "main"
+  ]
+}

@@ -1,0 +1,331 @@
+{%- assign sima_match = blank -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.handle == collection.handle -%}
+    {%- assign sima_match = block -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign sima_count = 0 -%}
+{%- if sima_match != blank -%}
+  {%- for index in (1..5) -%}
+    {%- assign sima_key = 'product_' | append: index -%}
+    {%- if sima_match.settings[sima_key] != blank -%}
+      {%- assign sima_count = sima_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if sima_count > 0 -%}
+  {%- assign sima_light = false -%}
+  {%- if sima_match.settings.tone == 'light' -%}
+    {%- assign sima_light = true -%}
+  {%- endif -%}
+  <section class="sima-vendidos{% if sima_light %} sima-vendidos--light{% endif %}" {{ sima_match.shopify_attributes }}>
+    <div class="sima-vendidos__inner">
+      <div class="sima-vendidos__head">
+        <h2 class="sima-vendidos__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="sima-vendidos__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+      </div>
+      <ul class="sima-vendidos__list">
+        {%- for index in (1..5) -%}
+          {%- assign sima_key = 'product_' | append: index -%}
+          {%- assign product = sima_match.settings[sima_key] -%}
+          {%- if product != blank -%}
+            <li>
+              <a class="sima-vendidos__card" href="{{ product.url }}">
+                {%- if product.featured_image != blank -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 800 }}"
+                    alt=""
+                    width="800"
+                    height="1067"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+                <span class="sima-vendidos__shade"></span>
+                <span class="sima-vendidos__meta">
+                  <span class="sima-vendidos__name">{{ product.title }}</span>
+                  <span class="sima-vendidos__price">{{ product.price | money }}</span>
+                </span>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .sima-vendidos-section:not(:has(.sima-vendidos)) {
+    display: none;
+  }
+
+  .sima-vendidos {
+    background: #121212;
+    color: #fff;
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+  }
+
+  .sima-vendidos__inner {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-vendidos__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .sima-vendidos__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2rem, 4.2vw, 3.5rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .sima-vendidos__eyebrow {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.45);
+  }
+
+  .sima-vendidos__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sima-vendidos__card {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #161616;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .sima-vendidos__card:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  .sima-vendidos__card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-vendidos__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.8), rgb(0 0 0 / 0.1), transparent);
+  }
+
+  .sima-vendidos__meta {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .sima-vendidos__name {
+    min-width: 0;
+    overflow: hidden;
+    font-family: var(--font-heading--family);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sima-vendidos__price {
+    flex: none;
+    font-family: var(--font-heading--family);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  @media screen and (min-width: 640px) {
+    .sima-vendidos__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .sima-vendidos--light {
+    background: #fff;
+    color: #121212;
+    padding-top: 4rem;
+  }
+
+  .sima-vendidos--light .sima-vendidos__eyebrow {
+    color: #8f4f5c;
+  }
+
+  .sima-vendidos--light .sima-vendidos__card {
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: auto;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
+  }
+
+  .sima-vendidos--light .sima-vendidos__card:focus-visible {
+    outline-color: #121212;
+  }
+
+  .sima-vendidos--light .sima-vendidos__card img {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: #f2efe9;
+  }
+
+  .sima-vendidos--light .sima-vendidos__shade {
+    display: none;
+  }
+
+  .sima-vendidos--light .sima-vendidos__meta {
+    position: static;
+    padding: 1rem 0 0;
+  }
+
+  .sima-vendidos--light .sima-vendidos__name {
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .sima-vendidos--light .sima-vendidos__price {
+    font-size: 0.875rem;
+    color: #121212;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .sima-vendidos {
+      padding-top: 7rem;
+    }
+
+    .sima-vendidos--light {
+      padding-top: 6rem;
+    }
+
+    .sima-vendidos__list {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin-top: 3rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Más vendidos",
+  "tag": "section",
+  "class": "sima-vendidos-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Más vendidos"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Ceja",
+      "default": "Best sellers"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "coleccion",
+      "name": "Colección",
+      "settings": [
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Handle",
+          "info": "Solo Hombre y Mujer. En el resto de colecciones esta fila no aparece."
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Fondo",
+          "options": [
+            { "value": "dark", "label": "Oscuro" },
+            { "value": "light", "label": "Blanco" }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Producto 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Producto 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Producto 3"
+        },
+        {
+          "type": "product",
+          "id": "product_4",
+          "label": "Producto 4"
+        },
+        {
+          "type": "product",
+          "id": "product_5",
+          "label": "Producto 5"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 2,
+  "presets": [
+    {
+      "name": "SIMA — Más vendidos"
+    }
+  ]
+}
+{% endschema %}

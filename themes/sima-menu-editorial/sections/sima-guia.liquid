@@ -1,0 +1,437 @@
+<sima-guia class="sima-ayuda sima-guia">
+  <header class="sima-ayuda__hero">
+    <div class="sima-ayuda__wrap">
+      <div class="sima-ayuda__grid">
+        <h1 class="sima-ayuda__title">
+          <span>Guía de</span>
+          <span class="sima-ayuda__stroke">Tallas</span>
+        </h1>
+        <div class="sima-ayuda__intro">
+          <p class="sima-ayuda__kicker">Encuentra tu talla perfecta</p>
+          <p class="sima-ayuda__lead">
+            Mide en centímetros y busca ese número en la tabla. La talla que coincide es la que pides.
+          </p>
+        </div>
+      </div>
+      {% render 'sima-ayuda-nav', current: 'guia-de-tallas' %}
+    </div>
+  </header>
+
+  <section id="ropa" class="sima-guia__band">
+    <div class="sima-ayuda__wrap">
+      <h2 class="sima-guia__head"><span>01</span> Ropa</h2>
+      <p class="sima-guia__intro">
+        Toma las tres medidas con una cinta, sin apretar. Luego busca tus centímetros en la columna de pecho, cintura o cadera.
+      </p>
+      <div class="sima-guia__howto">
+        <ol>
+          <li><span>A</span><div><h3>Pecho</h3><p>Mide alrededor de la parte más amplia de tu pecho, con la cinta horizontal.</p></div></li>
+          <li><span>B</span><div><h3>Cintura</h3><p>Mide alrededor de la parte más estrecha de tu cintura, justo encima del ombligo.</p></div></li>
+          <li><span>C</span><div><h3>Cadera</h3><p>Mide alrededor de la parte más amplia de tus caderas, con la cinta horizontal.</p></div></li>
+        </ol>
+        <img
+          src="{{ 'guia-talla-cuerpo.png' | file_url }}"
+          alt=""
+          width="502"
+          height="702"
+          loading="lazy"
+        >
+      </div>
+      <div class="sima-guia__charts">
+        <figure>
+          <h3>Hombre</h3>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Talla</th>
+                <th scope="col">Pecho <span>cm</span></th>
+                <th scope="col">Cintura <span>cm</span></th>
+                <th scope="col">Cadera <span>cm</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- assign rows = 'S|92–96|78–82|92–96,M|97–101|82–87|97–101,L|102–106|88–92|102–106,XL|107–111|92–97|107–111,XXL|112–116|98–102|112–116' | split: ',' -%}
+              {%- for row in rows -%}
+                {%- assign cell = row | split: '|' -%}
+                <tr>
+                  <th scope="row">{{ cell[0] }}</th>
+                  <td><span>Pecho</span>{{ cell[1] }}</td>
+                  <td><span>Cintura</span>{{ cell[2] }}</td>
+                  <td><span>Cadera</span>{{ cell[3] }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+          <figcaption>Ejemplo: pecho de 100 cm en hombre es talla M.</figcaption>
+        </figure>
+        <figure>
+          <h3>Mujer</h3>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Talla</th>
+                <th scope="col">Pecho <span>cm</span></th>
+                <th scope="col">Cintura <span>cm</span></th>
+                <th scope="col">Cadera <span>cm</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- assign rows = 'XS|76–80|60–64|86–90,S|81–85|65–69|91–95,M|86–90|70–74|96–100,L|91–95|75–79|101–105,XL|96–100|80–84|106–110' | split: ',' -%}
+              {%- for row in rows -%}
+                {%- assign cell = row | split: '|' -%}
+                <tr>
+                  <th scope="row">{{ cell[0] }}</th>
+                  <td><span>Pecho</span>{{ cell[1] }}</td>
+                  <td><span>Cintura</span>{{ cell[2] }}</td>
+                  <td><span>Cadera</span>{{ cell[3] }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+          <figcaption>Ejemplo: cintura de 72 cm en mujer es talla M.</figcaption>
+        </figure>
+      </div>
+      <p class="sima-guia__note">
+        Si una medida te da una talla y otra la siguiente, <strong>elige la más grande</strong>. Las medidas pueden variar entre 1 y 2 cm según el modelo.
+      </p>
+    </div>
+  </section>
+
+  <section id="zapatos" class="sima-guia__band">
+    <div class="sima-ayuda__wrap">
+      <h2 class="sima-guia__head"><span>02</span> Zapatillas</h2>
+      <p class="sima-guia__intro">
+        En SIMA pides la talla de <strong>Colombia</strong>. En la etiqueta del zapato fíjate en <strong>EU / FR</strong>: esa columna te dice a qué talla colombiana corresponde.
+      </p>
+      <div class="sima-guia__howto sima-guia__howto--foot">
+        <ol>
+          <li><span>01</span><div><h3>Apoya el talón</h3><p>Pon el pie sobre una hoja de papel, con el talón tocando la pared.</p></div></li>
+          <li><span>02</span><div><h3>Marca la punta</h3><p>Marca con un lápiz desde el talón hasta la punta del dedo más largo.</p></div></li>
+          <li><span>03</span><div><h3>Mide los centímetros</h3><p>Mide esa distancia y busca el número en la columna cm de la tabla.</p></div></li>
+        </ol>
+        <img
+          src="{{ 'guia-talla-pie.png' | file_url }}"
+          alt=""
+          width="452"
+          height="324"
+          loading="lazy"
+        >
+      </div>
+      <div class="sima-guia__charts">
+        <figure>
+          <h3>Mujer</h3>
+          <table class="is-shoe">
+            <thead>
+              <tr>
+                <th scope="col">Colombia</th>
+                <th scope="col">EU / FR</th>
+                <th scope="col">US</th>
+                <th scope="col">UK</th>
+                <th scope="col">cm</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- assign shoes = '35|36|5|4.5|23.5,36|37|6|5|23.5,37|38|6.5|5.5|24.5,38|39|7.5|6.5|25.5,39|40|8.5|7.5|26.5' | split: ',' -%}
+              {%- for row in shoes -%}
+                {%- assign cell = row | split: '|' -%}
+                <tr>
+                  <th scope="row">{{ cell[0] }}</th>
+                  <td><span>EU / FR</span>{{ cell[1] }}</td>
+                  <td><span>US</span>{{ cell[2] }}</td>
+                  <td><span>UK</span>{{ cell[3] }}</td>
+                  <td><span>cm</span>{{ cell[4] }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+          <figcaption>Ejemplo: una etiqueta EU 37 corresponde a la talla 36 en SIMA.</figcaption>
+        </figure>
+        <figure>
+          <h3>Hombre</h3>
+          <table class="is-shoe">
+            <thead>
+              <tr>
+                <th scope="col">Colombia</th>
+                <th scope="col">EU / FR</th>
+                <th scope="col">US</th>
+                <th scope="col">UK</th>
+                <th scope="col">cm</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- assign shoes = '37|40|8.5|7.5|26.5,38|41|9.5|8.5|27.5,39|42|10|9|28.5,40|43|11|10|29.5,41/42|44|12|11|30.5,43|45|13|12|31.5' | split: ',' -%}
+              {%- for row in shoes -%}
+                {%- assign cell = row | split: '|' -%}
+                <tr>
+                  <th scope="row">{{ cell[0] }}</th>
+                  <td><span>EU / FR</span>{{ cell[1] }}</td>
+                  <td><span>US</span>{{ cell[2] }}</td>
+                  <td><span>UK</span>{{ cell[3] }}</td>
+                  <td><span>cm</span>{{ cell[4] }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+          <figcaption>Ejemplo: una etiqueta EU 42 corresponde a la talla 39 en SIMA.</figcaption>
+        </figure>
+      </div>
+      <p class="sima-guia__note">Si vas a usar medias gruesas o plantillas, considera media talla más.</p>
+    </div>
+  </section>
+
+  {% render 'sima-page-close', title: '¿Dudas con tu talla?', text: 'Escríbenos antes de comprar y te ayudamos a elegir la ideal para ti. Preferimos resolverlo antes que gestionar un cambio después.', whatsapp: section.settings.whatsapp %}
+</sima-guia>
+
+{% stylesheet %}
+  .sima-guia__band {
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    padding: 4rem 0;
+    scroll-margin-top: 6rem;
+  }
+
+  @media (min-width: 990px) {
+    .sima-guia__band {
+      padding: 6rem 0;
+    }
+  }
+
+  .sima-guia__head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+  }
+
+  .sima-guia__head span,
+  .sima-guia__howto span {
+    color: #bcb1a6;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+  }
+
+  .sima-guia__howto span {
+    font-family: var(--font-heading--family);
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .sima-guia__intro,
+  .sima-guia__note,
+  .sima-guia__howto p,
+  .sima-guia figcaption {
+    max-width: 62ch;
+    font-family: var(--font-body--family);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: rgb(255 255 255 / 0.65);
+  }
+
+  .sima-guia__intro {
+    margin: 1.5rem 0 0;
+  }
+
+  .sima-guia__intro strong,
+  .sima-guia__note strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .sima-guia__note {
+    margin: 2.5rem 0 0;
+  }
+
+  .sima-guia__howto {
+    display: grid;
+    align-items: center;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 990px) {
+    .sima-guia__howto {
+      grid-template-columns: 7fr 5fr;
+      gap: 4rem;
+      margin-top: 4rem;
+    }
+  }
+
+  .sima-guia__howto ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  .sima-guia__howto li {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  .sima-guia__howto li:last-child {
+    border-bottom: 0;
+  }
+
+  .sima-guia__howto h3 {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sima-guia__howto p {
+    margin: 0.75rem 0 0;
+  }
+
+  .sima-guia__howto img {
+    display: block;
+    width: 100%;
+    max-width: 24rem;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .sima-guia__howto--foot img {
+    max-width: 28rem;
+  }
+
+  .sima-guia__charts {
+    display: grid;
+    gap: 4rem;
+    margin-top: 4rem;
+  }
+
+  @media (min-width: 990px) {
+    .sima-guia__charts {
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 5rem;
+    }
+  }
+
+  .sima-guia h3 {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .sima-guia table {
+    width: 100%;
+    margin-top: 1.25rem;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .sima-guia th,
+  .sima-guia td {
+    padding: 1rem 0.75rem 1rem 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    vertical-align: bottom;
+  }
+
+  .sima-guia thead th {
+    padding-bottom: 0.75rem;
+    border-bottom-color: rgb(255 255 255 / 0.15);
+    color: rgb(255 255 255 / 0.4);
+    font-family: var(--font-body--family);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .sima-guia thead span {
+    color: rgb(255 255 255 / 0.25);
+  }
+
+  .sima-guia tbody th {
+    font-family: var(--font-heading--family);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .sima-guia td {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9375rem;
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  .sima-guia td span {
+    display: none;
+  }
+
+  .sima-guia figcaption {
+    margin-top: 1rem;
+    color: rgb(255 255 255 / 0.5);
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 749px) {
+    .sima-guia thead {
+      display: none;
+    }
+
+    .sima-guia tr {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      column-gap: 0.75rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    }
+
+    .sima-guia .is-shoe tr {
+      grid-template-columns: 4.25rem repeat(4, minmax(0, 1fr));
+    }
+
+    .sima-guia th,
+    .sima-guia td {
+      display: block;
+      padding: 0;
+      border: 0;
+    }
+
+    .sima-guia tbody th {
+      font-size: 1.65rem;
+    }
+
+    .sima-guia td span {
+      display: block;
+      margin-bottom: 0.25rem;
+      color: rgb(255 255 255 / 0.35);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Guía de tallas",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "whatsapp",
+      "label": "WhatsApp",
+      "default": "https://wa.me/573189154899"
+    }
+  ],
+  "presets": [{ "name": "SIMA — Guía de tallas" }]
+}
+{% endschema %}

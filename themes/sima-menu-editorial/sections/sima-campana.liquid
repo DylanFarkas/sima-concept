@@ -1,0 +1,477 @@
+<sima-campana class="sima-campana" style="--sima-campana-bg: {{ section.settings.background }};">
+  <div class="sima-campana__inner">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign parts = block.settings.title | split: ' '
+        assign last_word = parts | last
+        assign lead = ''
+        for part in parts
+          unless forloop.last
+            if lead == blank
+              assign lead = part
+            else
+              assign lead = lead | append: ' ' | append: part
+            endif
+          endunless
+        endfor
+
+        assign flip = false
+        if block.settings.alignment == 'right'
+          assign flip = true
+        elsif block.settings.alignment == 'auto'
+          assign even = forloop.index | modulo: 2
+          if even == 0
+            assign flip = true
+          endif
+        endif
+
+        assign photo = block.settings.image
+        if photo == blank and block.settings.product != blank
+          assign photo = block.settings.product.featured_image
+        endif
+
+        assign card_url = ''
+        if block.settings.collection != blank
+          assign card_url = block.settings.collection.url
+        endif
+      -%}
+
+      <div class="sima-campana__row{% if flip %} is-flip{% endif %}" {{ block.shopify_attributes }}>
+        <div class="sima-campana__poster">
+          {%- if card_url != blank -%}
+            <a class="sima-campana__poster-card" href="{{ card_url }}">
+          {%- else -%}
+            <div class="sima-campana__poster-card">
+          {%- endif -%}
+            {%- if photo != blank -%}
+              <img
+                src="{{ photo | image_url: width: 1200 }}"
+                alt=""
+                width="900"
+                height="1125"
+                loading="lazy"
+              >
+            {%- endif -%}
+            <span class="sima-campana__poster-shade"></span>
+            <span class="sima-campana__poster-words">
+              {%- if lead != blank -%}
+                <span class="sima-campana__line">{{ lead }}</span>
+              {%- endif -%}
+              {%- if last_word != blank -%}
+                <span class="sima-campana__poster-stroke">{{ last_word }}</span>
+              {%- endif -%}
+            </span>
+          {%- if card_url != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.text != blank or block.settings.cta != blank -%}
+            <div class="sima-campana__poster-note">
+              {%- if block.settings.text != blank -%}
+                <p>{{ block.settings.text }}</p>
+              {%- endif -%}
+              {%- if block.settings.cta != blank and card_url != blank -%}
+                <a class="sima-campana__cta" href="{{ card_url }}">{{ block.settings.cta }}</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="sima-campana__desk">
+          {%- if card_url != blank -%}
+            <a class="sima-campana__lockup" href="{{ card_url }}">
+          {%- else -%}
+            <div class="sima-campana__lockup">
+          {%- endif -%}
+            <span class="sima-campana__photo">
+              {%- if photo != blank -%}
+                <img
+                  src="{{ photo | image_url: width: 900 }}"
+                  alt=""
+                  width="675"
+                  height="900"
+                  loading="lazy"
+                >
+              {%- endif -%}
+            </span>
+            <span class="sima-campana__words{% if flip %} is-end{% endif %}">
+              {%- if lead != blank -%}
+                <span class="sima-campana__line">{{ lead }}</span>
+              {%- endif -%}
+              {%- if last_word != blank -%}
+                <span class="sima-campana__stroke">{{ last_word }}</span>
+              {%- endif -%}
+            </span>
+          {%- if card_url != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.text != blank or block.settings.cta != blank -%}
+            <div class="sima-campana__note">
+              {%- if block.settings.text != blank -%}
+                <p>{{ block.settings.text }}</p>
+              {%- endif -%}
+              {%- if block.settings.cta != blank and card_url != blank -%}
+                <a class="sima-campana__cta" href="{{ card_url }}">{{ block.settings.cta }}</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</sima-campana>
+
+{% stylesheet %}
+  .sima-campana {
+    display: block;
+    overflow: hidden;
+    background: var(--sima-campana-bg, #121212);
+    color: #fff;
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+  }
+
+  .sima-campana__inner {
+    display: grid;
+    gap: 3rem;
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-campana__row {
+    position: relative;
+  }
+
+  .sima-campana__lockup {
+    display: flex;
+    align-items: center;
+    gap: 0.16em;
+    width: fit-content;
+    max-width: 100%;
+    color: inherit;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: clamp(2.75rem, 10vw, 10rem);
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .sima-campana__lockup:focus-visible,
+  .sima-campana__poster-card:focus-visible,
+  .sima-campana__cta:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  .sima-campana__photo {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 1.94em;
+    aspect-ratio: 3 / 4;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: #1c1c1c;
+  }
+
+  .sima-campana__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-campana__line,
+  .sima-campana__stroke {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .sima-campana__stroke {
+    margin-top: 0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px #bcb1a6;
+    transition: color 500ms ease;
+  }
+
+  .sima-campana__lockup:hover .sima-campana__stroke {
+    color: #fff;
+  }
+
+  .sima-campana__note {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    max-width: 28ch;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+
+  .sima-campana__note p {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .sima-campana__cta {
+    color: inherit;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.4;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+
+  /* El borde láser global apunta a [class*="_cta"]. Estos enlaces
+     se quedan con el subrayado blanco, sin el aro morado. */
+  .sima-campana__cta::after {
+    content: none !important;
+    animation: none !important;
+  }
+
+  .sima-campana__desk {
+    display: none;
+  }
+
+  .sima-campana__poster {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .sima-campana__row.is-flip .sima-campana__poster {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .sima-campana__poster-card {
+    container-type: inline-size;
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #1c1c1c;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-campana__poster-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms ease;
+  }
+
+  .sima-campana__poster-card:hover img {
+    transform: scale(1.03);
+  }
+
+  .sima-campana__poster-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.9), rgb(0 0 0 / 0.25) 45%, transparent);
+  }
+
+  .sima-campana__poster-words {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    padding: 0 1.25rem 1.25rem;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 14cqw;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .sima-campana__poster-stroke {
+    display: block;
+    margin-top: 0.04em;
+    color: transparent;
+    white-space: nowrap;
+    -webkit-text-stroke: 1.5px #fff;
+    transition: color 500ms ease;
+  }
+
+  .sima-campana__poster-card:hover .sima-campana__poster-stroke {
+    color: #fff;
+  }
+
+  .sima-campana__poster-note {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 34ch;
+    margin-top: 1.25rem;
+  }
+
+  .sima-campana__row.is-flip .sima-campana__poster-note {
+    align-items: flex-end;
+  }
+
+  .sima-campana__poster-note p {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  @media screen and (min-width: 640px) {
+    .sima-campana__inner {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .sima-campana__note p {
+      font-size: 1rem;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .sima-campana {
+      padding-top: 9rem;
+      padding-bottom: 2rem;
+    }
+
+    .sima-campana__inner {
+      display: flex;
+      flex-direction: column;
+      gap: 6rem;
+    }
+
+    .sima-campana__poster {
+      display: none;
+    }
+
+    .sima-campana__desk {
+      display: block;
+    }
+
+    .sima-campana__row.is-flip .sima-campana__lockup {
+      margin-inline-start: auto;
+      flex-direction: row-reverse;
+    }
+
+    .sima-campana__words.is-end {
+      text-align: right;
+    }
+
+    .sima-campana__note {
+      position: absolute;
+      bottom: 0.25rem;
+      margin-top: 0;
+    }
+
+    .sima-campana__row:not(.is-flip) .sima-campana__note {
+      right: 0;
+    }
+
+    .sima-campana__row.is-flip .sima-campana__note {
+      left: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-campana__stroke,
+    .sima-campana__poster-stroke,
+    .sima-campana__poster-card img {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Campaña",
+  "tag": "section",
+  "class": "sima-campana-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Fondo",
+      "default": "#121212"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "line",
+      "name": "Frase",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Frase",
+          "info": "La última palabra queda en contorno.",
+          "default": "Entrena con propósito"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texto",
+          "default": "Conjuntos para cada sesión, del calentamiento a la última serie."
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "Enlace",
+          "default": "Comprar conjuntos"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Colección"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto de la foto"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto propia"
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alineación",
+          "options": [
+            { "value": "auto", "label": "Alternar" },
+            { "value": "left", "label": "Izquierda" },
+            { "value": "right", "label": "Derecha" }
+          ],
+          "default": "auto"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "SIMA — Campaña"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,343 @@
+{%- liquid
+  assign sima_count = 0
+  for block in section.blocks
+    if block.settings.parent != blank and block.settings.parent == collection.handle
+      assign sima_count = sima_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if sima_count > 0 -%}
+  {% style %}
+    .sima-explora {
+      --sima-explora-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --sima-explora-cols: 2;
+      --sima-explora-h: 46vw;
+      display: block;
+      background: #121212;
+      color: #fff;
+    }
+
+    .sima-explora--n1 {
+      --sima-explora-cols: 1;
+      --sima-explora-h: 56.25vw;
+    }
+
+    .sima-explora--n3 {
+      --sima-explora-cols: 3;
+      --sima-explora-h: 40vw;
+    }
+
+    .sima-explora__list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sima-explora__item {
+      min-width: 0;
+    }
+
+    .sima-explora__panel {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #121212;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .sima-explora__frame {
+      position: relative;
+      z-index: -1;
+      display: block;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+
+    .sima-explora__media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sima-explora__shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        #121212 0%,
+        rgb(18 18 18 / 0.6) 14%,
+        rgb(18 18 18 / 0) 38%
+      );
+    }
+
+    .sima-explora__content {
+      position: relative;
+      margin-top: -0.9rem;
+      padding: 0 var(--page-margin, 1.25rem) 2.5rem;
+    }
+
+    .sima-explora__title {
+      margin: 0;
+      color: #fff;
+      font-family: var(--font-heading--family);
+      font-size: clamp(1.875rem, 8vw, 2.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    .sima-explora__text {
+      max-width: 34ch;
+      margin: 0.5rem 0 0;
+      color: rgb(255 255 255 / 0.72);
+      font-family: var(--font-body--family);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    .sima-explora__cta {
+      display: inline-block;
+      margin-top: 1.125rem;
+      padding-bottom: 0.375rem;
+      border-bottom: 1px solid rgb(255 255 255 / 0.6);
+      color: #fff;
+      font-family: var(--font-body--family);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      text-transform: uppercase;
+      transition: transform 120ms var(--sima-explora-ease);
+    }
+
+    /* El header group pinta un borde laser morado en todo [class*="_cta"];
+       aqui el CTA es un subrayado y no lo lleva. */
+    .sima-explora .sima-explora__cta::after {
+      content: none !important;
+      display: none !important;
+      animation: none !important;
+    }
+
+    .sima-explora__panel,
+    .sima-explora__panel * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sima-explora__panel:is(:focus, :focus-visible),
+    .sima-explora__panel :is(:focus, :focus-visible) {
+      outline: none;
+      box-shadow: none;
+    }
+
+    .sima-explora__panel:focus-visible .sima-explora__cta {
+      border-bottom-color: #fff;
+    }
+
+    .sima-explora__panel:active .sima-explora__cta {
+      transform: scale(0.97);
+    }
+
+    @media screen and (min-width: 750px) {
+      .sima-explora__list {
+        grid-template-columns: repeat(var(--sima-explora-cols), minmax(0, 1fr));
+      }
+
+      .sima-explora__panel {
+        justify-content: flex-end;
+        height: min(var(--sima-explora-h), calc(100svh - var(--header-height, 66px)));
+        min-height: 26rem;
+      }
+
+      .sima-explora__frame {
+        position: absolute;
+        inset: 0;
+        aspect-ratio: auto;
+      }
+
+      .sima-explora__shade {
+        background: linear-gradient(
+          to top,
+          rgb(0 0 0 / 0.78) 0%,
+          rgb(0 0 0 / 0.55) 20%,
+          rgb(0 0 0 / 0.2) 38%,
+          rgb(0 0 0 / 0) 55%
+        );
+      }
+
+      .sima-explora__title,
+      .sima-explora__text {
+        text-shadow: 0 1px 14px rgb(0 0 0 / 0.45);
+      }
+
+      .sima-explora__content {
+        margin-top: 0;
+        padding: 2rem clamp(1.5rem, 2.6vw, 2.75rem) clamp(2rem, 3vw, 3rem);
+      }
+
+      .sima-explora__title {
+        font-size: clamp(1.75rem, 2.4vw, 2.5rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sima-explora__cta {
+        transition: none;
+      }
+
+      .sima-explora__panel:active .sima-explora__cta {
+        transform: none;
+      }
+    }
+  {% endstyle %}
+
+  <div class="sima-explora sima-explora--n{{ sima_count | at_most: 3 }}">
+    <ul class="sima-explora__list" role="list">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.parent == blank or block.settings.parent != collection.handle -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- liquid
+          assign sima_col = block.settings.collection
+          assign sima_img = block.settings.image
+          if sima_img == blank and sima_col != blank
+            assign sima_img = sima_col.featured_image
+          endif
+
+          assign sima_title = block.settings.title
+          if sima_title == blank and sima_col != blank
+            assign sima_title = sima_col.title
+          endif
+
+          assign sima_pos = block.settings.image_position | default: 'center' | prepend: 'object-position: '
+        -%}
+
+        <li class="sima-explora__item" {{ block.shopify_attributes }}>
+          {%- if sima_col != blank -%}
+            <a class="sima-explora__panel" href="{{ sima_col.url }}">
+          {%- else -%}
+            <div class="sima-explora__panel">
+          {%- endif -%}
+
+          <span class="sima-explora__frame" aria-hidden="true">
+            {%- if sima_img != blank -%}
+              {{
+                sima_img
+                | image_url: width: 1920
+                | image_tag:
+                  class: 'sima-explora__media',
+                  widths: '600, 900, 1200, 1500, 1920',
+                  sizes: '(min-width: 750px) 50vw, 100vw',
+                  loading: 'lazy',
+                  alt: '',
+                  style: sima_pos
+              }}
+            {%- endif -%}
+            <span class="sima-explora__shade"></span>
+          </span>
+
+          <div class="sima-explora__content">
+            {%- if sima_title != blank -%}
+              <h2 class="sima-explora__title">{{ sima_title }}</h2>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="sima-explora__text">{{ block.settings.text }}</p>
+            {%- endif -%}
+            {%- if sima_col != blank and block.settings.button_label != blank -%}
+              <span class="sima-explora__cta">{{ block.settings.button_label }}</span>
+            {%- endif -%}
+          </div>
+
+          {%- if sima_col != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SIMA — Explora",
+  "tag": "section",
+  "class": "sima-explora-section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Paneles a pantalla completa debajo del hero. Cada panel sale solo en la colección cuyo handle va en «Colección padre». Dos paneles quedan uno al lado del otro; en celular, uno debajo del otro."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Panel",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent",
+          "label": "Colección padre (handle)",
+          "info": "Ej.: accesorios"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Subcolección",
+          "info": "A dónde lleva el panel"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "info": "Vacío usa el nombre de la subcolección"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Frase"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Botón",
+          "default": "Explorar"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen",
+          "info": "Vacío usa la imagen de la subcolección"
+        },
+        {
+          "type": "text",
+          "id": "image_position",
+          "label": "Encuadre de la imagen",
+          "info": "Ej.: center, 60% 40%"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SIMA — Explora"
+    }
+  ]
+}
+{% endschema %}

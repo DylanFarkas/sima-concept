@@ -1,0 +1,37 @@
+{%- doc -%}
+  Tabla de equivalencias de una audiencia de calzado.
+
+  @param {string} name - hombre o mujer.
+  @param {string} title - Título visible cuando se muestran las dos tablas.
+  @param {string[]} rows - Filas separadas por coma y celdas por |.
+  @param {boolean} show_title - Muestra el título de la audiencia.
+  @param {boolean} visible - La tabla se muestra al abrir el panel.
+{%- enddoc -%}
+<figure class="sima-guide__chart" data-sima-chart="{{ name }}" {% unless visible %}hidden{% endunless %}>
+  {% if show_title %}
+    <h3>{{ title }}</h3>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Colombia</th>
+        <th scope="col">EUR</th>
+        <th scope="col">US</th>
+        <th scope="col">UK</th>
+        <th scope="col">cm</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        {% assign cell = row | split: '|' %}
+        <tr data-sima-row="{{ cell[0] }}">
+          <th scope="row">{{ cell[0] }}</th>
+          <td>{{ cell[1] }}</td>
+          <td>{{ cell[2] }}</td>
+          <td>{{ cell[3] }}</td>
+          <td>{{ cell[4] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</figure>

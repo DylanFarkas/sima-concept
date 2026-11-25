@@ -1,0 +1,441 @@
+<sima-nosotros>
+  {% liquid
+    assign conjunto = all_products['conjunto-adidas']
+    assign asics = all_products['asics-ff-turbo-hombre-1']
+  %}
+  <section class="sima-nosotros__hero">
+    <video autoplay muted loop playsinline preload="metadata" src="{{ 'sima-coleccion.mp4' | asset_url }}"></video>
+    <div class="sima-nosotros__hero-copy">
+      <p>Nosotros</p>
+      <h1>
+        <span>Queremos</span>
+        <span>acompañarte en el</span>
+        <span class="is-stroke">proceso</span>
+      </h1>
+    </div>
+  </section>
+
+  <section class="sima-nosotros__start">
+    <div class="sima-nosotros__wrap">
+      <p class="sima-nosotros__statement">Sabemos que cada persona tiene un punto de partida diferente.</p>
+      <ul>
+        <li>
+          <img src="{{ 'sima-punto-1.webp' | asset_url }}" alt="" width="800" height="1000" loading="lazy">
+          <span>01</span>
+          <p>Algunos están comenzando.</p>
+        </li>
+        <li>
+          <img src="{{ 'sima-punto-2.webp' | asset_url }}" alt="" width="800" height="1000" loading="lazy">
+          <span>02</span>
+          <p>Otros quieren volver a entrenar.</p>
+        </li>
+        <li>
+          {% if conjunto.featured_image %}
+            {{ conjunto.featured_image | image_url: width: 900 | image_tag: alt: '', loading: 'lazy', widths: '400, 700, 900' }}
+          {% endif %}
+          <span>03</span>
+          <p>Otros llevan años haciendo del deporte parte de su vida.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sima-nosotros__paths">
+    <div class="sima-nosotros__wrap">
+      <div>
+        <h2>En SIMA queremos acompañar <span>cada uno de esos caminos.</span></h2>
+        <p>Queremos que encuentres en un solo lugar ropa, calzado, accesorios, tecnología y productos deportivos, <strong>pero también la orientación necesaria para tomar mejores decisiones.</strong></p>
+      </div>
+      <ul>
+        <li>
+          <img src="{{ 'camisa-basic-mujer.webp' | file_url }}" alt="" width="800" height="1000" loading="lazy">
+          <span>Ropa</span>
+        </li>
+        <li>
+          {% if asics.featured_image %}
+            {{ asics.featured_image | image_url: width: 900 | image_tag: alt: '', loading: 'lazy', widths: '400, 700, 900' }}
+          {% endif %}
+          <span>Zapatillas</span>
+        </li>
+        <li>
+          <img src="{{ 'sima-ruta-accesorios.webp' | asset_url }}" alt="" width="800" height="1000" loading="lazy">
+          <span>Accesorios</span>
+        </li>
+        <li>
+          <img src="{{ 'sima-ruta-tech.webp' | asset_url }}" alt="" width="800" height="1000" loading="lazy">
+          <span>Tecnología</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sima-nosotros__belief">
+    <div class="sima-nosotros__wrap">
+      <p class="sima-nosotros__because">Porque creemos que</p>
+      <ol>
+        <li><span>01</span>cuando entiendes lo que haces,</li>
+        <li><span>02</span>encuentras las herramientas adecuadas</li>
+        <li><span>03</span>y construyes hábitos con disciplina,</li>
+      </ol>
+      <p class="sima-nosotros__life">el deporte deja de ser una obligación y comienza a convertirse en <span>parte de tu vida.</span></p>
+      <a href="{{ pages['comunidad'].url }}">Únete a la comunidad</a>
+    </div>
+  </section>
+
+  <div class="sima-nosotros__ticker" aria-hidden="true">
+    <div>
+      {%- for copy in (1..2) -%}
+        <p>
+          <span>Disciplina</span>
+          <span class="is-stroke">Constancia</span>
+          <span>Perseverancia</span>
+          <span class="is-stroke">Amor</span>
+          <span>Confianza</span>
+          <span class="is-stroke">Fe</span>
+        </p>
+      {%- endfor -%}
+    </div>
+  </div>
+</sima-nosotros>
+
+{% stylesheet %}
+  sima-nosotros {
+    display: block;
+    background: #121212;
+    color: #fff;
+  }
+
+  .sima-nosotros__wrap {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-nosotros__hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: calc(100svh - 74px);
+    overflow: hidden;
+  }
+
+  .sima-nosotros__hero video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-nosotros__hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #121212, rgb(18 18 18 / 0.55), rgb(18 18 18 / 0.2));
+  }
+
+  .sima-nosotros__hero-copy {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding: 8rem var(--page-margin) 3.5rem;
+  }
+
+  .sima-nosotros__hero p,
+  .sima-nosotros__because {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .sima-nosotros__hero p {
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .sima-nosotros__hero h1,
+  .sima-nosotros__statement,
+  .sima-nosotros__paths h2,
+  .sima-nosotros__life,
+  .sima-nosotros__start li p {
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .sima-nosotros__hero h1 {
+    margin: 2rem 0 0;
+    font-size: clamp(2.5rem, 10.5vw, 10rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .sima-nosotros__hero h1 span,
+  .sima-nosotros__life span {
+    display: block;
+  }
+
+  .is-stroke {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #fff;
+  }
+
+  .sima-nosotros__start {
+    background: #f2efe9;
+    color: #121212;
+  }
+
+  .sima-nosotros__start .sima-nosotros__wrap,
+  .sima-nosotros__paths .sima-nosotros__wrap,
+  .sima-nosotros__belief .sima-nosotros__wrap {
+    padding-block: 5rem;
+  }
+
+  @media (min-width: 990px) {
+    .sima-nosotros__start .sima-nosotros__wrap,
+    .sima-nosotros__paths .sima-nosotros__wrap,
+    .sima-nosotros__belief .sima-nosotros__wrap {
+      padding-block: 8rem;
+    }
+  }
+
+  .sima-nosotros__statement {
+    max-width: 22ch;
+    margin: 0;
+    font-size: clamp(2.25rem, 5.4vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+  }
+
+  .sima-nosotros__start ul,
+  .sima-nosotros__paths ul {
+    display: grid;
+    gap: 2.5rem;
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 750px) {
+    .sima-nosotros__start ul,
+    .sima-nosotros__paths ul {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+  }
+
+  .sima-nosotros__start li,
+  .sima-nosotros__paths li {
+    position: relative;
+  }
+
+  .sima-nosotros__start img,
+  .sima-nosotros__paths img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .sima-nosotros__start li span {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.4rem 0.6rem;
+    background: #f2efe9;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  .sima-nosotros__start li p {
+    margin: 1.25rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 2px solid #121212;
+    font-size: clamp(1.375rem, 2.2vw, 2rem);
+    line-height: 1.02;
+  }
+
+  .sima-nosotros__paths {
+    border-bottom: 1px solid rgb(255 255 255 / 0.15);
+  }
+
+  @media (min-width: 990px) {
+    .sima-nosotros__paths .sima-nosotros__wrap {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 4rem;
+      align-items: center;
+    }
+  }
+
+  .sima-nosotros__paths h2 {
+    margin: 0;
+    font-size: clamp(2.5rem, 5.2vw, 5rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+
+  .sima-nosotros__paths h2 span {
+    color: rgb(255 255 255 / 0.35);
+  }
+
+  .sima-nosotros__paths h2 + p,
+  .sima-nosotros__belief p {
+    font-family: var(--font-body--family);
+  }
+
+  .sima-nosotros__paths h2 + p {
+    max-width: 46ch;
+    margin: 2.5rem 0 0;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .sima-nosotros__paths strong {
+    color: #fff;
+  }
+
+  .sima-nosotros__paths li span {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 3rem 1rem 1rem;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.7), transparent);
+    font-family: var(--font-heading--family);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .sima-nosotros__paths li:nth-child(even) {
+    transform: translateY(2rem);
+  }
+
+  @media (min-width: 750px) {
+    .sima-nosotros__paths li:nth-child(even) {
+      transform: translateY(3.5rem);
+    }
+  }
+
+  .sima-nosotros__because {
+    color: #bcb1a6;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    letter-spacing: 0.08em;
+  }
+
+  .sima-nosotros__belief ol {
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+  }
+
+  .sima-nosotros__belief li {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.15);
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.75rem, 4.2vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  @media (min-width: 750px) {
+    .sima-nosotros__belief li {
+      grid-template-columns: 5rem 1fr;
+      padding: 2rem 0;
+    }
+  }
+
+  .sima-nosotros__belief li span {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    color: rgb(255 255 255 / 0.4);
+  }
+
+  .sima-nosotros__life {
+    max-width: 22ch;
+    margin: 3.5rem 0 0;
+    font-size: clamp(2.5rem, 7.2vw, 7rem);
+    line-height: 1.02;
+  }
+
+  .sima-nosotros__belief a {
+    display: inline-flex;
+    margin-top: 3.5rem;
+    padding: 0.875rem 1.25rem;
+    background: #fff;
+    color: #121212;
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .sima-nosotros__ticker {
+    overflow: hidden;
+    background: #f2efe9;
+    color: #121212;
+  }
+
+  .sima-nosotros__ticker div {
+    display: flex;
+    width: max-content;
+    animation: sima-nosotros-marquee 28s linear infinite;
+  }
+
+  .sima-nosotros__ticker p {
+    display: flex;
+    gap: 2.5rem;
+    margin: 0;
+    padding: 1.25rem 1.25rem 1.25rem 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .sima-nosotros__ticker .is-stroke {
+    -webkit-text-stroke: 1.5px #121212;
+  }
+
+  @keyframes sima-nosotros-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-nosotros__ticker div {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Nosotros",
+  "tag": "section",
+  "settings": [],
+  "presets": [{ "name": "SIMA — Nosotros" }]
+}
+{% endschema %}

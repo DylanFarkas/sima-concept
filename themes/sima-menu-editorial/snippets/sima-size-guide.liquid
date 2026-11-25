@@ -1,0 +1,454 @@
+{%- doc -%}
+  Panel blanco de guía de tallas para calzado.
+  La variante que se agrega al carrito sigue siendo la talla de Colombia.
+
+  @param {object} product - Producto de la ficha.
+  @param {object} section - Sección que contiene el selector.
+  @param {string} audience - hombre, mujer o unisex.
+{%- enddoc -%}
+
+{%- liquid
+  assign guide_id = 'sima-guide-' | append: section.id | append: '-' | append: product.id
+  assign women_rows = '35|36|5|4.5|23.5,36|37|6|5|23.5,37|38|6.5|5.5|24.5,38|39|7.5|6.5|25.5,39|40|8.5|7.5|26.5' | split: ','
+  assign men_rows = '37|40|8.5|7.5|26.5,38|41|9.5|8.5|27.5,39|42|10|9|28.5,40|43|11|10|29.5,41/42|44|12|11|30.5,43|45|13|12|31.5' | split: ','
+  assign show_both = false
+  assign show_women = false
+  assign show_men = false
+  if audience == 'unisex'
+    assign show_both = true
+    assign show_women = true
+    assign show_men = true
+  elsif audience == 'mujer'
+    assign show_women = true
+  else
+    assign show_men = true
+  endif
+-%}
+
+<div
+  id="{{ guide_id }}"
+  class="sima-guide"
+  data-sima-guide-root
+  data-sima-product="{{ product.id }}"
+  data-sima-audience="{{ audience }}"
+  aria-hidden="true"
+>
+  <button type="button" class="sima-guide__backdrop" data-sima-guide-close aria-label="Cerrar guía de tallas"></button>
+  <div
+    class="sima-guide__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="{{ guide_id }}-title"
+  >
+    <div class="sima-guide__head">
+      <div>
+        <h2 id="{{ guide_id }}-title">Guía de tallas</h2>
+        {% unless audience == 'unisex' %}
+          <p>{{ audience | capitalize }}</p>
+        {% endunless %}
+      </div>
+      <button type="button" data-sima-guide-close data-sima-guide-dismiss aria-label="Cerrar">×</button>
+    </div>
+    <div class="sima-guide__body">
+      {% if audience == 'unisex' %}
+        <div class="sima-guide__fit">
+          <p>Equivalencia</p>
+          <div role="radiogroup" aria-label="Equivalencia">
+            <button type="button" data-sima-fit="mujer" data-sima-product="{{ product.id }}" aria-checked="false">Mujer</button>
+            <button type="button" data-sima-fit="hombre" data-sima-product="{{ product.id }}" aria-checked="false">Hombre</button>
+          </div>
+        </div>
+      {% endif %}
+
+      <p class="sima-guide__kicker">Cómo medir</p>
+      <ol class="sima-guide__steps">
+        <li>
+          <span>01</span>
+          <div>
+            <h3>Apoya el talón</h3>
+            <p>Pon el pie sobre una hoja de papel, con el talón tocando la pared.</p>
+          </div>
+        </li>
+        <li>
+          <span>02</span>
+          <div>
+            <h3>Marca la punta</h3>
+            <p>Marca con un lápiz desde el talón hasta la punta del dedo más largo.</p>
+          </div>
+        </li>
+        <li>
+          <span>03</span>
+          <div>
+            <h3>Mide los centímetros</h3>
+            <p>Mide esa distancia y busca el número en la columna cm de la tabla.</p>
+          </div>
+        </li>
+      </ol>
+      <img
+        src="{{ 'guia-talla-pie-negro.png' | asset_url }}"
+        alt=""
+        width="452"
+        height="324"
+      >
+
+      <div class="sima-guide__charts">
+        {% render 'sima-shoe-chart', name: 'mujer', title: 'Mujer', rows: women_rows, show_title: show_both, visible: show_women %}
+        {% render 'sima-shoe-chart', name: 'hombre', title: 'Hombre', rows: men_rows, show_title: show_both, visible: show_men %}
+      </div>
+
+      <p class="sima-guide__note">
+        En SIMA pides la talla de Colombia. Si vas a usar medias gruesas o plantillas, considera media talla más.
+      </p>
+      <a class="sima-guide__more" href="/pages/guia-de-tallas#zapatos">Ver la guía completa</a>
+    </div>
+  </div>
+</div>
+<script src="{{ 'sima-shoe-sizes.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .variant-option.sima-shoe > legend,
+  .variant-option.sima-shoe > .sima-shoe__system,
+  .variant-option.sima-shoe > .sima-shoe__fit,
+  .variant-option.sima-shoe > .sima-shoe__line {
+    flex: 1 0 100%;
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .variant-option.sima-shoe > legend {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .sima-shoe__guide,
+  .sima-shoe__system button,
+  .sima-shoe__fit button,
+  .sima-guide__fit button,
+  .sima-guide__head button {
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .sima-shoe__guide {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgb(255 255 255 / 40%);
+    text-underline-offset: 4px;
+  }
+
+  .sima-shoe__system,
+  .sima-shoe__fit div,
+  .sima-guide__fit div {
+    display: flex;
+    gap: 20px;
+  }
+
+  .sima-shoe__system {
+    margin-block: 2px 4px;
+  }
+
+  .sima-shoe__system button,
+  .sima-shoe__fit button {
+    min-height: 36px;
+    color: rgb(255 255 255 / 40%);
+  }
+
+  .sima-shoe__system button[aria-checked='true'],
+  .sima-shoe__fit button[aria-checked='true'] {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  .sima-shoe__fit {
+    margin-block-end: 8px;
+  }
+
+  .sima-shoe__fit > p,
+  .sima-guide__fit > p,
+  .sima-guide__kicker {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: rgb(255 255 255 / 45%);
+  }
+
+  .sima-shoe__line {
+    margin: 8px 0 0;
+    color: rgb(255 255 255 / 50%);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .sima-guide {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .sima-guide.is-open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .sima-guide__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgb(0 0 0 / 45%);
+    opacity: 0;
+    transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sima-guide__panel {
+    position: absolute;
+    inset: 0 0 0 auto;
+    display: flex;
+    width: min(440px, 100%);
+    flex-direction: column;
+    overflow: hidden;
+    background: #fff;
+    color: #121212;
+    box-shadow: -16px 0 40px rgb(0 0 0 / 18%);
+    transform: translate3d(100%, 0, 0);
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sima-guide.is-shown .sima-guide__backdrop {
+    opacity: 1;
+  }
+
+  .sima-guide.is-shown .sima-guide__panel {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .sima-guide__head,
+  .sima-guide__body {
+    padding-inline: 24px;
+  }
+
+  .sima-guide__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-top: 24px;
+  }
+
+  .sima-guide__head h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .sima-guide__head p,
+  .sima-guide__note {
+    margin: 6px 0 0;
+    color: rgb(18 18 18 / 50%);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .sima-guide__head button {
+    width: 32px;
+    height: 32px;
+    color: rgb(18 18 18 / 70%);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .sima-guide__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding-bottom: 32px;
+    color-scheme: light;
+    scrollbar-width: thin;
+    scrollbar-color: #bdbdbd #fff;
+  }
+
+  .sima-guide__body::-webkit-scrollbar {
+    width: 8px;
+    background: #fff;
+  }
+
+  .sima-guide__body::-webkit-scrollbar-track {
+    background: #fff;
+  }
+
+  .sima-guide__body::-webkit-scrollbar-thumb {
+    background: #bdbdbd;
+    border: 0;
+  }
+
+  .sima-guide__fit {
+    margin: 16px 0 24px;
+  }
+
+  .sima-guide__kicker,
+  .sima-guide__fit > p {
+    color: rgb(18 18 18 / 45%);
+  }
+
+  .sima-guide__fit button {
+    min-height: 36px;
+    color: rgb(18 18 18 / 40%);
+  }
+
+  .sima-guide__fit button[aria-checked='true'] {
+    color: #121212;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  .sima-guide__steps {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sima-guide__steps li {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .sima-guide__steps span,
+  .sima-guide__steps p {
+    color: rgb(18 18 18 / 55%);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .sima-guide__steps span {
+    font-size: 12px;
+    color: rgb(18 18 18 / 35%);
+  }
+
+  .sima-guide__steps h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .sima-guide__steps p {
+    margin: 6px 0 0;
+  }
+
+  .sima-guide__body img {
+    display: block;
+    width: min(16rem, 100%);
+    height: auto;
+    margin: 32px auto 0;
+  }
+
+  .sima-guide__charts {
+    margin-top: 40px;
+  }
+
+  .sima-guide__chart[hidden] {
+    display: none;
+  }
+
+  .sima-guide__chart h3 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(18 18 18 / 45%);
+  }
+
+  .sima-guide__chart table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sima-guide__chart th,
+  .sima-guide__chart td {
+    padding: 10px 8px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: left;
+  }
+
+  .sima-guide__chart thead th {
+    padding-top: 4px;
+    padding-bottom: 8px;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgb(18 18 18 / 40%);
+  }
+
+  .sima-guide__chart tbody th {
+    padding-left: 12px;
+  }
+
+  .sima-guide__chart tbody td:last-child {
+    padding-right: 12px;
+  }
+
+  .sima-guide__chart tr.is-selected th,
+  .sima-guide__chart tr.is-selected td {
+    background: #121212;
+    color: #fff;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .sima-guide__chart tr.is-selected th {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .sima-guide__chart tr.is-selected td:last-child {
+    border-radius: 0 8px 8px 0;
+  }
+
+  .sima-guide__note {
+    margin-top: 32px;
+  }
+
+  .sima-guide__more {
+    display: inline-block;
+    margin-top: 12px;
+    color: #121212;
+    font-size: 14px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgb(18 18 18 / 45%);
+    text-underline-offset: 4px;
+    cursor: pointer;
+  }
+
+  .sima-guide__more:hover {
+    text-decoration-color: #121212;
+  }
+
+  .sima-shoe__guide:focus-visible,
+  .sima-shoe__system button:focus-visible,
+  .sima-shoe__fit button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  .sima-guide button:focus-visible,
+  .sima-guide a:focus-visible {
+    outline: 2px solid #121212;
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sima-guide__backdrop,
+    .sima-guide__panel {
+      transition: none;
+    }
+  }
+{% endstylesheet %}

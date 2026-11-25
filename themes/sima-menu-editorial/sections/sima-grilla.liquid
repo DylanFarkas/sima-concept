@@ -1,0 +1,1466 @@
+{%- assign sima_family = blank -%}
+{%- case collection.handle -%}
+  {%- when 'hombre', 'hombre-conjuntos', 'hombre-camisetas', 'hombre-pantalonetas', 'hombre-sudaderas', 'hombre-basics' -%}
+    {%- assign sima_family = 'hombre' -%}
+  {%- when 'mujer', 'mujer-pantalonetas', 'mujer-chaquetas', 'mujer-sets', 'mujer-enterizos', 'mujer-vestidos', 'mujer-basics' -%}
+    {%- assign sima_family = 'mujer' -%}
+  {%- when 'zapatos', 'zapatos-hombre', 'zapatos-mujer', 'zapatos-unisex' -%}
+    {%- assign sima_family = 'zapatos' -%}
+  {%- when 'tecnologia', 'tecnologia-audifonos', 'tecnologia-relojes' -%}
+    {%- assign sima_family = 'tecnologia' -%}
+  {%- when 'suplementos', 'suplementos-proteina', 'suplementos-aminoacidos', 'suplementos-creatinas', 'suplementos-preentreno' -%}
+    {%- assign sima_family = 'suplementos' -%}
+  {%- when 'accesorios', 'accesorios-entrenamiento', 'accesorios-hidratacion' -%}
+    {%- assign sima_family = 'accesorios' -%}
+{%- endcase -%}
+
+{%- if sima_family != blank -%}
+  {%- assign sima_parent = false -%}
+  {%- if collection.handle == sima_family -%}
+    {%- assign sima_parent = true -%}
+  {%- endif -%}
+
+  {%- assign sima_aspect = 'portrait' -%}
+  {%- if sima_family == 'zapatos' or sima_family == 'tecnologia' or sima_family == 'suplementos' or sima_family == 'accesorios' -%}
+    {%- assign sima_aspect = 'square' -%}
+  {%- endif -%}
+
+  {%- assign sima_light = false -%}
+  {%- if sima_family == 'suplementos' or sima_family == 'mujer' -%}
+    {%- assign sima_light = true -%}
+  {%- endif -%}
+
+  {%- case sima_family -%}
+    {%- when 'hombre' -%}
+      {%- assign sima_nav = 'Conjuntos|/collections/hombre-conjuntos||Camisetas|/collections/hombre-camisetas||Pantalonetas|/collections/hombre-pantalonetas||Sudaderas|/collections/hombre-sudaderas||Basics|/collections/hombre-basics||Calzado|/collections/zapatos-hombre' -%}
+    {%- when 'mujer' -%}
+      {%- assign sima_nav = 'Pantalonetas|/collections/mujer-pantalonetas||Chaquetas|/collections/mujer-chaquetas||Sets|/collections/mujer-sets||Enterizos|/collections/mujer-enterizos||Vestidos|/collections/mujer-vestidos||Basics|/collections/mujer-basics||Calzado|/collections/zapatos-mujer' -%}
+    {%- when 'zapatos' -%}
+      {%- assign sima_nav = '' -%}
+    {%- when 'tecnologia' -%}
+      {%- assign sima_nav = 'Audífonos|/collections/tecnologia-audifonos||Relojes y bandas|/collections/tecnologia-relojes' -%}
+    {%- when 'suplementos' -%}
+      {%- assign sima_nav = 'Proteína|/collections/suplementos-proteina||Aminoácidos|/collections/suplementos-aminoacidos||Creatinas|/collections/suplementos-creatinas||Preentreno|/collections/suplementos-preentreno' -%}
+    {%- when 'accesorios' -%}
+      {%- assign sima_nav = 'Entrenamiento|/collections/accesorios-entrenamiento||Hidratación|/collections/accesorios-hidratacion' -%}
+  {%- endcase -%}
+
+  {%- assign sima_parent_url = '/collections/' | append: sima_family -%}
+  {%- assign sima_filtering = false -%}
+  {%- for filter in collection.filters -%}
+    {%- if filter.type == 'price_range' -%}
+      {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+        {%- assign sima_filtering = true -%}
+      {%- endif -%}
+    {%- elsif filter.active_values.size > 0 -%}
+      {%- assign sima_filtering = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if current_tags.size > 0 -%}
+    {%- assign sima_filtering = true -%}
+  {%- endif -%}
+
+  {%- assign sima_sorted = false -%}
+  {%- if collection.sort_by != blank and collection.sort_by != collection.default_sort_by -%}
+    {%- assign sima_sorted = true -%}
+  {%- endif -%}
+
+  {%- assign sima_inserts = false -%}
+  {%- if sima_parent and collection.products_count >= 12 and sima_filtering == false and sima_sorted == false -%}
+    {%- assign sima_inserts = true -%}
+  {%- endif -%}
+
+  {%- assign sima_sort = collection.sort_by | default: collection.default_sort_by -%}
+  {%- assign sima_form_id = 'SimaFiltros-' | append: section.id -%}
+
+  <sima-grilla
+    id="productos"
+    class="sima-grilla{% if sima_light %} sima-grilla--light{% endif %}{% if sima_aspect == 'square' %} sima-grilla--square{% endif %}"
+  >
+    <div class="sima-grilla__inner">
+      {%- if sima_parent -%}
+        <h2 class="sima-grilla__title">Todos los productos</h2>
+      {%- endif -%}
+
+      <div class="sima-grilla__layout">
+        <button class="sima-grilla__backdrop" type="button" data-close-filters aria-label="Cerrar filtros"></button>
+        <aside class="sima-grilla__aside" aria-label="Filtros">
+          <div class="sima-grilla__aside-head">
+            <p class="sima-grilla__kicker">Filtros</p>
+            <button class="sima-grilla__close" type="button" data-close-filters>Cerrar</button>
+          </div>
+
+          {%- if sima_nav != blank -%}
+          <nav class="sima-grilla__nav" aria-label="Subcategorías">
+            <a href="{{ sima_parent_url }}"{% if request.path == sima_parent_url %} aria-current="page"{% endif %}>Todo</a>
+            {%- assign sima_rows = sima_nav | split: '||' -%}
+            {%- for row in sima_rows -%}
+              {%- assign sima_pair = row | split: '|' -%}
+              {%- assign sima_label = sima_pair | first -%}
+              {%- assign sima_href = sima_pair | last -%}
+              <a href="{{ sima_href }}"{% if request.path == sima_href %} aria-current="page"{% endif %}>{{ sima_label }}</a>
+            {%- endfor -%}
+          </nav>
+          {%- endif -%}
+
+            {% render 'sima-grilla-filtros', form_id: sima_form_id, sort: sima_sort, filtering: sima_filtering %}
+        </aside>
+
+        <div class="sima-grilla__main">
+          {%- paginate collection.products by section.settings.products_per_page -%}
+            <div class="sima-grilla__toolbar">
+              {%- liquid
+                assign sima_active = 0
+                for filter in collection.filters
+                  if filter.type == 'price_range'
+                    if filter.min_value.value != blank or filter.max_value.value != blank
+                      assign sima_active = sima_active | plus: 1
+                    endif
+                  else
+                    assign sima_active = sima_active | plus: filter.active_values.size
+                  endif
+                endfor
+              -%}
+              <button class="sima-grilla__filters-button" type="button" data-open-filters aria-label="Abrir filtros">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 4h9M13 4h2M1 12h2M6 12h9"/><circle cx="11.5" cy="4" r="1.75"/><circle cx="4.5" cy="12" r="1.75"/></svg>
+                <span>Filtros</span>
+                {%- if sima_active > 0 -%}<span class="sima-grilla__filters-count">{{ sima_active }}</span>{%- endif -%}
+              </button>
+              <p class="sima-grilla__tally">
+                {{ paginate.items }}
+                {% if paginate.items == 1 %}artículo{% else %}artículos{% endif %}
+              </p>
+              <details class="sima-grilla__sort">
+                <summary>Ordenar</summary>
+                <div class="sima-grilla__sort-menu">
+                  {%- for option in collection.sort_options -%}
+                    {%- case option.value -%}
+                      {%- when 'best-selling' -%}{%- assign sima_sort_label = 'Más vendidos' -%}
+                      {%- when 'title-ascending' -%}{%- assign sima_sort_label = 'A–Z' -%}
+                      {%- when 'title-descending' -%}{%- assign sima_sort_label = 'Z–A' -%}
+                      {%- when 'price-ascending' -%}{%- assign sima_sort_label = 'Menor precio' -%}
+                      {%- when 'price-descending' -%}{%- assign sima_sort_label = 'Mayor precio' -%}
+                      {%- when 'created-descending' -%}{%- assign sima_sort_label = 'Novedades' -%}
+                      {%- when 'created-ascending' -%}{%- assign sima_sort_label = 'Más antiguos' -%}
+                      {%- when 'manual' -%}{%- assign sima_sort_label = 'Destacados' -%}
+                      {%- else -%}{%- assign sima_sort_label = option.name -%}
+                    {%- endcase -%}
+                    <button
+                      type="button"
+                      data-sort="{{ option.value }}"
+                      {% if option.value == sima_sort %}aria-current="true"{% endif %}
+                    >
+                      {{ sima_sort_label }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </details>
+              <div class="sima-grilla__density" role="group" aria-label="Densidad">
+                <button type="button" data-density="dense" aria-pressed="true" aria-label="Cuadrícula">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M1 1h4v4H1zm5 0h4v4H6zm5 0h4v4h-4zM1 6h4v4H1zm5 0h4v4H6zm5 0h4v4h-4zM1 11h4v4H1zm5 0h4v4H6zm5 0h4v4h-4z"/></svg>
+                </button>
+                <button type="button" data-density="wide" aria-pressed="false" aria-label="Cuadrícula amplia">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M1 1h6.5v6.5H1zM8.5 1H15v6.5H8.5zM1 8.5h6.5V15H1zM8.5 8.5H15V15H8.5z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            {%- if paginate.items == 0 -%}
+              <p class="sima-grilla__empty">No hay artículos con estos filtros.</p>
+            {%- else -%}
+              <ul class="sima-grilla__grid">
+                {%- for product in collection.products -%}
+                  <li>
+                    <a class="sima-grilla__card" href="{{ product.url }}">
+                      <span class="sima-grilla__media">
+                        {%- if product.featured_image != blank -%}
+                          <img
+                            src="{{ product.featured_image | image_url: width: 800 }}"
+                            alt=""
+                            width="800"
+                            height="{% if sima_aspect == 'square' %}800{% else %}1067{% endif %}"
+                            loading="lazy"
+                          >
+                        {%- endif -%}
+                        {%- unless product.available -%}
+                          <span class="sima-grilla__badge">Agotado</span>
+                        {%- endunless -%}
+                      </span>
+                      <span class="sima-grilla__meta">
+                        <span class="sima-grilla__name">{{ product.title }}</span>
+                        <span class="sima-grilla__price">{{ product.price | money }}</span>
+                      </span>
+                    </a>
+                  </li>
+                  {%- assign sima_index = paginate.current_offset | plus: forloop.index -%}
+                  {%- if sima_inserts -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.parent == collection.handle and block.settings.kind != 'cierre' and block.settings.after == sima_index -%}
+                        {%- if block.settings.kind == 'phrase' -%}
+                          <li class="sima-grilla__phrase" {{ block.shopify_attributes }}>
+                            {% render 'sima-grilla-frase', title: block.settings.title, label: block.settings.button_label, link: block.settings.button_link %}
+                          </li>
+                        {%- else -%}
+                          <li class="sima-grilla__campaign{% if sima_light %} sima-grilla__campaign--soft{% endif %}" {{ block.shopify_attributes }}>
+                            <a href="{{ block.settings.button_link | default: block.settings.product.url }}">
+                              {%- if block.settings.image != blank -%}
+                                {{
+                                  block.settings.image
+                                  | image_url: width: 1400
+                                  | image_tag:
+                                    alt: '',
+                                    loading: 'lazy',
+                                    widths: '600, 900, 1200, 1400',
+                                    sizes: '(min-width: 1280px) 32vw, (min-width: 768px) 60vw, 100vw'
+                                }}
+                              {%- elsif block.settings.product.featured_image != blank -%}
+                                <img
+                                  src="{{ block.settings.product.featured_image | image_url: width: 1400 }}"
+                                  alt=""
+                                  width="1400"
+                                  height="1000"
+                                  loading="lazy"
+                                >
+                              {%- endif -%}
+                              <span class="sima-grilla__campaign-shade"></span>
+                              <span class="sima-grilla__campaign-copy">
+                                <span class="sima-grilla__campaign-title">{{ block.settings.title }}</span>
+                                {%- if block.settings.text != blank -%}
+                                  <span class="sima-grilla__campaign-text">{{ block.settings.text }}</span>
+                                {%- endif -%}
+                                {%- if block.settings.button_label != blank -%}
+                                  <span class="sima-grilla__campaign-button">{{ block.settings.button_label }}</span>
+                                {%- endif -%}
+                              </span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+            {%- if paginate.pages > 1 -%}
+              <nav class="sima-grilla__pages" aria-label="Páginas">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}#productos">Anterior</a>
+                {%- endif -%}
+                <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}#productos">Siguiente</a>
+                {%- endif -%}
+              </nav>
+            {%- endif -%}
+          {%- endpaginate -%}
+        </div>
+      </div>
+    </div>
+
+    {%- if sima_inserts -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.parent == collection.handle and block.settings.kind == 'cierre' -%}
+          <div class="sima-grilla__cierre" {{ block.shopify_attributes }}>
+            <div class="sima-grilla__inner sima-grilla__phrase">
+              {% render 'sima-grilla-frase', title: block.settings.title, label: block.settings.button_label, link: block.settings.button_link %}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </sima-grilla>
+
+  <script>
+    if (!customElements.get('sima-grilla')) {
+      let simaFilterRequest = null;
+      let simaBootScroll = true;
+      let simaCurrentPage = new URL(window.location.href).searchParams.get('page') || '1';
+
+      function simaScroller() {
+        const wrapper = document.querySelector('.page-wrapper');
+        return wrapper && wrapper.scrollHeight > wrapper.clientHeight + 2 ? wrapper : null;
+      }
+
+      function simaScrollTop() {
+        const scroller = simaScroller();
+        return scroller ? scroller.scrollTop : window.scrollY;
+      }
+
+      function simaScrollTo(top) {
+        const scroller = simaScroller();
+        if (scroller) scroller.scrollTo({ top, behavior: 'instant' });
+        else window.scrollTo({ top, behavior: 'instant' });
+      }
+
+      function simaScrollToProducts(root) {
+        const target = root?.querySelector('.sima-grilla__title, .sima-grilla__toolbar, .sima-grilla__grid');
+        if (!target) return;
+        const scroller = simaScroller();
+        const origin = scroller ? scroller.getBoundingClientRect().top : 0;
+        const bar = document.getElementById('header-component');
+        const offset = bar ? bar.getBoundingClientRect().height : 66;
+        const top = Math.max(0, target.getBoundingClientRect().top - origin + simaScrollTop() - offset - 12);
+        simaScrollTo(top);
+      }
+
+      function simaHoldProducts(root) {
+        const node = document.documentElement;
+        node.style.scrollBehavior = 'auto';
+        node.style.overflowAnchor = 'none';
+        const run = () => simaScrollToProducts(document.querySelector('sima-grilla') || root);
+        run();
+        requestAnimationFrame(run);
+        setTimeout(() => {
+          run();
+          node.style.scrollBehavior = '';
+          node.style.overflowAnchor = '';
+        }, 120);
+      }
+
+      window.addEventListener('popstate', () => {
+        const nextPage = new URL(window.location.href).searchParams.get('page') || '1';
+        const paging = nextPage !== simaCurrentPage;
+        document.querySelector('sima-grilla')?.load(window.location.href, false, paging);
+      });
+
+      customElements.define(
+        'sima-grilla',
+        class extends HTMLElement {
+          connectedCallback() {
+            const form = this.querySelector('form');
+            this.querySelector('[data-open-filters]')?.addEventListener('click', () => this.setFilters(true));
+            this.querySelectorAll('[data-close-filters]').forEach((button) => {
+              button.addEventListener('click', () => this.setFilters(false));
+            });
+            this.querySelectorAll('[data-density]').forEach((button) => {
+              button.addEventListener('click', () => {
+                const wide = button.dataset.density === 'wide';
+                this.classList.toggle('is-wide', wide);
+                this.querySelectorAll('[data-density]').forEach((item) => {
+                  item.setAttribute('aria-pressed', String(item === button));
+                });
+              });
+            });
+            this.querySelectorAll('[data-more]').forEach((button) => {
+              button.addEventListener('click', () => {
+                const list = button.previousElementSibling;
+                if (!list) return;
+                list.classList.toggle('is-collapsed');
+                button.textContent = list.classList.contains('is-collapsed') ? 'Ver más' : 'Ver menos';
+              });
+            });
+            form?.addEventListener('submit', (event) => {
+              event.preventDefault();
+              this.load(this.filterUrl(), true);
+            });
+            form?.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+              input.addEventListener('change', () => form.requestSubmit());
+            });
+            this.querySelectorAll('[data-sort]').forEach((button) => {
+              button.addEventListener('click', () => {
+                const field = form?.querySelector('[name="sort_by"]');
+                if (!form || !field) return;
+                field.value = button.dataset.sort;
+                form.requestSubmit();
+              });
+            });
+            this.querySelectorAll('.sima-grilla__pages a').forEach((link) => {
+              link.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.load(link.href, true, true);
+              });
+            });
+            this.querySelectorAll('.sima-grilla__clear').forEach((link) => {
+              link.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.load(link.href, true);
+              });
+            });
+            if (simaBootScroll && (new URL(window.location.href).searchParams.get('page') || '1') !== '1') {
+              simaHoldProducts(this);
+            }
+            simaBootScroll = false;
+          }
+
+          filterUrl() {
+            const form = this.querySelector('form');
+            const params = new URLSearchParams(new FormData(form));
+            for (const [key, value] of [...params.entries()]) {
+              if (String(value).trim() === '') params.delete(key);
+            }
+            const url = new URL(form.action, window.location.origin);
+            url.search = params.toString();
+            return url.href;
+          }
+
+          async load(href, push, paging = false) {
+            const section = this.closest('.shopify-section');
+            const sectionId = section?.id.replace('shopify-section-', '');
+            if (!section || !sectionId) {
+              window.location.assign(href);
+              return;
+            }
+
+            const page = new URL(href, window.location.origin);
+            const preview = new URL(window.location.href).searchParams.get('preview_theme_id');
+            if (preview) page.searchParams.set('preview_theme_id', preview);
+
+            const fetchUrl = new URL(page);
+            fetchUrl.searchParams.set('sections', sectionId);
+
+            simaFilterRequest?.abort();
+            const controller = new AbortController();
+            simaFilterRequest = controller;
+
+            const open = this.classList.contains('is-filters');
+            const wide = this.classList.contains('is-wide');
+            const focused = document.activeElement;
+            const focusName = focused?.getAttribute?.('name') || '';
+            const focusValue = focused?.value || '';
+
+            this.classList.add('is-loading');
+            this.setAttribute('aria-busy', 'true');
+
+            try {
+              const response = await fetch(fetchUrl, { signal: controller.signal });
+              if (!response.ok) throw new Error('section');
+              const data = await response.json();
+              const html = data[sectionId];
+              if (!html) throw new Error('empty');
+              const parsed = new DOMParser().parseFromString(html, 'text/html');
+              const next = parsed.getElementById(`shopify-section-${sectionId}`);
+              if (!next) throw new Error('wrapper');
+              const scroll = simaScrollTop();
+              document.documentElement.style.overflowAnchor = 'none';
+              section.outerHTML = next.outerHTML;
+              const fresh = document.querySelector('sima-grilla');
+              if (fresh) {
+                fresh.classList.toggle('is-filters', open);
+                fresh.classList.toggle('is-wide', wide);
+                if (open) document.documentElement.style.overflow = 'hidden';
+                fresh.querySelectorAll('[data-density]').forEach((item) => {
+                  const pressed = (item.dataset.density === 'wide') === wide;
+                  item.setAttribute('aria-pressed', String(pressed));
+                });
+                if (focusName) {
+                  const field = fresh.querySelector(
+                    `[name="${CSS.escape(focusName)}"][value="${CSS.escape(focusValue)}"]`
+                  );
+                  field?.focus({ preventScroll: true });
+                }
+              }
+              simaCurrentPage = page.searchParams.get('page') || '1';
+              if (push) history.pushState({ simaGrilla: true }, '', `${page.pathname}${page.search}`);
+              if (paging && fresh) simaHoldProducts(fresh);
+              else {
+                const node = document.documentElement;
+                const previous = node.style.scrollBehavior;
+                node.style.scrollBehavior = 'auto';
+                simaScrollTo(scroll);
+                node.style.scrollBehavior = previous;
+                node.style.overflowAnchor = '';
+              }
+            } catch (error) {
+              if (error?.name === 'AbortError') return;
+              window.location.assign(page.href);
+            }
+          }
+
+          setFilters(open) {
+            this.classList.toggle('is-filters', open);
+            document.documentElement.style.overflow = open ? 'hidden' : '';
+          }
+        }
+      );
+    }
+  </script>
+{%- endif -%}
+
+{% stylesheet %}
+  .sima-grilla-section:not(:has(.sima-grilla)) {
+    display: none;
+  }
+
+  .sima-grilla-section:has(.sima-grilla) + .shopify-section {
+    display: none;
+  }
+
+  .sima-grilla.is-loading .sima-grilla__main {
+    opacity: 0.45;
+  }
+
+  .sima-grilla {
+    display: block;
+    background: #121212;
+    color: #fff;
+    padding: 1.5rem 0 5rem;
+    scroll-margin-top: calc(var(--header-height, 66px) + 12px);
+  }
+
+  .sima-grilla:has(.sima-grilla__title) {
+    padding-top: 4rem;
+  }
+
+  .sima-grilla--light {
+    background: #fff;
+    color: #121212;
+  }
+
+  .sima-grilla__inner {
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-grilla__title {
+    margin: 0 0 2.5rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.25rem, 4.8vw, 3rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .sima-grilla__kicker,
+  .sima-grilla__tally,
+  .sima-grilla__filters-button,
+  .sima-grilla__close,
+  .sima-grilla__apply,
+  .sima-grilla__more,
+  .sima-grilla__clear,
+  .sima-grilla__pages,
+  .sima-grilla__campaign-button {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .sima-grilla__kicker {
+    margin: 0;
+  }
+
+  .sima-grilla__aside-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .sima-grilla__close,
+  .sima-grilla__filters-button,
+  .sima-grilla__apply,
+  .sima-grilla__more,
+  .sima-grilla__density button,
+  .sima-grilla__sort-menu button {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .sima-grilla__filters-button,
+  .sima-grilla__close {
+    display: none;
+  }
+
+  .sima-grilla__nav {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+
+  .sima-grilla__nav a,
+  .sima-grilla__clear,
+  .sima-grilla__phrase a {
+    color: rgba(255, 255, 255, 0.62);
+    text-decoration: none;
+  }
+
+  .sima-grilla__nav a {
+    padding: 0.32rem 0;
+    font-size: 0.95rem;
+  }
+
+  .sima-grilla__nav a[aria-current='page'],
+  .sima-grilla__nav a:hover,
+  .sima-grilla__clear:hover,
+  .sima-grilla__phrase a:hover {
+    color: #fff;
+  }
+
+  .sima-grilla__filter {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .sima-grilla__filter summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.9rem 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .sima-grilla__filter summary::-webkit-details-marker,
+  .sima-grilla__sort summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sima-grilla__filter summary::after {
+    content: "+";
+    font-weight: 400;
+  }
+
+  .sima-grilla__filter[open] summary::after {
+    content: "–";
+  }
+
+  .sima-grilla__options {
+    margin: 0;
+    padding: 0 0 0.8rem;
+    list-style: none;
+  }
+
+  .sima-grilla__options.is-collapsed .is-extra {
+    display: none;
+  }
+
+  .sima-grilla__check {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.28rem 0;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  .sima-grilla__check input {
+    width: 0.9rem;
+    height: 0.9rem;
+    margin: 0;
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+  }
+
+  .sima-grilla__check input:checked {
+    background: #fff;
+    border-color: #fff;
+  }
+
+  a.sima-grilla__check { color: inherit; text-decoration: none; }
+  .sima-grilla__tick { width: 0.9rem; height: 0.9rem; flex: none; border: 1px solid rgba(255, 255, 255, 0.45); }
+  .sima-grilla__tick[data-on] { background: #fff; border-color: #fff; }
+  .sima-grilla--light .sima-grilla__tick { border-color: rgba(18, 18, 18, 0.35); }
+  .sima-grilla--light .sima-grilla__tick[data-on] { background: #121212; border-color: #121212; }
+
+  .sima-grilla__facet-count {
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.75rem;
+  }
+
+  .sima-grilla__swatch {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    background: #6d6d6d;
+  }
+
+  .sima-grilla__check input:checked + .sima-grilla__swatch {
+    outline: 1px solid currentcolor;
+    outline-offset: 2px;
+  }
+
+  .sima-grilla__swatch[data-tone='negro'] { background: #121212; }
+  .sima-grilla__swatch[data-tone='blanco'] { background: #fff; }
+  .sima-grilla__swatch[data-tone='gris'] { background: #8a8a8a; }
+  .sima-grilla__swatch[data-tone='beige'] { background: #c8b69a; }
+  .sima-grilla__swatch[data-tone='cafe'],
+  .sima-grilla__swatch[data-tone='marron'] { background: #6b4b32; }
+  .sima-grilla__swatch[data-tone='azul'] { background: #2f4f86; }
+  .sima-grilla__swatch[data-tone='verde'] { background: #3d6b45; }
+  .sima-grilla__swatch[data-tone='rojo'] { background: #9d2b2b; }
+  .sima-grilla__swatch[data-tone='rosa'] { background: #d7a3b0; }
+  .sima-grilla__swatch[data-tone='morado'] { background: #6d4d86; }
+  .sima-grilla__swatch[data-tone='amarillo'] { background: #e2c15a; }
+  .sima-grilla__swatch[data-tone='naranja'] { background: #d86f2f; }
+  .sima-grilla__swatch[data-tone='plata'] { background: #c5c5c5; }
+  .sima-grilla__swatch[data-tone='dorado'] { background: #c6a15b; }
+  .sima-grilla__swatch[data-tone='vino'] { background: #6e2434; }
+
+  .sima-grilla__sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 0.9rem;
+  }
+
+  .sima-grilla__chip {
+    position: relative;
+  }
+
+  .sima-grilla__chip input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .sima-grilla__chip span {
+    display: inline-flex;
+    min-width: 2.5rem;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 0.45rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .sima-grilla__chip input:checked + span {
+    background: #fff;
+    color: #121212;
+    border-color: #fff;
+  }
+
+  .sima-grilla__chip input:focus-visible + span {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .sima-grilla__price-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .sima-grilla__price-row span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.75rem;
+  }
+
+  .sima-grilla__price-row input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: inherit;
+    padding: 0.45rem 0;
+    font: inherit;
+  }
+
+  .sima-grilla__apply,
+  .sima-grilla__more,
+  .sima-grilla__clear {
+    margin: 0.8rem 0 1rem;
+    padding: 0;
+  }
+
+  .sima-grilla__clear {
+    display: inline-block;
+  }
+
+  .sima-grilla__backdrop {
+    display: none;
+  }
+
+  .sima-grilla__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .sima-grilla__tally {
+    margin: 0 auto 0 0;
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  .sima-grilla__sort {
+    position: relative;
+  }
+
+  .sima-grilla__sort summary {
+    font-size: 0.875rem;
+    font-weight: 700;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .sima-grilla__sort summary::after {
+    content: "⌄";
+    margin-left: 0.35rem;
+  }
+
+  .sima-grilla__sort-menu {
+    position: absolute;
+    right: 0;
+    z-index: 5;
+    min-width: 12rem;
+    margin-top: 0.5rem;
+    padding: 0.4rem;
+    background: #1c1c1c;
+  }
+
+  .sima-grilla__sort-menu button {
+    display: block;
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+    font-size: 0.875rem;
+  }
+
+  .sima-grilla__sort-menu button[aria-current='true'] {
+    font-weight: 700;
+  }
+
+  .sima-grilla__density {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .sima-grilla__density button {
+    color: rgba(255, 255, 255, 0.4);
+    padding: 0.2rem;
+  }
+
+  .sima-grilla__density button[aria-pressed='true'] {
+    color: #fff;
+  }
+
+  .sima-grilla__density svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .sima-grilla__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 0.75rem;
+    row-gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sima-grilla__card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-grilla__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #161616;
+  }
+
+  .sima-grilla--square .sima-grilla__media {
+    aspect-ratio: 1;
+    background: #fff;
+  }
+
+  .sima-grilla__media img,
+  .sima-grilla__campaign img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sima-grilla__media img {
+    position: absolute;
+    inset: 0;
+  }
+
+  .sima-grilla__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.35rem 0.5rem;
+    background: #fff;
+    color: #121212;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .sima-grilla__meta {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .sima-grilla__name {
+    flex: 1;
+    font-size: 0.875rem;
+    line-height: 1.3;
+  }
+
+  .sima-grilla__price {
+    flex: none;
+    font-family: var(--font-heading--family);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .sima-grilla__campaign {
+    position: relative;
+    grid-column: span 2;
+    min-height: 26rem;
+    overflow: hidden;
+    background: #161616;
+    color: #fff;
+  }
+
+  .sima-grilla__campaign a {
+    position: relative;
+    display: flex;
+    min-height: 26rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sima-grilla__campaign img,
+  .sima-grilla__campaign-shade {
+    position: absolute;
+    inset: 0;
+  }
+
+  .sima-grilla__campaign-shade {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) 50%, transparent);
+  }
+
+  .sima-grilla__campaign-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: auto;
+    padding: 1.5rem;
+  }
+
+  .sima-grilla__campaign-title {
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.25rem, 4.8vw, 4.5rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .sima-grilla__campaign-text {
+    max-width: 28rem;
+    font-size: 1.125rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .sima-grilla__campaign-button {
+    display: inline-flex;
+    padding: 0.875rem 1.25rem;
+    background: #fff;
+    color: #121212;
+  }
+
+  .sima-grilla__campaign a:hover .sima-grilla__campaign-button {
+    background: #f2efe9;
+  }
+
+  .sima-grilla--light:not(.sima-grilla--square) .sima-grilla__media {
+    background: #f2efe9;
+  }
+
+  .sima-grilla__campaign--soft {
+    background: #f2efe9;
+    color: #121212;
+  }
+
+  .sima-grilla__campaign--soft a {
+    flex-direction: column;
+  }
+
+  .sima-grilla__campaign--soft img {
+    position: relative;
+    inset: auto;
+    flex: 1 1 auto;
+    min-height: 16rem;
+    object-position: center top;
+  }
+
+  .sima-grilla__campaign--soft .sima-grilla__campaign-shade {
+    display: none;
+  }
+
+  .sima-grilla__campaign--soft .sima-grilla__campaign-copy {
+    margin-top: 0;
+  }
+
+  .sima-grilla__campaign--soft .sima-grilla__campaign-text {
+    color: rgb(18 18 18 / 0.75);
+  }
+
+  .sima-grilla__campaign--soft .sima-grilla__campaign-button {
+    background: #121212;
+    color: #fff;
+  }
+
+  .sima-grilla__campaign--soft a:hover .sima-grilla__campaign-button {
+    background: #000;
+  }
+
+  .sima-grilla__phrase {
+    display: flex;
+    grid-column: 1 / -1;
+    flex-direction: column;
+    gap: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 4rem 0;
+  }
+
+  .sima-grilla__phrase p {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(3rem, 9vw, 9rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .sima-grilla__stroke {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #bcb1a6;
+  }
+
+  .sima-grilla__phrase a {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  .sima-grilla:has(.sima-grilla__cierre) {
+    padding-bottom: 0;
+  }
+
+  .sima-grilla__cierre {
+    background: #121212;
+    color: #fff;
+    margin-top: 5rem;
+    overflow: hidden;
+  }
+
+  .sima-grilla__cierre .sima-grilla__phrase {
+    border: 0;
+    padding-block: 5rem;
+    padding-inline: var(--page-margin);
+  }
+
+  .sima-grilla__pages {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .sima-grilla__pages a {
+    color: inherit;
+  }
+
+  .sima-grilla__empty {
+    margin: 2rem 0;
+  }
+
+  .sima-grilla a:focus-visible,
+  .sima-grilla button:focus-visible,
+  .sima-grilla summary:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+
+  .sima-grilla--light .sima-grilla__nav a,
+  .sima-grilla--light .sima-grilla__clear,
+  .sima-grilla--light .sima-grilla__phrase a,
+  .sima-grilla--light .sima-grilla__tally,
+  .sima-grilla--light .sima-grilla__facet-count,
+  .sima-grilla--light .sima-grilla__price-row span {
+    color: rgba(18, 18, 18, 0.62);
+  }
+
+  .sima-grilla--light .sima-grilla__nav a[aria-current='page'],
+  .sima-grilla--light .sima-grilla__nav a:hover,
+  .sima-grilla--light .sima-grilla__clear:hover,
+  .sima-grilla--light .sima-grilla__phrase a:hover,
+  .sima-grilla--light .sima-grilla__filter summary,
+  .sima-grilla--light .sima-grilla__filter summary:hover,
+  .sima-grilla--light .sima-grilla__sort summary,
+  .sima-grilla--light .sima-grilla__sort summary:hover {
+    color: #121212;
+  }
+
+  .sima-grilla--light .sima-grilla__filter,
+  .sima-grilla--light .sima-grilla__phrase {
+    border-color: rgba(18, 18, 18, 0.12);
+  }
+
+  .sima-grilla--light .sima-grilla__check input,
+  .sima-grilla--light .sima-grilla__chip span,
+  .sima-grilla--light .sima-grilla__price-row input {
+    border-color: rgba(18, 18, 18, 0.35);
+  }
+
+  .sima-grilla--light .sima-grilla__check input {
+    background: #fff;
+  }
+
+  .sima-grilla--light .sima-grilla__check input:checked::after {
+    background-color: #fff;
+  }
+
+  .sima-grilla--light .sima-grilla__check input:hover {
+    border-color: #121212;
+    background: #fff;
+  }
+
+  .sima-grilla--light .sima-grilla__price-row input:hover {
+    border-color: #121212;
+    background: transparent;
+  }
+
+  .sima-grilla--light .sima-grilla__check input:checked,
+  .sima-grilla--light .sima-grilla__check input:hover:checked,
+  .sima-grilla--light .sima-grilla__chip input:checked + span {
+    background: #121212;
+    border-color: #121212;
+    color: #fff;
+  }
+
+  .sima-grilla--light .sima-grilla__density button {
+    color: rgba(18, 18, 18, 0.35);
+  }
+
+  .sima-grilla--light .sima-grilla__density button[aria-pressed='true'] {
+    color: #121212;
+  }
+
+  .sima-grilla--light .sima-grilla__sort-menu {
+    background: #f2efe9;
+  }
+
+  .sima-grilla--light .sima-grilla__stroke {
+    -webkit-text-stroke-color: #121212;
+  }
+
+  .sima-grilla__cierre .sima-grilla__stroke {
+    -webkit-text-stroke-color: #bcb1a6;
+  }
+
+  .sima-grilla__cierre .sima-grilla__phrase a,
+  .sima-grilla__cierre .sima-grilla__phrase a:hover,
+  .sima-grilla--light .sima-grilla__cierre .sima-grilla__phrase a,
+  .sima-grilla--light .sima-grilla__cierre .sima-grilla__phrase a:hover {
+    color: #fff;
+  }
+
+  .sima-grilla--light a:focus-visible,
+  .sima-grilla--light button:focus-visible,
+  .sima-grilla--light summary:focus-visible,
+  .sima-grilla--light .sima-grilla__chip input:focus-visible + span {
+    outline-color: #121212;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .sima-grilla__filters-button,
+    .sima-grilla.is-filters .sima-grilla__close {
+      display: inline-flex;
+    }
+
+    /* Botón Filtros: con borde e icono para que se reconozca como control. */
+    .sima-grilla__filters-button {
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 2.75rem;
+      padding: 0 1rem;
+      border: 1px solid currentColor;
+    }
+
+    .sima-grilla__filters-button svg {
+      flex-shrink: 0;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    /* El conteo de artículos baja a su propia línea: en una sola fila, con el número de
+       filtros activos, la barra se salía de la pantalla. */
+    .sima-grilla__toolbar {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0.75rem 1rem;
+    }
+
+    .sima-grilla__filters-button {
+      margin-inline-end: auto;
+    }
+
+    .sima-grilla__tally {
+      order: 5;
+      flex-basis: 100%;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    .sima-grilla__filters-count {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      padding: 0 0.3rem;
+      border-radius: 999px;
+      font-size: 0.6875rem;
+      letter-spacing: 0;
+    }
+
+    .sima-grilla__filters-count {
+      color: #121212;
+      background: #fff;
+    }
+
+    .sima-grilla--light .sima-grilla__filters-count {
+      color: #fff;
+      background: #121212;
+    }
+
+    /* Panel: entra y sale deslizándose desde la izquierda, con el fondo que se oscurece
+       poco a poco, como el menú del encabezado. */
+    .sima-grilla__backdrop {
+      display: block;
+      position: fixed;
+      z-index: 70;
+      inset: 0;
+      border: 0;
+      background: rgba(0, 0, 0, 0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .sima-grilla.is-filters .sima-grilla__backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sima-grilla__aside {
+      display: block;
+      position: fixed;
+      z-index: 80;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: min(22rem, 88vw);
+      overflow: auto;
+      overscroll-behavior: contain;
+      padding: 1.5rem;
+      background: #121212;
+      transform: translateX(-100%);
+      visibility: hidden;
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.35s;
+    }
+
+    .sima-grilla.is-filters .sima-grilla__aside {
+      transform: translateX(0);
+      visibility: visible;
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
+    }
+
+    .sima-grilla--light .sima-grilla__aside {
+      background: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sima-grilla__backdrop,
+      .sima-grilla__aside,
+      .sima-grilla.is-filters .sima-grilla__aside {
+        transition: none;
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .sima-grilla__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .sima-grilla:has(.sima-grilla__title) {
+      padding-top: 6rem;
+    }
+
+    .sima-grilla__layout {
+      display: grid;
+      grid-template-columns: 15.5rem minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .sima-grilla__aside {
+      position: sticky;
+      top: 5.5rem;
+    }
+
+    .sima-grilla__phrase {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .sima-grilla__cierre {
+      margin-top: 7rem;
+    }
+
+    .sima-grilla__cierre .sima-grilla__phrase {
+      padding-block: 7rem;
+    }
+
+    .sima-grilla__phrase a {
+      padding-bottom: 1rem;
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    .sima-grilla__layout {
+      grid-template-columns: 17rem minmax(0, 1fr);
+      gap: 3rem;
+    }
+
+    .sima-grilla__grid,
+    .sima-grilla.is-wide .sima-grilla__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .sima-grilla:not(.is-wide) .sima-grilla__campaign--soft {
+      grid-row: span 2;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .sima-grilla:not(.is-wide) .sima-grilla__campaign--soft a {
+      height: auto;
+      min-height: 100%;
+    }
+
+    .sima-grilla:not(.is-wide) .sima-grilla__campaign--soft img {
+      flex: 0 0 auto;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .sima-grilla.is-wide .sima-grilla__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Productos",
+  "tag": "section",
+  "class": "sima-grilla-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Productos por página",
+      "min": 12,
+      "max": 48,
+      "step": 12,
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pieza",
+      "name": "Pieza",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent",
+          "label": "Colección",
+          "info": "Handle de la categoría padre. En una subcolección no se muestra."
+        },
+        {
+          "type": "select",
+          "id": "kind",
+          "label": "Tipo",
+          "options": [
+            { "value": "campaign", "label": "Campaña" },
+            { "value": "phrase", "label": "Frase" },
+            { "value": "cierre", "label": "Cierre" }
+          ],
+          "default": "campaign"
+        },
+        {
+          "type": "number",
+          "id": "after",
+          "label": "Después del producto",
+          "default": 8
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texto"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Botón"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Enlace"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Foto"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

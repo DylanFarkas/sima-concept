@@ -1,0 +1,143 @@
+{% doc %}
+  Filtros nativos de la colección: disponibilidad, precio, marca, color y talla.
+  @param {string} form_id - Id del formulario de filtros
+  @param {string} sort - Orden actual, se conserva al filtrar
+  @param {boolean} filtering - True cuando hay un filtro aplicado
+  @example
+  {% render 'sima-grilla-filtros', form_id: sima_form_id, sort: sima_sort, filtering: sima_filtering %}
+{% enddoc %}
+
+<form id="{{ form_id }}" class="sima-grilla__form" action="{{ request.path }}" method="get">
+  {% render 'sima-shoe-filters', sort: sort %}
+  <input type="hidden" name="sort_by" value="{{ sort }}">
+  {%- for filter in collection.filters -%}
+    {%- assign sima_kind = 'list' -%}
+    {%- assign sima_label = filter.label -%}
+    {%- assign sima_probe = filter.label | downcase -%}
+    {%- if filter.type == 'price_range' -%}
+      {%- assign sima_kind = 'price' -%}
+      {%- assign sima_label = 'Precio' -%}
+    {%- elsif filter.param_name contains 'vendor' or sima_probe contains 'proveedor' or sima_probe == 'vendor' or sima_probe == 'marca' -%}
+      {%- assign sima_kind = 'brand' -%}
+      {%- assign sima_label = 'Marca' -%}
+    {%- elsif filter.param_name contains 'color' or sima_probe == 'color' -%}
+      {%- assign sima_kind = 'color' -%}
+      {%- assign sima_label = 'Color' -%}
+    {%- elsif filter.param_name contains 'talla' or filter.param_name contains 'size' or sima_probe contains 'talla' or sima_probe contains 'size' -%}
+      {%- assign sima_kind = 'size' -%}
+      {%- assign sima_label = 'Talla' -%}
+    {%- elsif filter.param_name contains 'availability' or sima_probe contains 'disponib' or sima_probe contains 'availability' -%}
+      {%- assign sima_kind = 'stock' -%}
+      {%- assign sima_label = 'Disponibilidad' -%}
+    {%- endif -%}
+
+    {%- assign sima_open = false -%}
+    {%- if filter.type == 'price_range' -%}
+      {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+        {%- assign sima_open = true -%}
+      {%- endif -%}
+    {%- elsif filter.active_values.size > 0 -%}
+      {%- assign sima_open = true -%}
+    {%- endif -%}
+
+    <details class="sima-grilla__filter"{% if sima_open %} open{% endif %}>
+      <summary>{{ sima_label }}</summary>
+      {%- case sima_kind -%}
+        {%- when 'price' -%}
+          <div class="sima-grilla__price-row">
+            <label>
+              <span>Desde</span>
+              <input
+                name="{{ filter.min_value.param_name }}"
+                {% if filter.min_value.value -%}
+                  value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | replace: ' ', '' | replace: ' ', '' }}"
+                {%- endif %}
+                type="number"
+                inputmode="decimal"
+                min="0"
+                placeholder="0"
+              >
+            </label>
+            <label>
+              <span>Hasta</span>
+              <input
+                name="{{ filter.max_value.param_name }}"
+                {% if filter.max_value.value -%}
+                  value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' | replace: ' ', '' | replace: ' ', '' }}"
+                {%- endif %}
+                type="number"
+                inputmode="decimal"
+                min="0"
+                placeholder="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' | replace: ' ', '' | replace: ' ', '' }}"
+              >
+            </label>
+          </div>
+          <button class="sima-grilla__apply" type="submit">Aplicar</button>
+        {%- when 'size' -%}
+          <div class="sima-grilla__sizes">
+            {%- for value in filter.values -%}
+              {%- unless value.count == 0 and value.active == false -%}
+                <label class="sima-grilla__chip">
+                  <input
+                    type="checkbox"
+                    name="{{ value.param_name }}"
+                    value="{{ value.value | escape }}"
+                    {% if value.active %}checked{% endif %}
+                  >
+                  <span>{{ value.label }}</span>
+                </label>
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          {%- assign sima_visible = 0 -%}
+          {%- for value in filter.values -%}
+            {%- unless value.count == 0 and value.active == false -%}
+              {%- assign sima_visible = sima_visible | plus: 1 -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          <ul class="sima-grilla__options{% if sima_kind == 'color' and sima_visible > 8 %} is-collapsed{% endif %}">
+            {%- assign sima_shown = 0 -%}
+            {%- for value in filter.values -%}
+              {%- unless value.count == 0 and value.active == false -%}
+                {%- assign sima_shown = sima_shown | plus: 1 -%}
+                <li class="{% if sima_kind == 'color' and sima_shown > 8 %}is-extra{% endif %}">
+                  <label class="sima-grilla__check">
+                    <input
+                      type="checkbox"
+                      name="{{ value.param_name }}"
+                      value="{{ value.value | escape }}"
+                      {% if value.active %}checked{% endif %}
+                    >
+                    {%- if sima_kind == 'color' -%}
+                      {%- assign sima_tone = value.label | downcase | split: '-' | first | split: '/' | first | strip | replace: 'á', 'a' | replace: 'é', 'e' | replace: 'í', 'i' | replace: 'ó', 'o' | replace: 'ú', 'u' -%}
+                      {%- case sima_tone -%}
+                        {%- when 'biege' -%}{%- assign sima_tone = 'beige' -%}
+                        {%- when 'cafe' -%}{%- assign sima_tone = 'cafe' -%}
+                        {%- when 'marron' -%}{%- assign sima_tone = 'marron' -%}
+                        {%- when 'morada' -%}{%- assign sima_tone = 'morado' -%}
+                      {%- endcase -%}
+                      <span
+                        class="sima-grilla__swatch"
+                        data-tone="{{ sima_tone | escape }}"
+                        {% if value.swatch.color != blank %}style="background: {{ value.swatch.color }}"{% endif %}
+                      ></span>
+                    {%- endif -%}
+                    <span>{{ value.label }}</span>
+                    <span class="sima-grilla__facet-count">{{ value.count }}</span>
+                  </label>
+                </li>
+              {%- endunless -%}
+            {%- endfor -%}
+          </ul>
+          {%- if sima_kind == 'color' and sima_visible > 8 -%}
+            <button class="sima-grilla__more" type="button" data-more>Ver más</button>
+          {%- endif -%}
+      {%- endcase -%}
+    </details>
+  {%- endfor -%}
+
+  {%- if filtering -%}
+    <a class="sima-grilla__clear" href="{{ collection.url }}?sort_by={{ sort }}">Limpiar</a>
+  {%- endif -%}
+</form>

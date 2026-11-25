@@ -1,0 +1,39 @@
+{% doc %}
+  Una frase de la barra de anuncios: ícono, texto tenue y énfasis en negrita.
+
+  @param {object} block - Bloque de anuncio del editor
+  @param {boolean} [clone] - Copia visual del primero, para cerrar el bucle sin salto
+  @param {boolean} [hidden] - Fuera de la frase visible: no entra al foco ni al lector
+{% enddoc %}
+
+{% liquid
+  assign lead = block.settings.lead | strip
+  assign strong = block.settings.strong | strip
+  assign icon = block.settings.icon | default: 'lock'
+%}
+
+{% unless lead == blank and strong == blank %}
+  <p
+    class="sima-anuncios__slide"
+    {% if clone or hidden %}
+      aria-hidden="true"
+      inert
+    {% else %}
+      aria-hidden="false"
+    {% endif %}
+    {% unless clone %}
+      data-slide
+      {{ block.shopify_attributes }}
+    {% endunless %}
+  >
+    {% render 'sima-anuncio-icono', icon: icon %}
+    <span class="sima-anuncios__copy">
+      {% if lead != blank %}
+        <span class="sima-anuncios__lead">{{ lead | escape }}</span>
+      {% endif %}
+      {% if strong != blank %}
+        <strong class="sima-anuncios__strong">{{ strong | escape }}</strong>
+      {% endif %}
+    </span>
+  </p>
+{% endunless %}

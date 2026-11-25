@@ -1,0 +1,32 @@
+{% doc %}
+  Publica el símbolo de SIMA como icono del sitio.
+  Los buscadores leen este enlace en la página de inicio.
+  El logo de Archivos es apaisado, así que el archivo del tema es el símbolo arena #BCB1A6, grande, sobre fondo negro (Google lo recorta en círculo).
+
+  @example
+  {% render 'sima-favicon' %}
+{% enddoc %}
+
+{%- if settings.favicon != blank -%}
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="192x192"
+    href="{{ settings.favicon | image_url: width: 192, height: 192 }}"
+  >
+  <link
+    rel="apple-touch-icon"
+    href="{{ settings.favicon | image_url: width: 192, height: 192 }}"
+  >
+{%- else -%}
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="{{ 'sima-favicon.png' | asset_url }}"
+  >
+  <link
+    rel="apple-touch-icon"
+    href="{{ 'sima-favicon.png' | asset_url }}"
+  >
+{%- endif -%}

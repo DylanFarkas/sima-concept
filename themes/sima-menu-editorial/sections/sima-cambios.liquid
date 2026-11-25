@@ -1,0 +1,346 @@
+<sima-cambios class="sima-ayuda">
+  <header class="sima-ayuda__hero">
+    <div class="sima-ayuda__wrap">
+      <div class="sima-ayuda__grid">
+        <h1 class="sima-ayuda__title">
+          <span>Cambios y</span>
+          <span class="sima-ayuda__stroke">devoluciones</span>
+        </h1>
+        <div class="sima-ayuda__intro">
+          <p class="sima-ayuda__kicker">Fáciles y sin complicaciones</p>
+          <p class="sima-ayuda__lead">Queremos que tu equipo te acompañe de verdad. Si algo no es lo que esperabas, lo resolvemos.</p>
+        </div>
+      </div>
+      {% render 'sima-ayuda-nav', current: 'cambios-y-devoluciones' %}
+    </div>
+  </header>
+
+  <div class="sima-ayuda__wrap sima-cambios">
+    <div class="sima-cambios__retracto">
+      <div>
+        <p>Ley 1480 de 2011</p>
+        <p><strong>5</strong><span>días<br>hábiles</span></p>
+      </div>
+      <div>
+        <h2>Derecho de retracto</h2>
+        <p>De acuerdo con el Estatuto del Consumidor (Ley 1480 de 2011), en compras realizadas por internet tienes derecho a retractarte dentro de los <strong>cinco (5) días hábiles</strong> siguientes a la entrega del producto, sin necesidad de justificar tu decisión.</p>
+        <p>Para ejercerlo, el producto debe devolverse en el mismo estado en que lo recibiste, sin uso y con su empaque y etiquetas originales.</p>
+      </div>
+    </div>
+
+    <div class="sima-cambios__policies">
+      <article>
+        <h2>Cambios de talla</h2>
+        <p>Si el calzado no te quedó bien, puedes solicitar cambio de talla siempre que el producto no haya sido usado en exteriores, conserve etiquetas y empaque original, y la talla que necesitas esté disponible en inventario.</p>
+        <p>Escríbenos apenas recibas tu pedido si algo no encaja: entre más pronto nos cuentes, más rápido lo resolvemos.</p>
+      </article>
+      <article>
+        <h2>Garantía por defectos</h2>
+        <p>Todo producto cuenta con garantía legal frente a defectos de fabricación. Si detectas una falla, escríbenos con fotos del producto y tu número de pedido.</p>
+        <p>La garantía no cubre desgaste normal por uso, daños por mal uso ni modificaciones hechas al producto.</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="sima-cambios__steps">
+    <div class="sima-ayuda__wrap">
+      <h2>Cómo solicitarlo</h2>
+      <ol>
+        <li>
+          <div><span>01</span><i aria-hidden="true"></i><b aria-hidden="true">→</b></div>
+          <p>Escríbenos por <a href="{{ section.settings.whatsapp }}" target="_blank" rel="noreferrer">WhatsApp</a> con tu número de pedido</p>
+        </li>
+        <li>
+          <div><span>02</span><i aria-hidden="true"></i><b aria-hidden="true">→</b></div>
+          <p>Cuéntanos el motivo y adjunta fotos si aplica</p>
+        </li>
+        <li>
+          <div><span>03</span><i aria-hidden="true"></i><b aria-hidden="true">→</b></div>
+          <p>Te indicamos cómo hacer el envío de retorno</p>
+        </li>
+        <li>
+          <div><span>04</span><i aria-hidden="true"></i></div>
+          <p>Una vez recibido y verificado, procesamos el cambio o el reembolso</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="sima-cambios__refund">
+    <div class="sima-ayuda__wrap">
+      <h2>Reembolsos</h2>
+      <p>Los reembolsos se emiten por el mismo medio de pago que usaste en la compra, una vez verificado el estado del producto devuelto.</p>
+    </div>
+  </div>
+
+  {% render 'sima-page-close', title: 'Atención personalizada', text: 'Estamos para ayudarte.', whatsapp: section.settings.whatsapp %}
+</sima-cambios>
+
+{% stylesheet %}
+  .sima-cambios {
+    padding-bottom: 4rem;
+  }
+
+  .sima-cambios__retracto {
+    display: grid;
+    gap: 1px;
+    border: 1px solid rgb(255 255 255 / 0.15);
+    background: rgb(255 255 255 / 0.15);
+  }
+
+  @media (min-width: 990px) {
+    .sima-cambios__retracto {
+      grid-template-columns: 5fr 7fr;
+    }
+  }
+
+  .sima-cambios__retracto > div {
+    background: #121212;
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 750px) {
+    .sima-cambios__retracto > div {
+      padding: 2.5rem;
+    }
+  }
+
+  .sima-cambios__retracto > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 16rem;
+    background: #f2efe9;
+    color: #121212;
+  }
+
+  .sima-cambios__retracto > div:first-child > p:first-child {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgb(18 18 18 / 0.6);
+  }
+
+  .sima-cambios__retracto > div:first-child > p:last-child {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin: 2rem 0 0;
+  }
+
+  .sima-cambios__retracto > div:first-child strong {
+    color: #121212;
+    font-family: var(--font-heading--family);
+    font-size: clamp(9rem, 22vw, 17rem);
+    font-weight: 700;
+    line-height: 0.78;
+    letter-spacing: -0.04em;
+  }
+
+  .sima-cambios__retracto > div:last-child strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .sima-cambios__retracto > div:first-child span {
+    padding-bottom: 0.75rem;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.08;
+    text-transform: uppercase;
+  }
+
+  .sima-cambios h2 {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    font-weight: 700;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .sima-cambios__retracto > div:last-child p,
+  .sima-cambios__policies p,
+  .sima-cambios__refund p,
+  .sima-cambios__steps p {
+    max-width: 56ch;
+    margin: 1rem 0 0;
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  .sima-cambios__retracto > div:last-child strong {
+    color: #fff;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: inherit;
+  }
+
+  .sima-cambios__policies {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 750px) {
+    .sima-cambios__policies {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .sima-cambios__policies article {
+    padding: 1.5rem;
+    border: 1px solid rgb(255 255 255 / 0.15);
+  }
+
+  @media (min-width: 750px) {
+    .sima-cambios__policies article {
+      padding: 2.5rem;
+    }
+  }
+
+  .sima-cambios__policies h2 {
+    margin-top: 0;
+  }
+
+  .sima-cambios__steps,
+  .sima-cambios__refund {
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+  }
+
+  .sima-cambios__steps {
+    padding-block: 4rem;
+  }
+
+  @media (min-width: 750px) {
+    .sima-cambios__steps { padding-block: 5rem; }
+  }
+
+  @media (min-width: 990px) {
+    .sima-cambios__steps { padding-block: 7rem; }
+  }
+
+  .sima-cambios__steps ol {
+    display: grid;
+    gap: 2.5rem;
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 750px) {
+    .sima-cambios__steps ol {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .sima-cambios__steps ol {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 4rem;
+    }
+
+    .sima-cambios__steps li {
+      min-width: 0;
+      padding-right: 2.5rem;
+    }
+  }
+
+  .sima-cambios__steps li > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sima-cambios__steps span {
+    font-family: var(--font-heading--family);
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .sima-cambios__steps i {
+    flex: 1;
+    height: 1px;
+    background: rgb(255 255 255 / 0.25);
+  }
+
+  .sima-cambios__steps b {
+    display: none;
+    color: rgb(255 255 255 / 0.4);
+    font-weight: 400;
+  }
+
+  @media (min-width: 990px) {
+    .sima-cambios__steps b { display: inline; }
+  }
+
+  .sima-cambios__steps p {
+    max-width: 30ch;
+    margin-top: 1.25rem;
+    color: rgb(255 255 255 / 0.8);
+  }
+
+  .sima-cambios__steps a {
+    color: #fff;
+    text-decoration-color: rgb(255 255 255 / 0.4);
+    text-underline-offset: 5px;
+  }
+
+  .sima-cambios__steps a:hover {
+    text-decoration-color: #fff;
+  }
+
+  .sima-cambios__refund {
+    padding-block: 3.5rem;
+  }
+
+  @media (min-width: 750px) {
+    .sima-cambios__refund { padding-block: 4rem; }
+  }
+
+  @media (min-width: 990px) {
+    .sima-cambios__refund { padding-block: 5rem; }
+
+    .sima-cambios__refund .sima-ayuda__wrap {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 1.5rem;
+      align-items: baseline;
+    }
+
+    .sima-cambios__refund h2 { grid-column: span 5; }
+
+    .sima-cambios__refund p {
+      grid-column: span 7;
+      max-width: 56ch;
+      margin: 0;
+      font-size: 1.125rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Cambios",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "whatsapp",
+      "label": "WhatsApp",
+      "default": "https://wa.me/573189154899"
+    }
+  ],
+  "presets": [{ "name": "SIMA — Cambios" }]
+}
+{% endschema %}

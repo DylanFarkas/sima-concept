@@ -1,0 +1,231 @@
+<sima-faq class="sima-ayuda">
+  <header class="sima-ayuda__hero">
+    <div class="sima-ayuda__wrap">
+      <div class="sima-ayuda__grid">
+        <h1 class="sima-ayuda__title">
+          <span>Preguntas</span>
+          <span class="sima-ayuda__stroke">frecuentes</span>
+        </h1>
+        <div class="sima-ayuda__intro">
+          <p class="sima-ayuda__lead">
+            Reunimos aquí las dudas más comunes. Si no encuentras la tuya, escríbenos desde la
+            <a href="{{ section.settings.whatsapp }}" target="_blank" rel="noreferrer">página de contacto</a>
+            y te respondemos.
+          </p>
+        </div>
+      </div>
+      {% render 'sima-ayuda-nav', current: 'preguntas-frecuentes' %}
+    </div>
+  </header>
+
+  <div class="sima-ayuda__wrap sima-faq">
+    <div class="sima-faq__list">
+      <details open>
+        <summary>
+          <span>01</span>
+          <h2>¿Cómo elijo mi talla?</h2>
+          <i aria-hidden="true"></i>
+        </summary>
+        <p>
+          Manejamos numeración colombiana. Consulta nuestra <a href="{{ pages['guia-de-tallas'].url }}">guía de tallas</a> para ver la equivalencia con la talla europea que trae la etiqueta de tu calzado. Si dudas entre dos, te recomendamos la más grande, o escríbenos y te orientamos.
+        </p>
+      </details>
+      <details>
+        <summary>
+          <span>02</span>
+          <h2>¿Cuánto tarda mi pedido?</h2>
+          <i aria-hidden="true"></i>
+        </summary>
+        <p>Consulta los plazos y coberturas en <a href="{{ pages['envios'].url }}">Envíos</a>.</p>
+      </details>
+      <details>
+        <summary>
+          <span>03</span>
+          <h2>¿Puedo cambiar o devolver un producto?</h2>
+          <i aria-hidden="true"></i>
+        </summary>
+        <p>
+          Sí. Tienes derecho de retracto dentro de los cinco días hábiles siguientes a la entrega. Las condiciones completas están en <a href="{{ pages['cambios-y-devoluciones'].url }}">Cambios y devoluciones</a>.
+        </p>
+      </details>
+      <details>
+        <summary>
+          <span>04</span>
+          <h2>¿Qué métodos de pago aceptan?</h2>
+          <i aria-hidden="true"></i>
+        </summary>
+        <p>Puedes ver los medios disponibles al finalizar la compra. Todos los pagos se procesan de forma segura.</p>
+      </details>
+      <details>
+        <summary>
+          <span>05</span>
+          <h2>¿Cómo cuido mi calzado?</h2>
+          <i aria-hidden="true"></i>
+        </summary>
+        <p>
+          Limpia con un paño húmedo y jabón suave, nunca en lavadora. Deja secar a la sombra, lejos de fuentes de calor directo. Si el material es gamuza, usa cepillo seco y protector específico para ese acabado.
+        </p>
+      </details>
+    </div>
+  </div>
+
+  {% render 'sima-page-close', title: 'Atención personalizada', text: 'Estamos para ayudarte.', whatsapp: section.settings.whatsapp %}
+</sima-faq>
+
+{% stylesheet %}
+  .sima-faq {
+    padding-bottom: 4rem;
+  }
+
+  .sima-faq__list {
+    border-bottom: 1px solid rgb(255 255 255 / 0.15);
+  }
+
+  .sima-faq details {
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+  }
+
+  .sima-faq summary {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .sima-faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (min-width: 750px) {
+    .sima-faq summary,
+    .sima-faq p {
+      grid-template-columns: 4rem 1fr;
+    }
+
+    .sima-faq summary {
+      grid-template-columns: 4rem 1fr auto;
+      gap: 1.5rem;
+      padding: 2rem 0;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .sima-faq summary {
+      grid-template-columns: 8rem 1fr auto;
+    }
+  }
+
+  .sima-faq summary span {
+    font-family: var(--font-heading--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: rgb(255 255 255 / 0.35);
+  }
+
+  .sima-faq details[open] summary span {
+    color: #bcb1a6;
+  }
+
+  .sima-faq h2 {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.375rem, 3.4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.7);
+  }
+
+  .sima-faq details[open] h2,
+  .sima-faq summary:hover h2 {
+    color: #fff;
+  }
+
+  .sima-faq summary i {
+    position: relative;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid rgb(255 255 255 / 0.25);
+  }
+
+  .sima-faq summary i::before,
+  .sima-faq summary i::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: currentcolor;
+    transform: translate(-50%, -50%);
+  }
+
+  .sima-faq summary i::before {
+    width: 1rem;
+    height: 1px;
+  }
+
+  .sima-faq summary i::after {
+    width: 1px;
+    height: 1rem;
+  }
+
+  .sima-faq details[open] summary i {
+    border-color: #fff;
+    background: #fff;
+    color: #121212;
+  }
+
+  .sima-faq details[open] summary i::after {
+    display: none;
+  }
+
+  .sima-faq p {
+    max-width: 60ch;
+    margin: 0 0 2rem 3.25rem;
+    font-family: var(--font-body--family);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  @media (min-width: 750px) {
+    .sima-faq p {
+      margin-left: 5.5rem;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .sima-faq p {
+      margin-left: 9.5rem;
+    }
+  }
+
+  .sima-faq a {
+    color: #fff;
+    text-underline-offset: 5px;
+  }
+
+  .sima-faq summary:focus-visible {
+    outline: 2px solid #fff;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SIMA — Preguntas",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "whatsapp",
+      "label": "WhatsApp",
+      "default": "https://wa.me/573189154899"
+    }
+  ],
+  "presets": [{ "name": "SIMA — Preguntas" }]
+}
+{% endschema %}

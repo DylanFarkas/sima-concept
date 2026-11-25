@@ -1,0 +1,109 @@
+{% doc %}
+  Cream closing band used at the end of a content page.
+  @param {string} title - Heading. The last word is drawn as an outline.
+  @param {string} text - Supporting sentence
+  @param {string} whatsapp - WhatsApp link
+  @example
+  {% render 'sima-page-close', title: '¿Dudas con tu talla?', text: 'Escríbenos.', whatsapp: 'https://wa.me/573189154899' %}
+{% enddoc %}
+
+<section class="sima-close">
+  <div class="sima-close__grid">
+    <h2>
+      {%- assign words = title | split: ' ' -%}
+      {%- assign last_index = words.size | minus: 1 -%}
+      {%- if last_index > 0 -%}
+        <span class="is-lead">
+          {%- for word in words -%}
+            {%- if forloop.index0 < last_index -%}{{ word }} {% endif -%}
+          {%- endfor -%}
+        </span>
+      {%- endif -%}
+      <span class="is-stroke">{{ words | last }}</span>
+    </h2>
+    <div>
+      <p>{{ text }}</p>
+      <a href="{{ whatsapp }}" target="_blank" rel="noreferrer">Escríbenos por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sima-close {
+    background: #f2efe9;
+    color: #121212;
+  }
+
+  .sima-close__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: end;
+    width: 100%;
+    max-width: var(--page-width);
+    margin-inline: auto;
+    padding: 4rem var(--page-margin);
+  }
+
+  @media (min-width: 990px) {
+    .sima-close__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 3rem;
+      padding-block: 7rem;
+    }
+
+    .sima-close h2 {
+      grid-column: span 7;
+    }
+
+    .sima-close__grid > div {
+      grid-column: span 5;
+      padding-bottom: 0.75rem;
+    }
+  }
+
+  .sima-close h2 {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.75rem, 7vw, 6.5rem);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .sima-close h2 span {
+    display: block;
+  }
+
+  .sima-close h2 .is-stroke {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #121212;
+  }
+
+  .sima-close p {
+    max-width: 40ch;
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .sima-close a {
+    display: inline-flex;
+    margin-top: 2rem;
+    padding: 0.875rem 1.25rem;
+    background: #121212;
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .sima-close a:focus-visible {
+    outline: 2px solid #121212;
+    outline-offset: 4px;
+  }
+{% endstylesheet %}
