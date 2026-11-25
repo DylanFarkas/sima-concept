@@ -8,9 +8,13 @@
 {% enddoc %}
 
 <form id="{{ form_id }}" class="sima-grilla__form" action="{{ request.path }}" method="get">
-  {% render 'sima-shoe-filters', sort: sort %}
+  {% render 'sima-shoe-filters' %}
   <input type="hidden" name="sort_by" value="{{ sort }}">
   {%- for filter in collection.filters -%}
+    {%- comment -%} Género y Disciplina los pinta sima-shoe-filters, solo en zapatillas. {%- endcomment -%}
+    {%- if filter.param_name == 'filter.p.m.custom.audiencia' or filter.param_name == 'filter.p.m.custom.disciplina' -%}
+      {%- continue -%}
+    {%- endif -%}
     {%- assign sima_kind = 'list' -%}
     {%- assign sima_label = filter.label -%}
     {%- assign sima_probe = filter.label | downcase -%}

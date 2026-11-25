@@ -163,7 +163,7 @@
 
       {%- liquid
         assign sima_tone = 'dark'
-        if template.name == 'product' and product.tags contains 'departamento:nutricion'
+        if template.name == 'product' and product.metafields.custom.departamento.value == 'Nutrición'
           assign sima_tone = 'light'
           render 'sima-tone-light'
         endif

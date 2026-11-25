@@ -1,7 +1,9 @@
 {% doc %}
   Casillas de género y disciplina para las colecciones de zapatillas.
-  Usan el filtro nativo por etiqueta de la misma colección.
-  @param {string} sort - Orden actual, se conserva en el enlace
+  Son filtros nativos de Search & Discovery sobre los metacampos de producto
+  custom.audiencia (filtro «Género») y custom.disciplina (filtro «Disciplina»).
+  Las opciones son fijas para que Basketball se vea aunque no tenga productos.
+  Va dentro del formulario de filtros: al marcar una casilla, la grilla filtra sola.
 {% enddoc %}
 
 {%- liquid
@@ -13,52 +15,45 @@
   if collection.handle == 'zapatos'
     assign sima_shoe_parent = true
   endif
-  assign sima_audience = ''
-  assign sima_discipline = ''
-  for sima_tag in current_tags
-    assign sima_handle = sima_tag | handle
-    if sima_handle contains 'audiencia-'
-      assign sima_audience = sima_handle
-    elsif sima_handle contains 'disciplina-'
-      assign sima_discipline = sima_handle
+
+  assign sima_aud_param = 'filter.p.m.custom.audiencia'
+  assign sima_dis_param = 'filter.p.m.custom.disciplina'
+  assign sima_aud_active = '|'
+  assign sima_dis_active = '|'
+  assign sima_aud_count = 0
+  assign sima_dis_count = 0
+  for sima_filter in collection.filters
+    if sima_filter.param_name == sima_aud_param
+      for sima_value in sima_filter.active_values
+        assign sima_aud_active = sima_aud_active | append: sima_value.value | append: '|'
+        assign sima_aud_count = sima_aud_count | plus: 1
+      endfor
+    elsif sima_filter.param_name == sima_dis_param
+      for sima_value in sima_filter.active_values
+        assign sima_dis_active = sima_dis_active | append: sima_value.value | append: '|'
+        assign sima_dis_count = sima_dis_count | plus: 1
+      endfor
     endif
   endfor
 -%}
 
 {%- if sima_shoe and sima_shoe_parent -%}
   <details class="sima-grilla__filter" open>
-    <summary>Género{%- if sima_audience != blank %} (1){%- endif -%}</summary>
+    <summary>Género{%- if sima_aud_count > 0 %} ({{ sima_aud_count }}){%- endif -%}</summary>
     <ul class="sima-grilla__options">
-      {%- assign sima_genders = 'Hombre|audiencia-hombre||Mujer|audiencia-mujer||Unisex|audiencia-unisex' | split: '||' -%}
-      {%- for sima_row in sima_genders -%}
-        {%- assign sima_pair = sima_row | split: '|' -%}
-        {%- assign sima_label = sima_pair | first -%}
-        {%- assign sima_value = sima_pair | last -%}
-        {%- assign sima_next = sima_value -%}
-        {%- if sima_audience == sima_value -%}
-          {%- assign sima_next = '' -%}
-        {%- endif -%}
-        {%- assign sima_parts = sima_next -%}
-        {%- if sima_discipline != blank -%}
-          {%- if sima_parts != blank -%}
-            {%- assign sima_parts = sima_parts | append: '+' | append: sima_discipline -%}
-          {%- else -%}
-            {%- assign sima_parts = sima_discipline -%}
-          {%- endif -%}
-        {%- endif -%}
-        {%- if sima_parts == blank -%}
-          {%- assign sima_href = collection.url -%}
-        {%- else -%}
-          {%- assign sima_href = collection.url | append: '/' | append: sima_parts -%}
-        {%- endif -%}
-        {%- if sort != blank -%}
-          {%- assign sima_href = sima_href | append: '?sort_by=' | append: sort -%}
-        {%- endif -%}
+      {%- assign sima_genders = 'Hombre,Mujer,Unisex' | split: ',' -%}
+      {%- for sima_label in sima_genders -%}
+        {%- assign sima_key = '|' | append: sima_label | append: '|' -%}
         <li>
-          <a class="sima-grilla__check" href="{{ sima_href }}">
-            <span class="sima-grilla__tick"{% if sima_audience == sima_value %} data-on{% endif %}></span>
+          <label class="sima-grilla__check">
+            <input
+              type="checkbox"
+              name="{{ sima_aud_param }}"
+              value="{{ sima_label }}"
+              {% if sima_aud_active contains sima_key %}checked{% endif %}
+            >
             <span>{{ sima_label }}</span>
-          </a>
+          </label>
         </li>
       {%- endfor -%}
     </ul>
@@ -67,41 +62,21 @@
 
 {%- if sima_shoe -%}
   <details class="sima-grilla__filter" open>
-    <summary>Disciplina{%- if sima_discipline != blank %} (1){%- endif -%}</summary>
+    <summary>Disciplina{%- if sima_dis_count > 0 %} ({{ sima_dis_count }}){%- endif -%}</summary>
     <ul class="sima-grilla__options">
-      {%- assign sima_disciplines = 'Running|disciplina-running||Hiking|disciplina-hiking||Training|disciplina-training||Basketball|disciplina-basketball||Classic|disciplina-classic' | split: '||' -%}
-      {%- for sima_row in sima_disciplines -%}
-        {%- assign sima_pair = sima_row | split: '|' -%}
-        {%- assign sima_label = sima_pair | first -%}
-        {%- assign sima_value = sima_pair | last -%}
-        {%- assign sima_next = sima_value -%}
-        {%- if sima_discipline == sima_value -%}
-          {%- assign sima_next = '' -%}
-        {%- endif -%}
-        {%- assign sima_parts = '' -%}
-        {%- if sima_shoe_parent and sima_audience != blank -%}
-          {%- assign sima_parts = sima_audience -%}
-        {%- endif -%}
-        {%- if sima_next != blank -%}
-          {%- if sima_parts != blank -%}
-            {%- assign sima_parts = sima_parts | append: '+' | append: sima_next -%}
-          {%- else -%}
-            {%- assign sima_parts = sima_next -%}
-          {%- endif -%}
-        {%- endif -%}
-        {%- if sima_parts == blank -%}
-          {%- assign sima_href = collection.url -%}
-        {%- else -%}
-          {%- assign sima_href = collection.url | append: '/' | append: sima_parts -%}
-        {%- endif -%}
-        {%- if sort != blank -%}
-          {%- assign sima_href = sima_href | append: '?sort_by=' | append: sort -%}
-        {%- endif -%}
+      {%- assign sima_disciplines = 'Running,Hiking,Training,Basketball,Classic' | split: ',' -%}
+      {%- for sima_label in sima_disciplines -%}
+        {%- assign sima_key = '|' | append: sima_label | append: '|' -%}
         <li>
-          <a class="sima-grilla__check" href="{{ sima_href }}">
-            <span class="sima-grilla__tick"{% if sima_discipline == sima_value %} data-on{% endif %}></span>
+          <label class="sima-grilla__check">
+            <input
+              type="checkbox"
+              name="{{ sima_dis_param }}"
+              value="{{ sima_label }}"
+              {% if sima_dis_active contains sima_key %}checked{% endif %}
+            >
             <span>{{ sima_label }}</span>
-          </a>
+          </label>
         </li>
       {%- endfor -%}
     </ul>
