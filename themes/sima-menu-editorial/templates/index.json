@@ -287,7 +287,7 @@
             "label": "Calzado",
             "text": "Ligereza y soporte en cada kilómetro.",
             "button_label": "Comprar",
-            "product": "asics-ff-turbo-hombre-1",
+            "product": "asics-ff-turbo-hombre",
             "image": "shopify://shop_images/IMG_4279.jpg",
             "photo_source": "product"
           }
@@ -361,14 +361,14 @@
         "underarmour": {
           "type": "piece",
           "settings": {
-            "product": "conjunto-tela-fria-underarmour",
+            "product": "conjunto-tela-fria-under-armour",
             "label": ""
           }
         },
         "drifit": {
           "type": "piece",
           "settings": {
-            "product": "chaqueta-drifit",
+            "product": "chaqueta-dri-fit",
             "label": ""
           }
         },
@@ -396,7 +396,7 @@
         "sisa": {
           "type": "piece",
           "settings": {
-            "product": "camisa-sisa-puma",
+            "product": "camiseta-sisa-puma",
             "label": ""
           }
         }
@@ -440,7 +440,7 @@
             "text": "Sets y enterizos que te acompañan dentro y fuera del gimnasio.",
             "cta": "Comprar sets",
             "collection": "mujer-sets",
-            "product": "enterizo-nova-copy",
+            "product": "set-2-piezas-2",
             "alignment": "right"
           }
         }
@@ -475,7 +475,7 @@
           "type": "shoe",
           "settings": {
             "word": "Asics",
-            "product": "asics-ff-leap"
+            "product": "asics-ff-leap-hombre"
           }
         },
         "airmax": {
@@ -496,7 +496,7 @@
           "type": "shoe",
           "settings": {
             "word": "9060",
-            "product": "new-balance-9060-dama"
+            "product": "new-balance-9060-mujer"
           }
         }
       },

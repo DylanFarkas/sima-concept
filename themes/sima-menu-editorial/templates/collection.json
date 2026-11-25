@@ -576,8 +576,8 @@
           "settings": {
             "handle": "mujer",
             "tone": "light",
-            "product_1": "pantaloneta-running-nike-plizada",
-            "product_2": "chaqueta-drifit",
+            "product_1": "pantaloneta-running-nike-plisada",
+            "product_2": "chaqueta-dri-fit",
             "product_3": "sudadera-fit",
             "product_4": "basics-leggins",
             "product_5": "enterizo-vitalia"
@@ -647,7 +647,7 @@
             "text": "Zapatillas para correr, entrenar y volver a salir mañana.",
             "button_label": "Zapatillas de hombre",
             "button_link": "shopify://collections/zapatos-hombre",
-            "product": "adizero-hombre"
+            "product": "adidas-adizero-hombre"
           }
         },
         "zapatos_clasicos": {
