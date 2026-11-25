@@ -378,7 +378,7 @@
                                 {% liquid
                                   assign sima_discipline_kids = false
                                   for grandchildlink in childlink.links
-                                    if grandchildlink.url contains 'disciplina-'
+                                    if grandchildlink.url contains 'disciplina'
                                       assign sima_discipline_kids = true
                                     endif
                                   endfor

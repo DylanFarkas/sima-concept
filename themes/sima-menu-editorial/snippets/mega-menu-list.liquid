@@ -96,7 +96,7 @@
     {% liquid
       assign sima_drill = false
       for childLink in link.links
-        if childLink.url contains 'disciplina-'
+        if childLink.url contains 'disciplina'
           assign sima_drill = true
           assign sima_has_drill = true
         endif
@@ -231,7 +231,7 @@
       {% liquid
         assign sima_drill = false
         for childLink in link.links
-          if childLink.url contains 'disciplina-'
+          if childLink.url contains 'disciplina'
             assign sima_drill = true
           endif
         endfor
