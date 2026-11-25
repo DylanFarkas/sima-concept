@@ -1,7 +1,7 @@
 import type { CategorySlug, Product } from "@/lib/catalog";
 import { catalogProduct } from "@/lib/home-picks";
 
-export type HeroMedia = { type: "video" | "image"; src: string };
+export type HeroMedia = { type: "video" | "image"; src: string; position?: string };
 export type Cta = { label: string; href: string };
 export type Tone = "dark" | "white";
 
@@ -36,10 +36,19 @@ export type CategoryHeroConfig =
 
 export type CategoryModule =
   | { kind: "explore"; title: string; photos: Record<string, Product | string> }
+  | { kind: "kits"; title: string; text: string; kits: KitConfig[] }
   | { kind: "bestsellers"; title: string; eyebrow: string; products: Product[] }
   | { kind: "brands"; title: string; text: string }
   | { kind: "feature"; eyebrow: string; text: string; product: Product; image?: string }
   | { kind: "phrase"; text: string; tone: Tone; cta?: Cta };
+
+export type KitConfig = {
+  key: string;
+  image: string;
+  tagline: string;
+  text: string;
+  picks: Product[];
+};
 
 export type GridInsert =
   | { after: number; kind: "campaign"; title: string; text: string; cta: Cta; product: Product }
@@ -68,7 +77,7 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
       text: "Ropa de entrenamiento para cada sesión, del calentamiento a la última serie.",
       cta: toGrid,
       product: catalogProduct("compresion-manga-larga"),
-      media: { type: "video", src: "/sima/sima-category-hero-video.mp4" },
+      media: { type: "video", src: "/sima/video-prueba.mp4" },
     },
     before: [
       {
@@ -113,7 +122,7 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
       text: "Ropa para entrenar con estilo, también si estás empezando.",
       cta: toGrid,
       product: catalogProduct("enterizo-vitalia"),
-      media: { type: "video", src: "/sima/sima-category-hero-video.mp4" },
+      media: { type: "image", src: "/sima/mujer-hero.webp", position: "72% 25%" },
     },
     before: [
       {
@@ -251,12 +260,35 @@ export const categoryPages: Record<CategorySlug, CategoryPage> = {
     },
     before: [
       {
-        kind: "explore",
+        kind: "kits",
         title: "Completa tu equipo",
-        photos: {
-          entrenamiento: "/sima/entrenamiento-img.webp",
-          hidratacion: "/sima/hidratacion-img.webp",
-        },
+        text: "Lo que no se ve en la foto, pero se nota en cada serie: agarre, soporte y agua fría hasta el final.",
+        kits: [
+          {
+            key: "entrenamiento",
+            image: "/sima/entrenamiento-img.webp",
+            tagline: "Agarre · Soporte · Protección",
+            text: "Straps, calleras, muñequeras y rodilleras para levantar más pesado y con seguridad.",
+            picks: [
+              catalogProduct("rodillera-rotular"),
+              catalogProduct("rodilleras-de-poder"),
+              catalogProduct("calleras-crossfit"),
+              catalogProduct("munequera-cobra"),
+            ],
+          },
+          {
+            key: "hidratacion",
+            image: "/sima/hidratacion-img.webp",
+            tagline: "Frío por horas · Antifugas",
+            text: "Termos Stanley y Owala que te acompañan del gimnasio a la oficina.",
+            picks: [
+              catalogProduct("termo-owala-32oz"),
+              catalogProduct("termo-stanley-vaso"),
+              catalogProduct("termo-stanley-20oz"),
+              catalogProduct("termo-stanley-40oz"),
+            ],
+          },
+        ],
       },
     ],
     grid: { aspect: "square", tone: "dark", inserts: [] },

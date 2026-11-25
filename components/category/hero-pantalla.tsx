@@ -22,6 +22,7 @@ export function HeroPantalla({ hero }: Props) {
           src={hero.media?.src ?? hero.product.image}
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition: hero.media?.position }}
         />
       )}
       <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/10" />

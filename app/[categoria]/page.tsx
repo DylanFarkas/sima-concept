@@ -10,6 +10,7 @@ import { HeroPartido } from "@/components/category/hero-partido";
 import { CompactHeader } from "@/components/category/compact-header";
 import { BestSellers } from "@/components/category/best-sellers";
 import { ExploreTiles } from "@/components/category/explore-tiles";
+import { EquipmentKits } from "@/components/category/equipment-kits";
 import { BrandIndex } from "@/components/category/brand-index";
 import { FeatureSpotlight } from "@/components/category/feature-spotlight";
 import { PhraseBand } from "@/components/category/phrase-band";
@@ -205,6 +206,25 @@ function ModuleBlock({
         };
       });
     return <ExploreTiles title={module.title} items={items} />;
+  }
+
+  if (module.kind === "kits") {
+    const kits = module.kits.flatMap((kit) => {
+      const sub = subcategories.find((entry) => entry.key === kit.key);
+      if (!sub) return [];
+      const products = filterCatalog(categories[slug].products, { tipo: kit.key }).products;
+      const prices = products.filter((product) => product.available).map((product) => product.price);
+      return [
+        {
+          ...kit,
+          label: sub.label,
+          href: sub.href,
+          count: products.length,
+          from: Math.min(...(prices.length ? prices : products.map((product) => product.price))),
+        },
+      ];
+    });
+    return <EquipmentKits title={module.title} text={module.text} kits={kits} />;
   }
 
   if (module.kind === "brands") {
