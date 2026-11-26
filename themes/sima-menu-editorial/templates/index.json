@@ -307,8 +307,8 @@
           "type": "card",
           "settings": {
             "collection": "suplementos",
-            "label": "Nutrición",
-            "text": "Nutrición que potencia tu mejor versión.",
+            "label": "Suplementos",
+            "text": "Suplementos que potencian tu mejor versión.",
             "button_label": "Comprar",
             "product": "muscletech-nitro-tech-whey-gold-proteina",
             "photo_source": "product"
@@ -582,8 +582,8 @@
         "nutricion": {
           "type": "tile",
           "settings": {
-            "label": "Nutrición",
-            "text": "Nutrición que potencia tu mejor versión.",
+            "label": "Suplementos",
+            "text": "Suplementos que potencian tu mejor versión.",
             "button_label": "Ver todo",
             "collection": "suplementos",
             "product": "muscletech-nitro-tech-whey-gold-proteina",
@@ -2347,7 +2347,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Nutrición que potencia tu mejor version.</p>",
+                    "text": "<p>Suplementos que potencian tu mejor versión.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",

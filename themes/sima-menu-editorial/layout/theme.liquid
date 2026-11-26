@@ -30,6 +30,7 @@
     {% endif %}
 
     {%- render 'meta-tags' -%}
+    {%- render 'sima-breadcrumbs-jsonld' -%}
     {%- render 'stylesheets' -%}
     {%- render 'card-hover-effect-styles' -%}
     {%- render 'fonts' -%}
@@ -163,7 +164,7 @@
 
       {%- liquid
         assign sima_tone = 'dark'
-        if template.name == 'product' and product.metafields.custom.departamento.value == 'Nutrición'
+        if template.name == 'product' and product.metafields.custom.departamento.value == 'Suplementos'
           assign sima_tone = 'light'
           render 'sima-tone-light'
         endif

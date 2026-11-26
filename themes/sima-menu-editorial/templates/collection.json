@@ -60,8 +60,8 @@
           "type": "coleccion",
           "settings": {
             "handle": "suplementos",
-            "title": "Nutrición",
-            "text": "Nutrición que potencia tu mejor versión.",
+            "title": "Suplementos",
+            "text": "Suplementos que potencian tu mejor versión.",
             "image": "shopify://shop_images/sima-nutricion-hero3.jpg",
             "image_position": "center",
             "image_position_mobile": ""
@@ -261,7 +261,7 @@
           "settings": {
             "handle": "suplementos-proteina",
             "title": "Proteína",
-            "parent_label": "Nutrición",
+            "parent_label": "Suplementos",
             "parent_handle": "suplementos",
             "tone": "light"
           }
@@ -271,7 +271,7 @@
           "settings": {
             "handle": "suplementos-aminoacidos",
             "title": "Aminoácidos",
-            "parent_label": "Nutrición",
+            "parent_label": "Suplementos",
             "parent_handle": "suplementos",
             "tone": "light"
           }
@@ -281,7 +281,7 @@
           "settings": {
             "handle": "suplementos-creatinas",
             "title": "Creatinas",
-            "parent_label": "Nutrición",
+            "parent_label": "Suplementos",
             "parent_handle": "suplementos",
             "tone": "light"
           }
@@ -291,7 +291,7 @@
           "settings": {
             "handle": "suplementos-preentreno",
             "title": "Preentreno",
-            "parent_label": "Nutrición",
+            "parent_label": "Suplementos",
             "parent_handle": "suplementos",
             "tone": "light"
           }
