@@ -1,7 +1,7 @@
 {% doc %}
   Publica el símbolo de SIMA como icono del sitio.
   Los buscadores leen este enlace en la página de inicio.
-  El logo de Archivos es apaisado, así que el archivo del tema es el símbolo arena #BCB1A6, grande, sobre fondo negro (Google lo recorta en círculo).
+  El logo de Archivos es apaisado, así que el archivo del tema es el símbolo arena #BCB1A6 dentro de un disco negro de borde a borde, con las esquinas transparentes (480 × 480). Google achica el icono hasta que lo opaco quepa en su círculo: un disco lo llena entero; un cuadrado queda al 70 % con esquinas blancas.
 
   @example
   {% render 'sima-favicon' %}
@@ -22,7 +22,7 @@
   <link
     rel="icon"
     type="image/png"
-    sizes="512x512"
+    sizes="480x480"
     href="{{ 'sima-favicon.png' | asset_url }}"
   >
   <link
