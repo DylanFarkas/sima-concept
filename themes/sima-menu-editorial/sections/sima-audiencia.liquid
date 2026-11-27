@@ -1,0 +1,417 @@
+{%- liquid
+  assign sima_show = false
+  if section.settings.parent != blank and collection.handle == section.settings.parent and section.blocks.size > 0
+    assign sima_show = true
+  endif
+-%}
+
+{%- if sima_show -%}
+  {% style %}
+    .sima-audiencia {
+      --sa-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --sa-mute: rgb(255 255 255 / 0.6);
+      --sa-line: rgb(255 255 255 / 0.12);
+      display: block;
+      background: #121212;
+      color: #fff;
+    }
+
+    .sima-audiencia__head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem 1.5rem;
+      padding: 1.25rem var(--page-margin, 1.25rem);
+      border-top: 1px solid var(--sa-line);
+    }
+
+    .sima-audiencia__eyebrow {
+      margin: 0;
+      color: #fff;
+      font-family: var(--font-heading--family);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .sima-audiencia__meta {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      margin: 0;
+      color: var(--sa-mute);
+      font-family: var(--font-body--family);
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .sima-audiencia__link {
+      color: #fff;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgb(255 255 255 / 0.6);
+      padding-bottom: 0.25rem;
+    }
+
+    .sima-audiencia__link:hover,
+    .sima-audiencia__link:focus-visible {
+      border-bottom-color: #fff;
+      outline: none;
+    }
+
+    .sima-audiencia__list {
+      display: grid;
+      grid-template-columns: repeat(var(--sa-cols, 2), minmax(0, 1fr));
+      gap: 2px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sima-audiencia__item {
+      min-width: 0;
+    }
+
+    .sima-audiencia__panel {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #1a1a1a;
+      color: #fff;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sima-audiencia__panel:is(:focus, :focus-visible) {
+      outline: none;
+    }
+
+    .sima-audiencia__panel:focus-visible {
+      box-shadow: inset 0 0 0 2px #fff;
+    }
+
+    .sima-audiencia__media {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--sa-pos-m, var(--sa-pos, center));
+    }
+
+    .sima-audiencia__shade {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(
+        to top,
+        rgb(0 0 0 / 0.75) 0%,
+        rgb(0 0 0 / 0.4) 22%,
+        rgb(0 0 0 / 0) 45%
+      );
+    }
+
+    .sima-audiencia__content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 0 0.875rem 1rem;
+    }
+
+    .sima-audiencia__name {
+      margin: 0;
+      font-family: var(--font-heading--family);
+      font-size: clamp(1.75rem, 9.5vw, 3rem);
+      font-weight: 700;
+      line-height: 0.82;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      text-transform: uppercase;
+      text-shadow: 0 2px 24px rgb(0 0 0 / 0.35);
+    }
+
+    /* Sin foto: el nombre va en contorno, como la palabra final del Destacado. */
+    .sima-audiencia__panel--bare .sima-audiencia__name {
+      color: transparent;
+      -webkit-text-stroke: 1.5px #fff;
+      text-shadow: none;
+    }
+
+    .sima-audiencia__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgb(255 255 255 / 0.35);
+      font-family: var(--font-body--family);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .sima-audiencia__count {
+      color: rgb(255 255 255 / 0.85);
+    }
+
+    .sima-audiencia__arrow {
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      transition: transform 240ms var(--sa-ease);
+    }
+
+    @media (hover: hover) {
+      .sima-audiencia__panel:hover .sima-audiencia__arrow {
+        transform: translateX(0.375rem);
+      }
+    }
+
+    .sima-audiencia__panel:active .sima-audiencia__arrow {
+      transform: translateX(0.375rem);
+    }
+
+    @media screen and (min-width: 750px) {
+      .sima-audiencia__head {
+        padding: 1.5rem var(--page-margin, 2rem);
+      }
+
+      .sima-audiencia__eyebrow,
+      .sima-audiencia__meta {
+        font-size: 0.8125rem;
+      }
+
+      .sima-audiencia__panel {
+        aspect-ratio: auto;
+        height: min(48vw, calc(100svh - var(--header-height, 66px)));
+        min-height: 28rem;
+      }
+
+      .sima-audiencia__media {
+        object-position: var(--sa-pos, center);
+      }
+
+      .sima-audiencia__content {
+        gap: 1.25rem;
+        padding: 0 clamp(1.5rem, 2.6vw, 2.75rem) clamp(1.5rem, 2.6vw, 2.75rem);
+      }
+
+      .sima-audiencia__name {
+        font-size: clamp(3.5rem, 7.5vw, 8rem);
+      }
+
+      .sima-audiencia__panel--bare .sima-audiencia__name {
+        -webkit-text-stroke-width: 2px;
+      }
+
+      .sima-audiencia__row {
+        padding-top: 1rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sima-audiencia__arrow {
+        transition: none;
+      }
+    }
+  {% endstyle %}
+
+  {%- liquid
+    assign sima_total = 0
+    for block in section.blocks
+      if block.settings.collection != blank
+        assign sima_total = sima_total | plus: block.settings.collection.products_count
+      endif
+    endfor
+    assign sima_extra = section.settings.extra_collection
+    if sima_extra != blank
+      assign sima_total = sima_total | plus: sima_extra.products_count
+    endif
+    assign sima_unit = section.settings.unit | default: 'modelos'
+  -%}
+
+  <div class="sima-audiencia" style="--sa-cols: {{ section.blocks.size | at_most: 3 }};">
+    <div class="sima-audiencia__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <h2 class="sima-audiencia__eyebrow">{{ section.settings.eyebrow }}</h2>
+      {%- endif -%}
+      <p class="sima-audiencia__meta">
+        {%- if sima_total > 0 -%}
+          <span>{{ sima_total }} {{ sima_unit }}</span>
+        {%- endif -%}
+        {%- if sima_extra != blank and section.settings.extra_label != blank -%}
+          <a class="sima-audiencia__link" href="{{ sima_extra.url }}">{{ section.settings.extra_label }}</a>
+        {%- endif -%}
+      </p>
+    </div>
+
+    <ul class="sima-audiencia__list" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign sima_col = block.settings.collection
+          assign sima_img = block.settings.image
+          assign sima_name = block.settings.title
+          if sima_name == blank and sima_col != blank
+            assign sima_name = sima_col.title
+          endif
+          assign sima_style = ''
+          if block.settings.image_position != blank
+            assign sima_style = '--sa-pos: ' | append: block.settings.image_position | append: ';'
+          endif
+          if block.settings.image_position_mobile != blank
+            assign sima_style = sima_style | append: '--sa-pos-m: ' | append: block.settings.image_position_mobile | append: ';'
+          endif
+          assign sima_tag = 'div'
+          if sima_col != blank
+            assign sima_tag = 'a'
+          endif
+        -%}
+
+        <li class="sima-audiencia__item" {{ block.shopify_attributes }}>
+          <{{ sima_tag }}
+            class="sima-audiencia__panel{% if sima_img == blank %} sima-audiencia__panel--bare{% endif %}"
+            {% if sima_col != blank %}
+              href="{{ sima_col.url }}"
+              aria-label="{{ sima_name | escape }}, {{ sima_col.products_count }} {{ sima_unit }}"
+            {% endif %}
+            {% if sima_style != blank %}
+              style="{{ sima_style }}"
+            {% endif %}
+          >
+            {%- if sima_img != blank -%}
+              {{
+                sima_img
+                | image_url: width: 1920
+                | image_tag:
+                  class: 'sima-audiencia__media',
+                  widths: '400, 600, 900, 1200, 1500, 1920',
+                  sizes: '50vw',
+                  loading: 'lazy',
+                  alt: ''
+              }}
+              <span class="sima-audiencia__shade" aria-hidden="true"></span>
+            {%- endif -%}
+
+            <div class="sima-audiencia__content" aria-hidden="true">
+              <h3 class="sima-audiencia__name">{{ sima_name }}</h3>
+              <div class="sima-audiencia__row">
+                <span class="sima-audiencia__count">
+                  {%- if sima_col != blank -%}
+                    {{ sima_col.products_count }} {{ sima_unit }}
+                  {%- endif -%}
+                </span>
+                <svg class="sima-audiencia__arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+                </svg>
+              </div>
+            </div>
+          </{{ sima_tag }}>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SIMA — Audiencia",
+  "tag": "section",
+  "class": "sima-audiencia-section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Paneles por audiencia con el nombre gigante y el conteo de productos. Sale solo en la colección cuyo handle va en «Colección padre». En celular los paneles quedan lado a lado. Un panel sin imagen muestra el nombre en contorno."
+    },
+    {
+      "type": "text",
+      "id": "parent",
+      "label": "Colección padre (handle)",
+      "default": "zapatos"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Título pequeño",
+      "default": "Elige tu calzado"
+    },
+    {
+      "type": "text",
+      "id": "unit",
+      "label": "Unidad del conteo",
+      "default": "modelos"
+    },
+    {
+      "type": "collection",
+      "id": "extra_collection",
+      "label": "Enlace adicional",
+      "info": "Ej.: Zapatillas - Unisex. Suma al total y sale como enlace arriba a la derecha."
+    },
+    {
+      "type": "text",
+      "id": "extra_label",
+      "label": "Texto del enlace adicional",
+      "default": "Ver unisex"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Panel",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Subcolección"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nombre",
+          "info": "Vacío usa el nombre de la subcolección"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen",
+          "info": "Vacío muestra el nombre en contorno sobre negro"
+        },
+        {
+          "type": "text",
+          "id": "image_position",
+          "label": "Encuadre en escritorio",
+          "info": "Ej.: center, 50% 75%"
+        },
+        {
+          "type": "text",
+          "id": "image_position_mobile",
+          "label": "Encuadre en celular",
+          "info": "Vacío usa el de escritorio"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SIMA — Audiencia"
+    }
+  ]
+}
+{% endschema %}
