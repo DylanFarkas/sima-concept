@@ -479,11 +479,20 @@
         align-self: center;
       }
 
+      /* El producto flota sobre las letras: el alto lo marcan las letras, no los
+         bordes transparentes del PNG */
+      .sd-escena__stage {
+        position: relative;
+        padding-block: 4cqi;
+      }
+
       .sd-escena__product {
+        position: absolute;
+        top: 50%;
+        left: 50%;
         width: var(--sd-size, 62%);
-        align-self: center;
         margin-top: 0;
-        transform: translateY(var(--sd-offset, 0%));
+        transform: translate(-50%, calc(-50% + var(--sd-offset, 0%)));
       }
     }
 
@@ -516,6 +525,20 @@
       assign sd_offset = section.settings.product_offset | default: 0 | append: '%'
       assign sd_offset_m = section.settings.product_offset_mobile | default: 8 | append: '%'
       assign sd_gap = section.settings.line_gap | default: 10 | times: 0.01 | append: 'em'
+
+      comment
+        Tamaño de las letras: hasta 7 caracteres por línea (AIRPODS) llenan el ancho a 26cqi.
+        Una línea más larga achica la letra para que nunca se salga.
+      endcomment
+      assign sd_len = sima_last.size
+      if sima_first.size > sd_len
+        assign sd_len = sima_first.size
+      endif
+      assign sd_word = 26
+      if sd_len > 7
+        assign sd_word = 182.0 | divided_by: sd_len
+      endif
+      assign sd_word = sd_word | round: 2 | append: 'cqi'
       assign sd_alt = section.settings.title | default: sima_product.title
     -%}
     <div class="sima-destacado sima-destacado--{{ sima_tone }} sima-destacado--escena">
@@ -531,7 +554,7 @@
 
         <div
           class="sd-escena__stage"
-          style="--sd-size: {{ sd_size }}; --sd-size-m: {{ sd_size_m }}; --sd-offset: {{ sd_offset }}; --sd-offset-m: {{ sd_offset_m }}; --sd-gap: {{ sd_gap }};"
+          style="--sd-size: {{ sd_size }}; --sd-size-m: {{ sd_size_m }}; --sd-offset: {{ sd_offset }}; --sd-offset-m: {{ sd_offset_m }}; --sd-gap: {{ sd_gap }}; --sd-word: {{ sd_word }};"
         >
           <h2 class="sd-escena__word sd-escena__word--back">
             {%- if sima_first != blank -%}
