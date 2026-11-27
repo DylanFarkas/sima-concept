@@ -1,0 +1,109 @@
+{%- comment -%}
+  Una escena de SIMA — Destacado: el producto recortado entre dos líneas de letras gigantes.
+
+  Parámetros:
+  - product: el producto (precio y enlace)
+  - cutout: imagen del producto sin fondo
+  - title / title_outline: primera línea y línea en contorno. Sin title_outline, la última palabra del título va en contorno.
+  - text, button_label
+  - size, size_m, offset, offset_m: números en %
+  - gap: separación entre líneas, en %
+  - outline_front: el contorno pasa por delante del producto
+  - tone: blanco, crema u oscuro
+  - index (desde 0), active, slide_id, attrs (atributos del bloque para el editor)
+{%- endcomment -%}
+
+{%- liquid
+  assign s_title = title | default: product.title | strip
+  assign s_words = s_title | split: ' '
+  assign s_last = s_words | last
+  assign s_first = s_title | remove_last: s_last | strip
+  if title_outline != blank
+    assign s_first = s_title
+    assign s_last = title_outline
+  endif
+
+  comment
+    Hasta 7 caracteres por línea (AIRPODS) llenan el ancho a 26cqi.
+    Una línea más larga achica la letra para que nunca se salga.
+  endcomment
+  assign s_len = s_last.size
+  if s_first.size > s_len
+    assign s_len = s_first.size
+  endif
+  assign s_word = 26
+  if s_len > 7
+    assign s_word = 182.0 | divided_by: s_len
+  endif
+  assign s_word = s_word | round: 2
+
+  assign s_gap = gap | default: 10 | times: 0.01
+  assign s_alt = product.title | default: s_title
+  assign s_loading = 'lazy'
+  if index == 0
+    assign s_loading = 'eager'
+  endif
+-%}
+
+<div
+  class="sd-slide{% if active %} is-active{% endif %}"
+  id="{{ slide_id }}"
+  role="tabpanel"
+  data-tone="{{ tone | default: 'blanco' }}"
+  data-index="{{ index }}"
+  {% unless active %}aria-hidden="true"{% endunless %}
+  {{ attrs }}
+>
+  <div
+    class="sd-escena__stage"
+    style="--sd-size: {{ size | default: 62 }}%; --sd-size-m: {{ size_m | default: 84 }}%; --sd-offset: {{ offset | default: 0 }}%; --sd-offset-m: {{ offset_m | default: 8 }}%; --sd-gap: {{ s_gap }}em; --sd-word: {{ s_word }}cqi;"
+  >
+    <h2 class="sd-escena__word sd-escena__word--back">
+      {%- if s_first != blank -%}
+        <span>{{ s_first }}</span>
+      {%- endif -%}
+      <span class="{% if outline_front %}is-ghost{% else %}is-stroke{% endif %}">{{ s_last }}</span>
+    </h2>
+
+    {%- if cutout != blank -%}
+      {{
+        cutout
+        | image_url: width: 1600
+        | image_tag:
+          class: 'sd-escena__product',
+          widths: '500, 800, 1100, 1400, 1600',
+          sizes: '(min-width: 750px) 50vw, 86vw',
+          loading: s_loading,
+          alt: s_alt
+      }}
+    {%- endif -%}
+
+    {%- if outline_front -%}
+      <p class="sd-escena__word sd-escena__word--front" aria-hidden="true">
+        {%- if s_first != blank -%}
+          <span class="is-ghost">{{ s_first }}</span>
+        {%- endif -%}
+        <span class="is-stroke">{{ s_last }}</span>
+      </p>
+    {%- endif -%}
+  </div>
+
+  <div class="sd-escena__info">
+    {%- if text != blank -%}
+      <p class="sd-escena__text">{{ text }}</p>
+    {%- endif -%}
+    {%- if product != blank -%}
+      <div class="sd-escena__buy">
+        <p class="sima-destacado__price">
+          {%- if product.compare_at_price > product.price -%}
+            <s>{{ product.compare_at_price | money }}</s>
+          {%- endif -%}
+          <span>{{ product.price | money }}</span>
+        </p>
+        <a class="sima-destacado__cta" href="{{ product.url }}"{% unless active %} tabindex="-1"{% endunless %}>
+          {{- button_label | default: 'Ver producto' -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

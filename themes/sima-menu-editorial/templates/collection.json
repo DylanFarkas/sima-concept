@@ -581,10 +581,91 @@
         "outline_front": true,
         "product_offset_mobile": 8,
         "line_gap": 10,
-        "space_top": 48,
-        "space_top_mobile": 32,
-        "space_title": 16
-      }
+        "space_top": 80,
+        "space_top_mobile": 28,
+        "space_title": 60,
+        "transition": "none"
+      },
+      "blocks": {
+        "airpods": {
+          "type": "escena",
+          "settings": {
+            "index_label": "AirPods Pro 3",
+            "button_label": "Ver producto",
+            "outline_front": true,
+            "tone": "seccion",
+            "product": "airpods-pro-3",
+            "cutout": "shopify://shop_images/sima-tech-destacado2-sin-fondo.png",
+            "title": "AirPods",
+            "title_outline": "Pro 3",
+            "text": "Tu música en cada serie, del primer calentamiento al último kilómetro.",
+            "product_size": 62,
+            "product_size_mobile": 84,
+            "product_offset": 0,
+            "product_offset_mobile": 8
+          }
+        },
+        "smartwatch": {
+          "type": "escena",
+          "settings": {
+            "index_label": "Smart Watch",
+            "button_label": "Ver producto",
+            "outline_front": true,
+            "tone": "seccion",
+            "product": "smart-watch-serie-11",
+            "cutout": "shopify://shop_images/sima-smartwatch11-destacado-sin-fondo.png",
+            "title": "Smart",
+            "title_outline": "Watch",
+            "text": "Tu ritmo, tus pasos y cada serie, siempre a la vista.",
+            "product_size": 48,
+            "product_size_mobile": 86,
+            "product_offset": 6,
+            "product_offset_mobile": 0
+          }
+        },
+        "bose": {
+          "type": "escena",
+          "settings": {
+            "index_label": "Diadema Bose",
+            "button_label": "Ver producto",
+            "outline_front": true,
+            "tone": "seccion",
+            "product": "diadema-bose",
+            "cutout": "shopify://shop_images/sima-diadema-bose-destacado-sin-fondo.png",
+            "title": "Diadema",
+            "title_outline": "Bose",
+            "text": "Silencio para concentrarte en cada repetición.",
+            "product_size": 46,
+            "product_size_mobile": 80,
+            "product_offset": 0,
+            "product_offset_mobile": 6
+          }
+        },
+        "powerbeats": {
+          "type": "escena",
+          "settings": {
+            "index_label": "Powerbeats",
+            "button_label": "Ver producto",
+            "outline_front": true,
+            "tone": "oscuro",
+            "product": "powerbeats",
+            "cutout": "shopify://shop_images/sima-powerbeats-destacado-sin-fondo1.png",
+            "title": "Power",
+            "title_outline": "Beats",
+            "text": "Ajuste firme para correr, saltar y no parar.",
+            "product_size": 44,
+            "product_size_mobile": 80,
+            "product_offset": 0,
+            "product_offset_mobile": 6
+          }
+        }
+      },
+      "block_order": [
+        "airpods",
+        "smartwatch",
+        "bose",
+        "powerbeats"
+      ]
     },
     "sima_vendidos": {
       "type": "sima-vendidos",
