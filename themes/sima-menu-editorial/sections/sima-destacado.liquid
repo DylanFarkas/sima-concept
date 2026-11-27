@@ -23,15 +23,17 @@
     endif
 
     assign sima_pos = section.settings.image_position | default: 'center' | prepend: 'object-position: '
-    assign sima_tone = section.settings.tone | default: 'crema'
+    assign sima_tone = section.settings.tone | default: 'blanco'
   -%}
 
   {% style %}
     .sima-destacado {
-      --sd-bg: #f2efe9;
+      --sd-bg: #fff;
       --sd-ink: #121212;
-      --sd-mute: rgb(18 18 18 / 0.58);
-      --sd-line: rgb(18 18 18 / 0.14);
+      --sd-mute: rgb(18 18 18 / 0.55);
+      --sd-line: rgb(18 18 18 / 0.1);
+      --sd-frame: #f4f4f2;
+      --sd-stroke: #121212;
       --sd-btn-bg: #121212;
       --sd-btn-fg: #fff;
       --sd-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -40,11 +42,18 @@
       color: var(--sd-ink);
     }
 
+    .sima-destacado--crema {
+      --sd-bg: #f2efe9;
+      --sd-frame: #e8e4dc;
+    }
+
     .sima-destacado--oscuro {
       --sd-bg: #121212;
       --sd-ink: #fff;
-      --sd-mute: rgb(255 255 255 / 0.6);
-      --sd-line: rgb(255 255 255 / 0.14);
+      --sd-mute: rgb(255 255 255 / 0.58);
+      --sd-line: rgb(255 255 255 / 0.12);
+      --sd-frame: #1a1a1a;
+      --sd-stroke: #bcb1a6;
       --sd-btn-bg: #fff;
       --sd-btn-fg: #121212;
     }
@@ -52,15 +61,13 @@
     .sima-destacado__inner {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 2.5rem;
+      gap: 2.75rem;
       max-width: var(--page-width, 120rem);
       margin-inline: auto;
-      padding: 4.5rem var(--page-margin, 1.25rem) 5rem;
+      padding: 4rem var(--page-margin, 1.25rem) 4.5rem;
     }
 
-    /* Foto */
     .sima-destacado__figure {
-      position: relative;
       margin: 0;
     }
 
@@ -69,8 +76,7 @@
       display: block;
       aspect-ratio: {{ section.settings.ratio | default: '1' }};
       overflow: hidden;
-      background: #1a1a1a;
-      color: inherit;
+      background: var(--sd-frame);
     }
 
     .sima-destacado__media {
@@ -79,20 +85,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.001);
-      transition: transform 1.6s var(--sd-ease);
-    }
-
-    @media (hover: hover) {
-      .sima-destacado__frame:hover .sima-destacado__media {
-        transform: scale(1.035);
-      }
     }
 
     .sima-destacado__caption {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
       margin-top: 0.875rem;
       color: var(--sd-mute);
       font-family: var(--font-body--family);
@@ -102,7 +97,6 @@
       text-transform: uppercase;
     }
 
-    /* Texto */
     .sima-destacado__body {
       display: flex;
       flex-direction: column;
@@ -111,34 +105,24 @@
     }
 
     .sima-destacado__eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 0.875rem;
-      margin: 0 0 1.5rem;
+      margin: 0 0 1.75rem;
       color: var(--sd-mute);
-      font-family: var(--font-heading--family);
+      font-family: var(--font-body--family);
       font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: 0.24em;
+      font-weight: 500;
+      letter-spacing: 0.22em;
       line-height: 1;
       text-transform: uppercase;
-    }
-
-    .sima-destacado__eyebrow::before {
-      content: '';
-      width: 2.25rem;
-      height: 1px;
-      background: currentColor;
     }
 
     .sima-destacado__title {
       margin: 0;
       color: var(--sd-ink);
       font-family: var(--font-heading--family);
-      font-size: clamp(3.25rem, 15vw, 5rem);
+      font-size: clamp(3rem, 14vw, 4.5rem);
       font-weight: 700;
-      line-height: 0.88;
-      letter-spacing: -0.005em;
+      line-height: 0.9;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
 
@@ -148,88 +132,70 @@
 
     .sima-destacado__title .is-stroke {
       color: transparent;
-      -webkit-text-stroke: 1.5px var(--sd-ink);
-      transition: color 0.5s var(--sd-ease);
-    }
-
-    @media (hover: hover) {
-      .sima-destacado__body:hover .sima-destacado__title .is-stroke {
-        color: var(--sd-ink);
-      }
-    }
-
-    .sima-destacado--oscuro .sima-destacado__title .is-stroke {
-      -webkit-text-stroke-color: #bcb1a6;
+      -webkit-text-stroke: 1.25px var(--sd-stroke);
     }
 
     .sima-destacado__text {
-      max-width: 34ch;
+      max-width: 32ch;
       margin: 1.75rem 0 0;
       color: var(--sd-mute);
       font-family: var(--font-body--family);
       font-size: 0.9375rem;
-      line-height: 1.6;
+      line-height: 1.65;
       text-wrap: pretty;
     }
 
     .sima-destacado__specs {
       width: 100%;
-      max-width: 26rem;
+      max-width: 24rem;
       margin: 2rem 0 0;
       padding: 0;
-      border-top: 1px solid var(--sd-line);
       list-style: none;
     }
 
     .sima-destacado__spec {
-      display: grid;
-      grid-template-columns: 2rem minmax(0, 1fr);
-      gap: 0.75rem;
-      padding-block: 0.875rem;
-      border-bottom: 1px solid var(--sd-line);
+      padding-block: 0.75rem;
+      border-top: 1px solid var(--sd-line);
+      color: var(--sd-ink);
       font-family: var(--font-body--family);
       font-size: 0.8125rem;
-      line-height: 1.4;
-    }
-
-    .sima-destacado__spec-n {
-      color: var(--sd-mute);
-      font-family: var(--font-heading--family);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
+      line-height: 1.45;
     }
 
     .sima-destacado__buy {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 1rem 1.75rem;
-      margin-top: 2.25rem;
+      justify-content: space-between;
+      gap: 1rem 1.5rem;
+      width: 100%;
+      max-width: 24rem;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--sd-line);
     }
 
     .sima-destacado__price {
       display: flex;
       align-items: baseline;
       gap: 0.625rem;
+      margin: 0;
       font-family: var(--font-heading--family);
-      font-size: 1.625rem;
+      font-size: 1.375rem;
       font-weight: 700;
       line-height: 1;
-      letter-spacing: 0.01em;
     }
 
     .sima-destacado__price s {
       color: var(--sd-mute);
-      font-size: 1rem;
+      font-size: 0.9375rem;
       font-weight: 500;
     }
 
     .sima-destacado__cta {
-      position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 1.0625rem 1.75rem;
+      padding: 1rem 1.625rem;
       background: var(--sd-btn-bg);
       color: var(--sd-btn-fg);
       font-family: var(--font-body--family);
@@ -239,18 +205,12 @@
       line-height: 1;
       text-decoration: none;
       text-transform: uppercase;
-      transition: transform 120ms var(--sd-ease);
-    }
-
-    .sima-destacado__cta svg {
-      width: 0.875rem;
-      height: 0.875rem;
-      transition: transform 0.4s var(--sd-ease);
+      transition: opacity 200ms ease, transform 120ms var(--sd-ease);
     }
 
     @media (hover: hover) {
-      .sima-destacado__cta:hover svg {
-        transform: translateX(0.25rem);
+      .sima-destacado__cta:hover {
+        opacity: 0.85;
       }
     }
 
@@ -270,32 +230,26 @@
     }
 
     .sima-destacado__note {
-      margin: 1.25rem 0 0;
+      margin: 1rem 0 0;
       color: var(--sd-mute);
       font-family: var(--font-body--family);
       font-size: 0.75rem;
       line-height: 1.4;
     }
 
-    /* Entrada al hacer scroll */
-    .sima-destacado.is-armed .sima-destacado__frame {
-      clip-path: inset(0 0 100% 0);
-      transition: clip-path 1.2s var(--sd-ease);
+    /* Entrada al hacer scroll: fundido suave, sin movimiento en la foto */
+    .sima-destacado.is-armed .sima-destacado__figure,
+    .sima-destacado.is-armed .sima-destacado__reveal {
+      opacity: 0;
+      transition: opacity 1.1s var(--sd-ease), transform 1.1s var(--sd-ease);
     }
 
     .sima-destacado.is-armed .sima-destacado__reveal {
-      opacity: 0;
-      transform: translateY(1.25rem);
-      transition:
-        opacity 0.9s var(--sd-ease),
-        transform 0.9s var(--sd-ease);
-      transition-delay: calc(0.25s + var(--sd-i, 0) * 0.08s);
+      transform: translateY(0.75rem);
+      transition-delay: calc(0.2s + var(--sd-i, 0) * 0.07s);
     }
 
-    .sima-destacado.is-armed.is-in .sima-destacado__frame {
-      clip-path: inset(0 0 0 0);
-    }
-
+    .sima-destacado.is-armed.is-in .sima-destacado__figure,
     .sima-destacado.is-armed.is-in .sima-destacado__reveal {
       opacity: 1;
       transform: none;
@@ -305,43 +259,39 @@
       .sima-destacado__inner {
         grid-template-columns: repeat(12, minmax(0, 1fr));
         align-items: center;
-        gap: 0 clamp(2rem, 3vw, 3.5rem);
-        padding-block: clamp(6rem, 9vw, 9rem);
+        gap: 0 clamp(1.5rem, 2.5vw, 3rem);
+        padding-block: clamp(6rem, 10vw, 10rem);
       }
 
       .sima-destacado__figure {
-        grid-column: 1 / span 7;
+        grid-column: 1 / span 6;
       }
 
       .sima-destacado__body {
         grid-column: 8 / span 5;
-        padding-left: clamp(0rem, 2vw, 2.5rem);
       }
 
       .sima-destacado--reverse .sima-destacado__figure {
-        grid-column: 6 / span 7;
+        grid-column: 7 / span 6;
         grid-row: 1;
       }
 
       .sima-destacado--reverse .sima-destacado__body {
         grid-column: 1 / span 5;
         grid-row: 1;
-        padding-left: 0;
       }
 
       .sima-destacado__title {
-        font-size: clamp(4.5rem, 7.2vw, 7.5rem);
+        font-size: clamp(4rem, 5.8vw, 6.25rem);
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .sima-destacado *,
-      .sima-destacado.is-armed .sima-destacado__frame,
+      .sima-destacado.is-armed .sima-destacado__figure,
       .sima-destacado.is-armed .sima-destacado__reveal {
-        transition: none !important;
-        clip-path: none !important;
-        opacity: 1 !important;
-        transform: none !important;
+        transition: none;
+        opacity: 1;
+        transform: none;
       }
     }
   {% endstyle %}
@@ -360,7 +310,7 @@
               | image_tag:
                 class: 'sima-destacado__media',
                 widths: '600, 900, 1200, 1500, 1800',
-                sizes: '(min-width: 990px) 58vw, 100vw',
+                sizes: '(min-width: 990px) 50vw, 100vw',
                 loading: 'lazy',
                 alt: sima_product.title,
                 style: sima_pos
@@ -370,10 +320,7 @@
           {%- endif -%}
         </a>
         {%- if section.settings.caption != blank -%}
-          <figcaption class="sima-destacado__caption">
-            <span>{{ section.settings.caption }}</span>
-            <span>{{ sima_product.title }}</span>
-          </figcaption>
+          <figcaption class="sima-destacado__caption">{{ section.settings.caption }}</figcaption>
         {%- endif -%}
       </figure>
 
@@ -396,10 +343,7 @@
         {%- if section.blocks.size > 0 -%}
           <ul class="sima-destacado__specs sima-destacado__reveal" style="--sd-i: 3" role="list">
             {%- for block in section.blocks -%}
-              <li class="sima-destacado__spec" {{ block.shopify_attributes }}>
-                <span class="sima-destacado__spec-n">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-                <span>{{ block.settings.text }}</span>
-              </li>
+              <li class="sima-destacado__spec" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
             {%- endfor -%}
           </ul>
         {%- endif -%}
@@ -412,10 +356,7 @@
             <span>{{ sima_product.price | money }}</span>
           </p>
           <a class="sima-destacado__cta" href="{{ sima_product.url }}">
-            {{ section.settings.button_label | default: 'Ver producto' }}
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M1 8h13M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
+            {{- section.settings.button_label | default: 'Ver producto' -}}
           </a>
         </div>
 
@@ -432,8 +373,7 @@
       if (!root || !('IntersectionObserver' in window)) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       if (window.Shopify && Shopify.designMode) return;
-      const rect = root.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.85) return;
+      if (root.getBoundingClientRect().top < window.innerHeight * 0.85) return;
       root.classList.add('is-armed');
       const io = new IntersectionObserver((entries) => {
         if (entries.some((e) => e.isIntersecting)) {
@@ -457,7 +397,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Producto destacado debajo del hero. Sale solo en la colección cuyo handle va en «Colección padre». La última palabra del título va en contorno."
+      "content": "Producto destacado debajo del hero. Sale solo en la colección cuyo handle va en «Colección padre». La segunda línea del título va en contorno."
     },
     {
       "type": "text",
@@ -497,10 +437,11 @@
       "id": "tone",
       "label": "Fondo",
       "options": [
+        { "value": "blanco", "label": "Blanco" },
         { "value": "crema", "label": "Crema" },
         { "value": "oscuro", "label": "Oscuro" }
       ],
-      "default": "crema"
+      "default": "blanco"
     },
     {
       "type": "checkbox",
@@ -546,7 +487,8 @@
     {
       "type": "text",
       "id": "note",
-      "label": "Nota bajo el botón"
+      "label": "Nota bajo el botón",
+      "info": "Vacío la oculta."
     }
   ],
   "blocks": [
