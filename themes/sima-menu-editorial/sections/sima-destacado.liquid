@@ -358,7 +358,7 @@
     .sd-escena__inner {
       max-width: var(--page-width, 120rem);
       margin-inline: auto;
-      padding: 3.5rem var(--page-margin, 1.25rem) 4rem;
+      padding: var(--sd-pt-m, 2rem) var(--page-margin, 1.25rem) 4rem;
     }
 
     .sd-escena__top {
@@ -483,7 +483,8 @@
          bordes transparentes del PNG */
       .sd-escena__stage {
         position: relative;
-        padding-block: 4cqi;
+        padding-top: var(--sd-tg, 1rem);
+        padding-bottom: 4cqi;
       }
 
       .sd-escena__product {
@@ -498,11 +499,12 @@
 
     @media screen and (min-width: 990px) {
       .sd-escena__inner {
-        padding-block: clamp(4.5rem, 7vw, 7rem);
+        padding-top: var(--sd-pt, 3rem);
+        padding-bottom: clamp(4.5rem, 7vw, 7rem);
       }
 
       .sd-escena__top {
-        margin-bottom: 2rem;
+        margin-bottom: 0;
       }
 
       .sd-escena__info {
@@ -542,7 +544,10 @@
       assign sd_alt = section.settings.title | default: sima_product.title
     -%}
     <div class="sima-destacado sima-destacado--{{ sima_tone }} sima-destacado--escena">
-      <div class="sd-escena__inner">
+      <div
+        class="sd-escena__inner"
+        style="--sd-pt: {{ section.settings.space_top | default: 48 }}px; --sd-pt-m: {{ section.settings.space_top_mobile | default: 32 }}px; --sd-tg: {{ section.settings.space_title | default: 16 }}px;"
+      >
         {%- if section.settings.eyebrow != blank or section.settings.caption != blank -%}
           <div class="sd-escena__top">
             <p>{{ section.settings.eyebrow }}</p>
@@ -772,6 +777,36 @@
       "step": 1,
       "unit": "%",
       "default": 10
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "label": "Espacio arriba en computador (Escena)",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "space_top_mobile",
+      "label": "Espacio arriba en celular (Escena)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "space_title",
+      "label": "Espacio entre «Destacado» y el título en computador (Escena)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 16
     },
     {
       "type": "checkbox",
