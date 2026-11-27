@@ -237,24 +237,6 @@
       line-height: 1.4;
     }
 
-    /* Entrada al hacer scroll: fundido suave, sin movimiento en la foto */
-    .sima-destacado.is-armed .sima-destacado__figure,
-    .sima-destacado.is-armed .sima-destacado__reveal {
-      opacity: 0;
-      transition: opacity 1.1s var(--sd-ease), transform 1.1s var(--sd-ease);
-    }
-
-    .sima-destacado.is-armed .sima-destacado__reveal {
-      transform: translateY(0.75rem);
-      transition-delay: calc(0.2s + var(--sd-i, 0) * 0.07s);
-    }
-
-    .sima-destacado.is-armed.is-in .sima-destacado__figure,
-    .sima-destacado.is-armed.is-in .sima-destacado__reveal {
-      opacity: 1;
-      transform: none;
-    }
-
     .sima-destacado__head,
     .sima-destacado__foot {
       display: flex;
@@ -366,19 +348,10 @@
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .sima-destacado.is-armed .sima-destacado__figure,
-      .sima-destacado.is-armed .sima-destacado__reveal {
-        transition: none;
-        opacity: 1;
-        transform: none;
-      }
-    }
   {% endstyle %}
 
   <div
     class="sima-destacado sima-destacado--{{ sima_tone }}{% if section.settings.reverse %} sima-destacado--reverse{% endif %}"
-    data-sima-destacado
   >
     <div class="sima-destacado__inner">
       <figure class="sima-destacado__figure">
@@ -407,10 +380,10 @@
       <div class="sima-destacado__body">
         <div class="sima-destacado__head">
         {%- if section.settings.eyebrow != blank -%}
-          <p class="sima-destacado__eyebrow sima-destacado__reveal" style="--sd-i: 0">{{ section.settings.eyebrow }}</p>
+          <p class="sima-destacado__eyebrow">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
 
-        <h2 class="sima-destacado__title sima-destacado__reveal" style="--sd-i: 1">
+        <h2 class="sima-destacado__title">
           {%- if sima_first != blank -%}
             <span>{{ sima_first }}</span>
           {%- endif -%}
@@ -421,18 +394,18 @@
         <div class="sima-destacado__foot">
 
         {%- if section.settings.text != blank -%}
-          <p class="sima-destacado__text sima-destacado__reveal" style="--sd-i: 2">{{ section.settings.text }}</p>
+          <p class="sima-destacado__text">{{ section.settings.text }}</p>
         {%- endif -%}
 
         {%- if section.blocks.size > 0 -%}
-          <ul class="sima-destacado__specs sima-destacado__reveal" style="--sd-i: 3" role="list">
+          <ul class="sima-destacado__specs" role="list">
             {%- for block in section.blocks -%}
               <li class="sima-destacado__spec" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
             {%- endfor -%}
           </ul>
         {%- endif -%}
 
-        <div class="sima-destacado__buy sima-destacado__reveal" style="--sd-i: 4">
+        <div class="sima-destacado__buy">
           <p class="sima-destacado__price">
             {%- if sima_product.compare_at_price > sima_product.price -%}
               <s>{{ sima_product.compare_at_price | money }}</s>
@@ -445,30 +418,13 @@
         </div>
 
         {%- if section.settings.note != blank -%}
-          <p class="sima-destacado__note sima-destacado__reveal" style="--sd-i: 5">{{ section.settings.note }}</p>
+          <p class="sima-destacado__note">{{ section.settings.note }}</p>
         {%- endif -%}
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    (() => {
-      const root = document.querySelector('#shopify-section-{{ section.id }} [data-sima-destacado]');
-      if (!root || !('IntersectionObserver' in window)) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (window.Shopify && Shopify.designMode) return;
-      if (root.getBoundingClientRect().top < window.innerHeight * 0.85) return;
-      root.classList.add('is-armed');
-      const io = new IntersectionObserver((entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          root.classList.add('is-in');
-          io.disconnect();
-        }
-      }, { threshold: 0.2 });
-      io.observe(root);
-    })();
-  </script>
 {%- endif -%}
 
 {% schema %}
