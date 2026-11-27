@@ -255,6 +255,86 @@
       transform: none;
     }
 
+    .sima-destacado__head,
+    .sima-destacado__foot {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    /* El tema anula el margen superior del primer hijo: el aire va en el contenedor */
+    .sima-destacado__foot {
+      padding-top: 1.75rem;
+    }
+
+    .sima-destacado__foot > :first-child {
+      margin-top: 0;
+    }
+
+    /* Celular: titulo arriba, foto a sangre en medio, frase y compra debajo */
+    @media screen and (max-width: 989px) {
+      .sima-destacado__inner {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding-block: 3.5rem 4rem;
+      }
+
+      .sima-destacado__body {
+        display: contents;
+      }
+
+      .sima-destacado__head {
+        order: 1;
+      }
+
+      .sima-destacado__figure {
+        order: 2;
+        margin: 1.75rem calc(-1 * var(--page-margin, 1.25rem)) 0;
+      }
+
+      .sima-destacado__foot {
+        order: 3;
+        padding-top: 1.5rem;
+      }
+
+      .sima-destacado__eyebrow {
+        margin-bottom: 0.875rem;
+      }
+
+      .sima-destacado__title {
+        font-size: clamp(2.5rem, 11.5vw, 3.75rem);
+        line-height: 0.95;
+      }
+
+      .sima-destacado__title span {
+        display: inline;
+      }
+
+      .sima-destacado__title span + span {
+        margin-left: 0.22em;
+      }
+
+      .sima-destacado__caption {
+        padding-inline: var(--page-margin, 1.25rem);
+      }
+
+      .sima-destacado__text {
+        max-width: 36ch;
+      }
+
+      .sima-destacado__specs,
+      .sima-destacado__buy {
+        max-width: none;
+      }
+
+      .sima-destacado__buy {
+        margin-top: 1.75rem;
+        padding-top: 1.25rem;
+      }
+    }
+
     @media screen and (min-width: 990px) {
       .sima-destacado__inner {
         grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -325,6 +405,7 @@
       </figure>
 
       <div class="sima-destacado__body">
+        <div class="sima-destacado__head">
         {%- if section.settings.eyebrow != blank -%}
           <p class="sima-destacado__eyebrow sima-destacado__reveal" style="--sd-i: 0">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
@@ -335,6 +416,9 @@
           {%- endif -%}
           <span class="is-stroke">{{ sima_last }}</span>
         </h2>
+        </div>
+
+        <div class="sima-destacado__foot">
 
         {%- if section.settings.text != blank -%}
           <p class="sima-destacado__text sima-destacado__reveal" style="--sd-i: 2">{{ section.settings.text }}</p>
@@ -363,6 +447,7 @@
         {%- if section.settings.note != blank -%}
           <p class="sima-destacado__note sima-destacado__reveal" style="--sd-i: 5">{{ section.settings.note }}</p>
         {%- endif -%}
+        </div>
       </div>
     </div>
   </div>
