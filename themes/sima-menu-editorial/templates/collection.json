@@ -563,9 +563,9 @@
       "settings": {
         "parent": "tecnologia",
         "product": "airpods-pro-3",
-        "image": "shopify://shop_images/sima-tech-destacado.png",
+        "image": "shopify://shop_images/sima-tech-destacado2.jpg",
         "image_position": "",
-        "ratio": "1",
+        "ratio": "4 / 5",
         "tone": "blanco",
         "reverse": false,
         "eyebrow": "Destacado",
