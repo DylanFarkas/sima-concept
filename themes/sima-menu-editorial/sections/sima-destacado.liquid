@@ -24,6 +24,11 @@
 
     assign sima_pos = section.settings.image_position | default: 'center' | prepend: 'object-position: '
     assign sima_tone = section.settings.tone | default: 'blanco'
+    assign sima_layout = section.settings.layout | default: 'dividida'
+    assign sima_cutout = section.settings.cutout
+    if sima_layout == 'escena' and sima_cutout == blank
+      assign sima_layout = 'dividida'
+    endif
   -%}
 
   {% style %}
@@ -348,8 +353,227 @@
       }
     }
 
+
+    /* ---------- Composición «Escena»: el producto recortado entre las letras ---------- */
+    .sd-escena__inner {
+      max-width: var(--page-width, 120rem);
+      margin-inline: auto;
+      padding: 3.5rem var(--page-margin, 1.25rem) 4rem;
+    }
+
+    .sd-escena__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin: 0 0 1.5rem;
+      color: var(--sd-mute);
+      font-family: var(--font-body--family);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .sd-escena__top p {
+      margin: 0;
+    }
+
+    .sd-escena__stage {
+      container-type: inline-size;
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      isolation: isolate;
+    }
+
+    .sd-escena__stage > * {
+      grid-area: 1 / 1;
+    }
+
+    .sd-escena__word {
+      position: relative;
+      align-self: start;
+      width: 100%;
+      margin: 0;
+      color: var(--sd-ink);
+      font-family: var(--font-heading--family);
+      font-size: 24vw;
+      font-size: var(--sd-word, 26cqi);
+      font-weight: 700;
+      line-height: 0.84;
+      letter-spacing: -0.01em;
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .sd-escena__word span {
+      display: block;
+    }
+
+    .sd-escena__word--back {
+      z-index: 1;
+    }
+
+    .sd-escena__word--front {
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .sd-escena__word .is-ghost {
+      color: transparent;
+      -webkit-text-stroke: 0;
+    }
+
+    .sd-escena__word .is-stroke {
+      color: transparent;
+      -webkit-text-stroke: max(1px, 0.12cqi) var(--sd-stroke);
+    }
+
+    .sd-escena__product {
+      position: relative;
+      z-index: 2;
+      display: block;
+      width: var(--sd-size-m, 84%);
+      height: auto;
+      align-self: start;
+      margin-top: var(--sd-offset-m, 8%);
+      filter: drop-shadow(0 2.25rem 2rem rgb(0 0 0 / 0.16)) drop-shadow(0 0.5rem 0.75rem rgb(0 0 0 / 0.08));
+    }
+
+    .sd-escena__info {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--sd-line);
+    }
+
+    .sd-escena__text {
+      max-width: 36ch;
+      margin: 0;
+      color: var(--sd-mute);
+      font-family: var(--font-body--family);
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      text-wrap: pretty;
+    }
+
+    .sd-escena__buy {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 2rem;
+    }
+
+    @media screen and (min-width: 750px) {
+      .sd-escena__word {
+        align-self: center;
+      }
+
+      .sd-escena__product {
+        width: var(--sd-size, 62%);
+        align-self: center;
+        margin-top: 0;
+        transform: translateY(var(--sd-offset, 0%));
+      }
+    }
+
+    @media screen and (min-width: 990px) {
+      .sd-escena__inner {
+        padding-block: clamp(4.5rem, 7vw, 7rem);
+      }
+
+      .sd-escena__top {
+        margin-bottom: 2rem;
+      }
+
+      .sd-escena__info {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        margin-top: 3.5rem;
+        padding-top: 2rem;
+      }
+
+      .sd-escena__buy {
+        justify-content: flex-end;
+      }
+    }
   {% endstyle %}
 
+  {%- if sima_layout == 'escena' -%}
+    {%- liquid
+      assign sd_size = section.settings.product_size | default: 62 | append: '%'
+      assign sd_size_m = section.settings.product_size_mobile | default: 84 | append: '%'
+      assign sd_offset = section.settings.product_offset | default: 0 | append: '%'
+      assign sd_offset_m = section.settings.product_offset_mobile | default: 8 | append: '%'
+      assign sd_alt = section.settings.title | default: sima_product.title
+    -%}
+    <div class="sima-destacado sima-destacado--{{ sima_tone }} sima-destacado--escena">
+      <div class="sd-escena__inner">
+        {%- if section.settings.eyebrow != blank or section.settings.caption != blank -%}
+          <div class="sd-escena__top">
+            <p>{{ section.settings.eyebrow }}</p>
+            {%- if section.settings.caption != blank -%}
+              <p>{{ section.settings.caption }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <div
+          class="sd-escena__stage"
+          style="--sd-size: {{ sd_size }}; --sd-size-m: {{ sd_size_m }}; --sd-offset: {{ sd_offset }}; --sd-offset-m: {{ sd_offset_m }};"
+        >
+          <h2 class="sd-escena__word sd-escena__word--back">
+            {%- if sima_first != blank -%}
+              <span>{{ sima_first }}</span>
+            {%- endif -%}
+            <span class="{% if section.settings.outline_front %}is-ghost{% else %}is-stroke{% endif %}">{{ sima_last }}</span>
+          </h2>
+
+          {{
+            sima_cutout
+            | image_url: width: 1600
+            | image_tag:
+              class: 'sd-escena__product',
+              widths: '500, 800, 1100, 1400, 1600',
+              sizes: '(min-width: 750px) 50vw, 80vw',
+              loading: 'lazy',
+              alt: sd_alt
+          }}
+
+          {%- if section.settings.outline_front -%}
+            <p class="sd-escena__word sd-escena__word--front" aria-hidden="true">
+              {%- if sima_first != blank -%}
+                <span class="is-ghost">{{ sima_first }}</span>
+              {%- endif -%}
+              <span class="is-stroke">{{ sima_last }}</span>
+            </p>
+          {%- endif -%}
+        </div>
+
+        <div class="sd-escena__info">
+          {%- if section.settings.text != blank -%}
+            <p class="sd-escena__text">{{ section.settings.text }}</p>
+          {%- endif -%}
+          <div class="sd-escena__buy">
+            <p class="sima-destacado__price">
+              {%- if sima_product.compare_at_price > sima_product.price -%}
+                <s>{{ sima_product.compare_at_price | money }}</s>
+              {%- endif -%}
+              <span>{{ sima_product.price | money }}</span>
+            </p>
+            <a class="sima-destacado__cta" href="{{ sima_product.url }}">
+              {{- section.settings.button_label | default: 'Ver producto' -}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- else -%}
   <div
     class="sima-destacado sima-destacado--{{ sima_tone }}{% if section.settings.reverse %} sima-destacado--reverse{% endif %}"
   >
@@ -424,7 +648,7 @@
       </div>
     </div>
   </div>
-
+  {%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -450,6 +674,71 @@
       "type": "product",
       "id": "product",
       "label": "Producto"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Composición",
+      "options": [
+        { "value": "dividida", "label": "Dividida: foto y texto" },
+        { "value": "escena", "label": "Escena: producto entre las letras" }
+      ],
+      "default": "dividida",
+      "info": "Escena necesita la imagen del producto sin fondo."
+    },
+    {
+      "type": "image_picker",
+      "id": "cutout",
+      "label": "Producto sin fondo (Escena)",
+      "info": "PNG con fondo transparente."
+    },
+    {
+      "type": "range",
+      "id": "product_size",
+      "label": "Tamaño del producto en computador (Escena)",
+      "min": 25,
+      "max": 80,
+      "step": 1,
+      "unit": "%",
+      "default": 62
+    },
+    {
+      "type": "range",
+      "id": "product_size_mobile",
+      "label": "Tamaño del producto en celular (Escena)",
+      "min": 40,
+      "max": 120,
+      "step": 2,
+      "unit": "%",
+      "default": 84
+    },
+    {
+      "type": "range",
+      "id": "product_offset",
+      "label": "Altura del producto (Escena)",
+      "min": -30,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 0,
+      "info": "Negativo lo sube, positivo lo baja."
+    },
+    {
+      "type": "range",
+      "id": "product_offset_mobile",
+      "label": "Altura del producto en celular (Escena)",
+      "min": -10,
+      "max": 40,
+      "step": 1,
+      "unit": "%",
+      "default": 8,
+      "info": "Distancia desde arriba. Más alto deja leer mejor el nombre."
+    },
+    {
+      "type": "checkbox",
+      "id": "outline_front",
+      "label": "Contorno por delante del producto (Escena)",
+      "default": true
     },
     {
       "type": "image_picker",

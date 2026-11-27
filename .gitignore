@@ -49,3 +49,6 @@ docs/
 # Shopify theme working copies: only the live theme (194829713684) is versioned
 /themes/*
 !/themes/sima-menu-editorial/
+
+# Local scratch (screenshots, helper scripts)
+.claude-tmp/

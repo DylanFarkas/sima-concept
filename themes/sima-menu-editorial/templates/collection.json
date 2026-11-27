@@ -571,8 +571,15 @@
         "title_outline": "Pro 3",
         "text": "Tu música en cada serie, del primer calentamiento al último kilómetro.",
         "button_label": "Ver producto",
-        "caption": "",
-        "note": ""
+        "caption": "SIMA Tech",
+        "note": "",
+        "layout": "escena",
+        "cutout": "shopify://shop_images/sima-tech-destacado2-sin-fondo.png",
+        "product_size": 62,
+        "product_size_mobile": 84,
+        "product_offset": 0,
+        "outline_front": true,
+        "product_offset_mobile": 8
       }
     },
     "sima_vendidos": {
