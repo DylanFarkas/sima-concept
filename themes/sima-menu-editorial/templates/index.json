@@ -300,6 +300,7 @@
             "text": "Tecnología que impulsa tu entrenamiento.",
             "button_label": "Comprar",
             "product": "watch-ultra-serie-11",
+            "image": "shopify://shop_images/categoria-tech-img.jpg",
             "photo_source": "tecnologia"
           }
         },
@@ -311,6 +312,7 @@
             "text": "Suplementos que potencian tu mejor versión.",
             "button_label": "Comprar",
             "product": "muscletech-nitro-tech-whey-gold-proteina",
+            "image": "shopify://shop_images/categoria-suplementos-img.jpg",
             "photo_source": "product"
           }
         },
@@ -322,6 +324,7 @@
             "text": "Equipamiento para cada entrenamiento.",
             "button_label": "Comprar",
             "product": "termo-owala-32oz",
+            "image": "shopify://shop_images/categoria-accesorios-img.png",
             "photo_source": "product"
           }
         }
@@ -573,10 +576,15 @@
             "button_label": "Ver todo",
             "collection": "tecnologia",
             "product": "watch-ultra-serie-11",
+            "image": "shopify://shop_images/categoria-tech-img.jpg",
             "link_1_label": "Audífonos",
             "link_1_collection": "tecnologia-audifonos",
             "link_2_label": "Relojes y bandas",
-            "link_2_collection": "tecnologia-relojes"
+            "link_2_collection": "tecnologia-relojes",
+            "link_3_label": "",
+            "link_3_collection": "",
+            "link_4_label": "",
+            "link_4_collection": ""
           }
         },
         "nutricion": {
@@ -587,6 +595,7 @@
             "button_label": "Ver todo",
             "collection": "suplementos",
             "product": "muscletech-nitro-tech-whey-gold-proteina",
+            "image": "shopify://shop_images/categoria-suplementos-img.jpg",
             "link_1_label": "Proteína",
             "link_1_collection": "suplementos-proteina",
             "link_2_label": "Aminoácidos",
@@ -605,10 +614,15 @@
             "button_label": "Ver todo",
             "collection": "accesorios",
             "product": "termo-owala-32oz",
+            "image": "shopify://shop_images/categoria-accesorios-img.png",
             "link_1_label": "Entrenamiento",
             "link_1_collection": "accesorios-entrenamiento",
             "link_2_label": "Hidratación",
-            "link_2_collection": "accesorios-hidratacion"
+            "link_2_collection": "accesorios-hidratacion",
+            "link_3_label": "",
+            "link_3_collection": "",
+            "link_4_label": "",
+            "link_4_collection": ""
           }
         }
       },
