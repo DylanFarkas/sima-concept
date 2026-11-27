@@ -558,8 +558,6 @@
     },
     "sima_destacado": {
       "type": "sima-destacado",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "parent": "tecnologia",
         "product": "airpods-pro-3",
