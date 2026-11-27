@@ -568,7 +568,7 @@
             "title_outline": "Pro 3",
             "text": "Tu música en cada serie, del primer calentamiento al último kilómetro.",
             "button_label": "Ver producto",
-            "tone": "blanco",
+            "tone": "crema",
             "product_size": 62,
             "product_size_mobile": 84,
             "product_offset": 0,
@@ -585,7 +585,7 @@
             "title_outline": "Watch",
             "text": "Tu ritmo, tus pasos y cada serie, siempre a la vista.",
             "button_label": "Ver producto",
-            "tone": "crema",
+            "tone": "blanco",
             "product_size": 48,
             "product_size_mobile": 86,
             "product_offset": 6,
@@ -629,9 +629,9 @@
         }
       },
       "block_order": [
-        "airpods",
-        "bose",
         "smartwatch",
+        "bose",
+        "airpods",
         "powerbeats"
       ],
       "settings": {
