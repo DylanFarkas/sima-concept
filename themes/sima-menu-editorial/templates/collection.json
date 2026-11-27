@@ -819,6 +819,50 @@
         "padding-block-start": 0,
         "padding-block-end": 32
       }
+    },
+    "sima_destacado": {
+      "type": "sima-destacado",
+      "blocks": {
+        "spec_1": {
+          "type": "spec",
+          "settings": {
+            "text": "Cancelación activa de ruido para entrenar sin distracciones"
+          }
+        },
+        "spec_2": {
+          "type": "spec",
+          "settings": {
+            "text": "Ajuste firme en cada serie y cada kilómetro"
+          }
+        },
+        "spec_3": {
+          "type": "spec",
+          "settings": {
+            "text": "Estuche de carga para todo el día"
+          }
+        }
+      },
+      "block_order": [
+        "spec_1",
+        "spec_2",
+        "spec_3"
+      ],
+      "settings": {
+        "parent": "tecnologia",
+        "product": "airpods-pro-3",
+        "image": "",
+        "image_position": "",
+        "ratio": "1",
+        "tone": "crema",
+        "reverse": false,
+        "eyebrow": "Destacado · Audífonos",
+        "title": "AirPods",
+        "title_outline": "Pro 3",
+        "text": "Tu música en cada serie, del primer calentamiento al último kilómetro.",
+        "button_label": "Ver producto",
+        "caption": "SIMA Tech",
+        "note": "Envíos a toda Colombia · Pagos seguros"
+      }
     }
   },
   "order": [
@@ -827,6 +871,7 @@
     "hero_4UwKwP",
     "section",
     "sima_explora",
+    "sima_destacado",
     "sima_vendidos",
     "sima_grilla",
     "main"
