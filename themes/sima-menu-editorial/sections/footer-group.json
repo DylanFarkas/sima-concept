@@ -580,8 +580,8 @@
       ],
       "name": "SIMA — Trazo",
       "settings": {
-        "heading": "Disciplina te lleva",
-        "heading_muted": "donde la motivación no puede.",
+        "heading": "La disciplina te lleva",
+        "heading_muted": "donde la motivación no alcanza.",
         "newsletter_text": "Recibe contenido exclusivo para tu mejor versión.",
         "newsletter_placeholder": "Dirección de correo electrónico",
         "newsletter_button": "Suscribirme",
