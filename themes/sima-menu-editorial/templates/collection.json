@@ -315,6 +315,26 @@
             "parent_handle": "accesorios",
             "tone": "dark"
           }
+        },
+        "mujer_camisetas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-camisetas",
+            "title": "Camisetas",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
+        },
+        "mujer_sudaderas": {
+          "type": "subcoleccion",
+          "settings": {
+            "handle": "mujer-sudaderas",
+            "title": "Sudaderas",
+            "parent_label": "Mujer",
+            "parent_handle": "mujer",
+            "tone": "light"
+          }
         }
       },
       "block_order": [
@@ -323,7 +343,9 @@
         "hombre_pantalonetas",
         "hombre_sudaderas",
         "hombre_basics",
+        "mujer_camisetas",
         "mujer_pantalonetas",
+        "mujer_sudaderas",
         "mujer_chaquetas",
         "mujer_sets",
         "mujer_enterizos",

@@ -2,7 +2,7 @@
 {%- case collection.handle -%}
   {%- when 'hombre', 'hombre-conjuntos', 'hombre-camisetas', 'hombre-pantalonetas', 'hombre-sudaderas', 'hombre-basics' -%}
     {%- assign sima_family = 'hombre' -%}
-  {%- when 'mujer', 'mujer-pantalonetas', 'mujer-chaquetas', 'mujer-sets', 'mujer-enterizos', 'mujer-vestidos', 'mujer-basics' -%}
+  {%- when 'mujer', 'mujer-camisetas', 'mujer-pantalonetas', 'mujer-sudaderas', 'mujer-chaquetas', 'mujer-sets', 'mujer-enterizos', 'mujer-vestidos', 'mujer-basics' -%}
     {%- assign sima_family = 'mujer' -%}
   {%- when 'zapatos', 'zapatos-hombre', 'zapatos-mujer', 'zapatos-unisex' -%}
     {%- assign sima_family = 'zapatos' -%}
@@ -34,7 +34,7 @@
     {%- when 'hombre' -%}
       {%- assign sima_nav = 'Conjuntos|/collections/hombre-conjuntos||Camisetas|/collections/hombre-camisetas||Pantalonetas|/collections/hombre-pantalonetas||Sudaderas|/collections/hombre-sudaderas||Basics|/collections/hombre-basics||Calzado|/collections/zapatos-hombre' -%}
     {%- when 'mujer' -%}
-      {%- assign sima_nav = 'Pantalonetas|/collections/mujer-pantalonetas||Chaquetas|/collections/mujer-chaquetas||Sets|/collections/mujer-sets||Enterizos|/collections/mujer-enterizos||Vestidos|/collections/mujer-vestidos||Basics|/collections/mujer-basics||Calzado|/collections/zapatos-mujer' -%}
+      {%- assign sima_nav = 'Camisetas|/collections/mujer-camisetas||Pantalonetas|/collections/mujer-pantalonetas||Chaquetas|/collections/mujer-chaquetas||Sets|/collections/mujer-sets||Enterizos|/collections/mujer-enterizos||Vestidos|/collections/mujer-vestidos||Basics|/collections/mujer-basics||Calzado|/collections/zapatos-mujer' -%}
     {%- when 'zapatos' -%}
       {%- assign sima_nav = '' -%}
     {%- when 'tecnologia' -%}
