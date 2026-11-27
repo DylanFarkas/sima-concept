@@ -659,66 +659,67 @@
       flex-wrap: wrap;
     }
 
-    .sd-nav {
-      position: relative;
+    /* Controles: contador y flechas */
+    .sd-controls {
       display: flex;
-      gap: 1.5rem;
-      max-width: 100%;
-      overflow-x: auto;
-      scrollbar-width: none;
+      align-items: center;
+      gap: 1.25rem;
     }
 
-    .sd-nav::-webkit-scrollbar {
-      display: none;
-    }
-
-    .sd-nav__item {
-      display: inline-flex;
-      align-items: baseline;
+    .sd-count {
+      display: flex;
       gap: 0.5rem;
-      flex: none;
       margin: 0;
-      padding: 0 0 0.5rem;
-      border: 0;
-      background: none;
       color: var(--sd-mute);
-      font: inherit;
-      letter-spacing: inherit;
-      text-transform: inherit;
-      cursor: pointer;
-      opacity: 0.6;
-      transition: color 0.6s ease, opacity 0.3s ease;
+      font-variant-numeric: tabular-nums;
     }
 
-    .sd-nav__item.is-active {
+    .sd-count [data-sd-current] {
       color: var(--sd-ink);
-      opacity: 1;
+      transition: color 0.6s ease;
     }
 
-    .sd-nav__bar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: var(--sd-bar-w, 0);
-      height: 1px;
-      background: var(--sd-ink);
-      translate: var(--sd-bar-x, 0) 0;
-      transition: translate 0.7s var(--sd-ease), width 0.7s var(--sd-ease), background-color 0.6s ease;
+    .sd-arrows {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .sd-arrow {
+      display: grid;
+      place-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      margin: 0;
+      padding: 0;
+      border: 1px solid var(--sd-line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--sd-ink);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, transform 0.12s ease;
+    }
+
+    .sd-arrow svg {
+      width: 1.125rem;
+      height: 1.125rem;
     }
 
     @media (hover: hover) {
-      .sd-nav__item:hover {
-        opacity: 1;
+      .sd-arrow:hover {
+        border-color: var(--sd-ink);
+        background: var(--sd-ink);
+        color: var(--sd-bg);
       }
     }
 
-    .sd-nav__item:focus-visible {
-      outline: 1px solid var(--sd-ink);
-      outline-offset: 4px;
+    .sd-arrow:active {
+      transform: scale(0.94);
     }
 
-    .sd-nav__n {
-      font-variant-numeric: tabular-nums;
+    .sd-arrow:focus-visible {
+      outline: 1px solid var(--sd-ink);
+      outline-offset: 3px;
     }
 
     /* Celular: escena de alto fijo (el título no salta entre productos) e índice solo con números */
@@ -726,18 +727,6 @@
       .sd-escena__top {
         align-items: center;
         margin-bottom: 1.25rem;
-      }
-
-      .sd-nav {
-        gap: 1.125rem;
-      }
-
-      .sd-nav__label {
-        display: none;
-      }
-
-      .sd-nav__item {
-        padding-block: 0.5rem;
       }
 
       .sd-slide .sd-escena__stage {
@@ -770,6 +759,37 @@
         align-self: center;
       }
 
+      /* Escena más compacta: letras y producto escalan juntos con el ancho de la escena */
+      .sd-escena__inner {
+        position: relative;
+      }
+
+      .sd-slide .sd-escena__stage {
+        width: var(--sd-stage-w, 66%);
+        margin-inline: auto;
+      }
+
+      .sd-arrows {
+        position: absolute;
+        top: var(--sd-arrows-y, 50%);
+        left: var(--page-margin, 1.25rem);
+        right: var(--page-margin, 1.25rem);
+        z-index: 6;
+        justify-content: space-between;
+        translate: 0 -50%;
+        pointer-events: none;
+      }
+
+      .sd-arrow {
+        width: 3.25rem;
+        height: 3.25rem;
+      }
+
+      .sd-arrow svg {
+        width: 1.375rem;
+        height: 1.375rem;
+      }
+
       /* El producto flota sobre las letras: el alto lo marcan las letras, no los
          bordes transparentes del PNG */
       .sd-escena__stage {
@@ -791,7 +811,7 @@
     @media screen and (min-width: 990px) {
       .sd-escena__inner {
         padding-top: var(--sd-pt, 3rem);
-        padding-bottom: clamp(4.5rem, 7vw, 7rem);
+        padding-bottom: clamp(3.5rem, 5vw, 5rem);
       }
 
       .sd-escena__top {
@@ -801,12 +821,12 @@
       .sd-escena__info {
         grid-template-columns: minmax(0, 1fr) auto;
         align-items: center;
-        margin-top: 3.5rem;
-        padding-top: 2rem;
+        margin-top: 2.5rem;
+        padding-top: 1.75rem;
       }
 
       .sd-slide .sd-escena__stage {
-        margin-bottom: 3.5rem;
+        margin-bottom: 2.5rem;
       }
 
       .sd-escena__buy {
@@ -833,37 +853,25 @@
       class="sima-destacado sima-destacado--{{ sd_first_tone }} sima-destacado--escena{% if section.settings.transition != 'none' %} sd-anim{% endif %}"
       data-sd-carousel
       data-section-tone="{{ sima_tone }}"
+      {% if sd_count > 1 %}role="region" aria-roledescription="carrusel" aria-label="{{ section.settings.eyebrow | default: 'Destacados' | escape }}"{% endif %}
     >
       <div
         class="sd-escena__inner"
-        style="--sd-pt: {{ section.settings.space_top | default: 48 }}px; --sd-pt-m: {{ section.settings.space_top_mobile | default: 32 }}px; --sd-tg: {{ section.settings.space_title | default: 16 }}px;"
+        style="--sd-pt: {{ section.settings.space_top | default: 48 }}px; --sd-pt-m: {{ section.settings.space_top_mobile | default: 32 }}px; --sd-tg: {{ section.settings.space_title | default: 16 }}px; --sd-stage-w: {{ section.settings.stage_width | default: 66 }}%;"
       >
         <div class="sd-escena__top">
           <p>{{ section.settings.eyebrow }}</p>
           {%- if sd_count > 1 -%}
-            <div class="sd-nav" role="tablist" aria-label="{{ section.settings.eyebrow | default: 'Destacados' | escape }}">
-              {%- for block in sima_slides -%}
-                {%- liquid
-                  assign sd_label = block.settings.index_label
-                  if sd_label == blank
-                    assign sd_label = block.settings.product.title | default: block.settings.title
-                  endif
-                -%}
-                <button
-                  type="button"
-                  class="sd-nav__item{% if forloop.first %} is-active{% endif %}"
-                  role="tab"
-                  id="sd-tab-{{ block.id }}"
-                  aria-controls="sd-slide-{{ block.id }}"
-                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-                  {% unless forloop.first %}tabindex="-1"{% endunless %}
-                  data-sd-go="{{ forloop.index0 }}"
-                >
-                  <span class="sd-nav__n">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-                  <span class="sd-nav__label">{{ sd_label }}</span>
-                </button>
-              {%- endfor -%}
-              <span class="sd-nav__bar" aria-hidden="true"></span>
+            <div class="sd-controls">
+              <p class="sd-count" aria-live="polite">
+                <span data-sd-current>01</span>
+                <span class="sd-count__sep">/</span>
+                <span>{{ sd_count | prepend: '0' | slice: -2, 2 }}</span>
+              </p>
+              <div class="sd-arrows" data-sd-arrows>
+                <button type="button" class="sd-arrow sd-arrow--prev" data-sd-prev aria-label="Producto anterior"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></button>
+                <button type="button" class="sd-arrow sd-arrow--next" data-sd-next aria-label="Producto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.25"/></svg></button>
+              </div>
             </div>
           {%- elsif section.settings.caption != blank -%}
             <p>{{ section.settings.caption }}</p>
@@ -896,6 +904,7 @@
                 outline_front: block.settings.outline_front,
                 tone: sd_tone,
                 index: forloop.index0,
+                count: sd_count,
                 active: forloop.first,
                 slide_id: sd_slide_id,
                 attrs: sd_attrs
@@ -931,9 +940,9 @@
           const root = document.querySelector('#shopify-section-{{ section.id }} [data-sd-carousel]');
           if (!root) return;
           const slides = [...root.querySelectorAll('.sd-slide')];
-          const tabs = [...root.querySelectorAll('[data-sd-go]')];
-          const nav = root.querySelector('.sd-nav');
-          const bar = root.querySelector('.sd-nav__bar');
+          const counter = root.querySelector('[data-sd-current]');
+          const arrows = root.querySelector('[data-sd-arrows]');
+          const inner = root.querySelector('.sd-escena__inner');
           const area = root.querySelector('[data-sd-slides]');
           const tones = ['blanco', 'crema', 'oscuro'];
           const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -946,11 +955,13 @@
 
           const setTone = (tone) => tones.forEach((t) => root.classList.toggle('sima-destacado--' + t, t === tone));
 
-          const placeBar = () => {
-            const tab = tabs[current];
-            if (!tab || !bar) return;
-            root.style.setProperty('--sd-bar-x', tab.offsetLeft + 'px');
-            root.style.setProperty('--sd-bar-w', tab.offsetWidth + 'px');
+          // En computador las flechas van a los lados, a la altura del centro de las letras
+          const placeArrows = () => {
+            const stage = slides[current].querySelector('.sd-escena__stage');
+            if (!stage || !inner) return;
+            const a = stage.getBoundingClientRect();
+            const b = inner.getBoundingClientRect();
+            inner.style.setProperty('--sd-arrows-y', a.top - b.top + a.height / 2 + 'px');
           };
 
           const finish = () => {
@@ -958,7 +969,7 @@
             cleanup = null;
           };
 
-          const go = (i, dir, focusTab) => {
+          const go = (i, dir) => {
             const n = slides.length;
             i = ((i % n) + n) % n;
             if (i === current) return;
@@ -976,18 +987,8 @@
               else s.setAttribute('aria-hidden', 'true');
               s.querySelectorAll('a').forEach((a) => (on ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
             });
-            tabs.forEach((t, k) => {
-              const on = k === i;
-              t.classList.toggle('is-active', on);
-              t.setAttribute('aria-selected', on ? 'true' : 'false');
-              t.tabIndex = on ? 0 : -1;
-            });
-            const tab = tabs[i];
-            if (tab && nav) {
-              nav.scrollTo({ left: tab.offsetLeft - (nav.clientWidth - tab.offsetWidth) / 2, behavior: animated() ? 'smooth' : 'auto' });
-              if (focusTab) tab.focus({ preventScroll: true });
-            }
-            placeBar();
+            if (counter) counter.textContent = String(i + 1).padStart(2, '0');
+            placeArrows();
 
             const newTone = toneOf(next);
             if (!animated()) {
@@ -1037,10 +1038,11 @@
             };
           };
 
-          tabs.forEach((t) => t.addEventListener('click', () => go(Number(t.dataset.sdGo))));
-          nav?.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1, 1, true); }
-            if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1, -1, true); }
+          root.querySelector('[data-sd-prev]')?.addEventListener('click', () => go(current - 1, -1));
+          root.querySelector('[data-sd-next]')?.addEventListener('click', () => go(current + 1, 1));
+          arrows?.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1, 1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1, -1); }
           });
 
           // Deslizar en celular: solo cambia cuando el gesto es claramente horizontal
@@ -1063,9 +1065,9 @@
             if (i > -1) go(i);
           });
 
-          placeBar();
-          window.addEventListener('resize', placeBar);
-          if (document.fonts) document.fonts.ready.then(placeBar);
+          placeArrows();
+          window.addEventListener('resize', placeArrows);
+          if (document.fonts) document.fonts.ready.then(placeArrows);
         })();
       </script>
     {%- endif -%}
@@ -1242,6 +1244,17 @@
     },
     {
       "type": "range",
+      "id": "stage_width",
+      "label": "Tamaño de la escena en computador (Escena)",
+      "min": 40,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "default": 66,
+      "info": "Letras y producto cambian de tamaño juntos."
+    },
+    {
+      "type": "range",
       "id": "space_top",
       "label": "Espacio arriba en computador (Escena)",
       "min": 0,
@@ -1375,7 +1388,7 @@
       "settings": [
         {
           "type": "paragraph",
-          "content": "Con dos o más productos la sección es un carrusel con índice. Sin productos aquí, usa el producto de la sección."
+          "content": "Con dos o más productos la sección es un carrusel con flechas (y deslizando en celular). Sin productos aquí, usa el producto de la sección."
         },
         {
           "type": "product",
@@ -1387,12 +1400,6 @@
           "id": "cutout",
           "label": "Producto sin fondo",
           "info": "PNG con fondo transparente, recortado justo al borde del producto."
-        },
-        {
-          "type": "text",
-          "id": "index_label",
-          "label": "Nombre en el índice",
-          "info": "Vacío usa el nombre del producto"
         },
         {
           "type": "text",

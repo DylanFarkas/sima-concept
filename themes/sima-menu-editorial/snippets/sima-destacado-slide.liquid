@@ -10,7 +10,7 @@
   - gap: separación entre líneas, en %
   - outline_front: el contorno pasa por delante del producto
   - tone: blanco, crema u oscuro
-  - index (desde 0), active, slide_id, attrs (atributos del bloque para el editor)
+  - index (desde 0), count, active, slide_id, attrs (atributos del bloque para el editor)
 {%- endcomment -%}
 
 {%- liquid
@@ -48,7 +48,9 @@
 <div
   class="sd-slide{% if active %} is-active{% endif %}"
   id="{{ slide_id }}"
-  role="tabpanel"
+  role="group"
+  aria-roledescription="producto"
+  aria-label="{{ index | plus: 1 }} de {{ count | default: 1 }}"
   data-tone="{{ tone | default: 'blanco' }}"
   data-index="{{ index }}"
   {% unless active %}aria-hidden="true"{% endunless %}

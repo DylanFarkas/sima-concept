@@ -564,7 +564,6 @@
           "settings": {
             "product": "airpods-pro-3",
             "cutout": "shopify://shop_images/sima-tech-destacado2-sin-fondo.png",
-            "index_label": "AirPods Pro 3",
             "title": "AirPods",
             "title_outline": "Pro 3",
             "text": "Tu música en cada serie, del primer calentamiento al último kilómetro.",
@@ -582,7 +581,6 @@
           "settings": {
             "product": "smart-watch-serie-11",
             "cutout": "shopify://shop_images/sima-smartwatch11-destacado-sin-fondo.png",
-            "index_label": "Smart Watch",
             "title": "Smart",
             "title_outline": "Watch",
             "text": "Tu ritmo, tus pasos y cada serie, siempre a la vista.",
@@ -600,7 +598,6 @@
           "settings": {
             "product": "diadema-bose",
             "cutout": "shopify://shop_images/sima-diadema-bose-negro-destacado-sin-fondo.png",
-            "index_label": "Diadema Bose",
             "title": "Diadema",
             "title_outline": "Bose",
             "text": "Silencio para concentrarte en cada repetición.",
@@ -618,7 +615,6 @@
           "settings": {
             "product": "powerbeats",
             "cutout": "shopify://shop_images/sima-powerbeats-destacado-sin-fondo1.png",
-            "index_label": "Powerbeats",
             "title": "Power",
             "title_outline": "Beats",
             "text": "Ajuste firme para correr, saltar y no parar.",
@@ -664,7 +660,8 @@
         "text": "Tu música en cada serie, del primer calentamiento al último kilómetro.",
         "button_label": "Ver producto",
         "caption": "SIMA Tech",
-        "note": ""
+        "note": "",
+        "stage_width": 66
       }
     },
     "sima_vendidos": {
