@@ -413,6 +413,11 @@
       display: block;
     }
 
+    /* Aire entre AIRPODS y PRO 3; igual en las dos capas para que el contorno calce */
+    .sd-escena__word span + span {
+      margin-top: var(--sd-gap, 0.1em);
+    }
+
     .sd-escena__word--back {
       z-index: 1;
     }
@@ -510,6 +515,7 @@
       assign sd_size_m = section.settings.product_size_mobile | default: 84 | append: '%'
       assign sd_offset = section.settings.product_offset | default: 0 | append: '%'
       assign sd_offset_m = section.settings.product_offset_mobile | default: 8 | append: '%'
+      assign sd_gap = section.settings.line_gap | default: 10 | times: 0.01 | append: 'em'
       assign sd_alt = section.settings.title | default: sima_product.title
     -%}
     <div class="sima-destacado sima-destacado--{{ sima_tone }} sima-destacado--escena">
@@ -525,7 +531,7 @@
 
         <div
           class="sd-escena__stage"
-          style="--sd-size: {{ sd_size }}; --sd-size-m: {{ sd_size_m }}; --sd-offset: {{ sd_offset }}; --sd-offset-m: {{ sd_offset_m }};"
+          style="--sd-size: {{ sd_size }}; --sd-size-m: {{ sd_size_m }}; --sd-offset: {{ sd_offset }}; --sd-offset-m: {{ sd_offset_m }}; --sd-gap: {{ sd_gap }};"
         >
           <h2 class="sd-escena__word sd-escena__word--back">
             {%- if sima_first != blank -%}
@@ -733,6 +739,16 @@
       "unit": "%",
       "default": 8,
       "info": "Distancia desde arriba. Más alto deja leer mejor el nombre."
+    },
+    {
+      "type": "range",
+      "id": "line_gap",
+      "label": "Separación entre las dos líneas (Escena)",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 10
     },
     {
       "type": "checkbox",

@@ -579,7 +579,8 @@
         "product_size_mobile": 84,
         "product_offset": 0,
         "outline_front": true,
-        "product_offset_mobile": 8
+        "product_offset_mobile": 8,
+        "line_gap": 10
       }
     },
     "sima_vendidos": {
