@@ -38,7 +38,8 @@
   -%}
 
   {% style %}
-    .sima-destacado {
+    .sima-destacado,
+    .sd-slide[data-tone='blanco'] {
       --sd-bg: #fff;
       --sd-ink: #121212;
       --sd-mute: rgb(18 18 18 / 0.55);
@@ -48,17 +49,22 @@
       --sd-btn-bg: #121212;
       --sd-btn-fg: #fff;
       --sd-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sima-destacado {
       display: block;
-      background: var(--sd-bg);
+      background: var(--sd-stage-bg, var(--sd-bg));
       color: var(--sd-ink);
     }
 
-    .sima-destacado--crema {
+    .sima-destacado--crema,
+    .sd-slide[data-tone='crema'] {
       --sd-bg: #f2efe9;
       --sd-frame: #e8e4dc;
     }
 
-    .sima-destacado--oscuro {
+    .sima-destacado--oscuro,
+    .sd-slide[data-tone='oscuro'] {
       --sd-bg: #121212;
       --sd-ink: #fff;
       --sd-mute: rgb(255 255 255 / 0.58);
@@ -509,19 +515,152 @@
       margin-bottom: 2rem;
     }
 
-    .sd--fade .sd-slide {
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+    /* ---------- Transición entre productos ---------- */
+    .sima-destacado--escena {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
     }
 
-    .sd--fade .sd-slide:not(.is-active) {
-      opacity: 0;
+    /* Capa del color nuevo: se abre en círculo desde el producto */
+    .sd-bgfx {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .sd-escena__inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .sd-slide.is-active {
+      z-index: 2;
+    }
+
+    .sd-slide.is-leaving {
+      z-index: 1;
+      visibility: visible;
+    }
+
+    .sd-escena__word {
+      pointer-events: none;
+    }
+
+    .sd-anim .sd-slide.is-entering .sd-escena__word span {
+      animation: sd-line-in 0.95s var(--sd-ease) both;
+      animation-delay: 0.58s;
+    }
+
+    .sd-anim .sd-slide.is-entering .sd-escena__word span + span {
+      animation-delay: 0.68s;
+    }
+
+    .sd-anim .sd-slide.is-leaving .sd-escena__word span {
+      animation: sd-line-out 0.42s cubic-bezier(0.7, 0, 0.84, 0) both;
+    }
+
+    .sd-anim .sd-slide.is-leaving .sd-escena__word span + span {
+      animation-delay: 0.04s;
+    }
+
+    .sd-anim .sd-slide.is-entering .sd-escena__product {
+      animation: sd-product-in 1.25s var(--sd-ease) 0.4s both;
+    }
+
+    .sd-anim .sd-slide.is-leaving .sd-escena__product {
+      animation: sd-product-out 0.5s cubic-bezier(0.55, 0, 0.75, 0.1) both;
+    }
+
+    .sd-anim .sd-slide.is-entering .sd-escena__info > * {
+      animation: sd-info-in 0.8s var(--sd-ease) 0.8s both;
+    }
+
+    .sd-anim .sd-slide.is-leaving .sd-escena__info {
+      animation: sd-fade-out 0.3s ease both;
+    }
+
+    @keyframes sd-line-in {
+      from {
+        clip-path: inset(100% -5% 0% -5%);
+        translate: 0 45%;
+      }
+      to {
+        clip-path: inset(-20% -5% -20% -5%);
+        translate: 0 0;
+      }
+    }
+
+    @keyframes sd-line-out {
+      from {
+        clip-path: inset(-20% -5% -20% -5%);
+        translate: 0 0;
+      }
+      to {
+        clip-path: inset(0% -5% 100% -5%);
+        translate: 0 -35%;
+      }
+    }
+
+    @keyframes sd-product-in {
+      from {
+        opacity: 0;
+        translate: calc(var(--sd-dir, 1) * 24%) 5%;
+        rotate: calc(var(--sd-dir, 1) * 10deg);
+        scale: 0.84;
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+        rotate: 0deg;
+        scale: 1;
+      }
+    }
+
+    @keyframes sd-product-out {
+      to {
+        opacity: 0;
+        translate: calc(var(--sd-dir, 1) * -18%) -4%;
+        rotate: calc(var(--sd-dir, 1) * -8deg);
+        scale: 0.9;
+      }
+    }
+
+    @keyframes sd-info-in {
+      from {
+        opacity: 0;
+        translate: 0 0.75rem;
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+      }
+    }
+
+    @keyframes sd-fade-out {
+      to {
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sd-anim .sd-slide .sd-escena__word span,
+      .sd-anim .sd-slide .sd-escena__product,
+      .sd-anim .sd-slide .sd-escena__info,
+      .sd-anim .sd-slide .sd-escena__info > * {
+        animation: none !important;
+      }
     }
 
     .sd-escena__top {
+      position: relative;
+      z-index: 5;
       flex-wrap: wrap;
     }
 
     .sd-nav {
+      position: relative;
       display: flex;
       gap: 1.5rem;
       max-width: 100%;
@@ -541,7 +680,6 @@
       margin: 0;
       padding: 0 0 0.5rem;
       border: 0;
-      border-bottom: 1px solid transparent;
       background: none;
       color: var(--sd-mute);
       font: inherit;
@@ -549,12 +687,23 @@
       text-transform: inherit;
       cursor: pointer;
       opacity: 0.6;
+      transition: color 0.6s ease, opacity 0.3s ease;
     }
 
     .sd-nav__item.is-active {
-      border-bottom-color: currentColor;
       color: var(--sd-ink);
       opacity: 1;
+    }
+
+    .sd-nav__bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: var(--sd-bar-w, 0);
+      height: 1px;
+      background: var(--sd-ink);
+      translate: var(--sd-bar-x, 0) 0;
+      transition: translate 0.7s var(--sd-ease), width 0.7s var(--sd-ease), background-color 0.6s ease;
     }
 
     @media (hover: hover) {
@@ -650,7 +799,7 @@
       endif
     -%}
     <div
-      class="sima-destacado sima-destacado--{{ sd_first_tone }} sima-destacado--escena{% if section.settings.transition == 'fade' %} sd--fade{% endif %}"
+      class="sima-destacado sima-destacado--{{ sd_first_tone }} sima-destacado--escena{% if section.settings.transition != 'none' %} sd-anim{% endif %}"
       data-sd-carousel
       data-section-tone="{{ sima_tone }}"
     >
@@ -683,6 +832,7 @@
                   <span class="sd-nav__label">{{ sd_label }}</span>
                 </button>
               {%- endfor -%}
+              <span class="sd-nav__bar" aria-hidden="true"></span>
             </div>
           {%- elsif section.settings.caption != blank -%}
             <p>{{ section.settings.caption }}</p>
@@ -751,16 +901,46 @@
           if (!root) return;
           const slides = [...root.querySelectorAll('.sd-slide')];
           const tabs = [...root.querySelectorAll('[data-sd-go]')];
+          const nav = root.querySelector('.sd-nav');
+          const bar = root.querySelector('.sd-nav__bar');
+          const area = root.querySelector('[data-sd-slides]');
           const tones = ['blanco', 'crema', 'oscuro'];
-          let current = 0;
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+          const animated = () => root.classList.contains('sd-anim') && !reduce.matches;
+          const toneOf = (s) => s.dataset.tone || root.dataset.sectionTone || 'blanco';
+          const bgOf = (s) => getComputedStyle(s).getPropertyValue('--sd-bg').trim();
+          let current = slides.findIndex((s) => s.classList.contains('is-active'));
+          if (current < 0) current = 0;
+          let cleanup = null;
 
-          const go = (i, focusTab) => {
+          const setTone = (tone) => tones.forEach((t) => root.classList.toggle('sima-destacado--' + t, t === tone));
+
+          const placeBar = () => {
+            const tab = tabs[current];
+            if (!tab || !bar) return;
+            root.style.setProperty('--sd-bar-x', tab.offsetLeft + 'px');
+            root.style.setProperty('--sd-bar-w', tab.offsetWidth + 'px');
+          };
+
+          const finish = () => {
+            if (cleanup) cleanup();
+            cleanup = null;
+          };
+
+          const go = (i, dir, focusTab) => {
             const n = slides.length;
             i = ((i % n) + n) % n;
+            if (i === current) return;
+            finish();
+            const prev = slides[current];
+            const next = slides[i];
+            dir = dir || (i > current ? 1 : -1);
             current = i;
-            slides.forEach((s, k) => {
-              const on = k === i;
+
+            slides.forEach((s) => {
+              const on = s === next;
               s.classList.toggle('is-active', on);
+              s.classList.remove('is-entering', 'is-leaving');
               if (on) s.removeAttribute('aria-hidden');
               else s.setAttribute('aria-hidden', 'true');
               s.querySelectorAll('a').forEach((a) => (on ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
@@ -771,24 +951,68 @@
               t.setAttribute('aria-selected', on ? 'true' : 'false');
               t.tabIndex = on ? 0 : -1;
             });
-            const tone = slides[i].dataset.tone || root.dataset.sectionTone || 'blanco';
-            tones.forEach((t) => root.classList.toggle('sima-destacado--' + t, t === tone));
             const tab = tabs[i];
-            if (tab) {
-              const nav = tab.parentElement;
-              nav.scrollLeft = tab.offsetLeft - (nav.clientWidth - tab.offsetWidth) / 2;
-              if (focusTab) tab.focus();
+            if (tab && nav) {
+              nav.scrollTo({ left: tab.offsetLeft - (nav.clientWidth - tab.offsetWidth) / 2, behavior: animated() ? 'smooth' : 'auto' });
+              if (focusTab) tab.focus({ preventScroll: true });
             }
+            placeBar();
+
+            const newTone = toneOf(next);
+            if (!animated()) {
+              setTone(newTone);
+              root.style.removeProperty('--sd-stage-bg');
+              return;
+            }
+
+            root.style.setProperty('--sd-dir', dir);
+            prev.classList.add('is-leaving');
+            next.classList.add('is-entering');
+
+            // El color nuevo se abre en círculo desde el centro del producto
+            const oldBg = bgOf(prev);
+            const newBg = bgOf(next);
+            let fx = null;
+            let toneTimer = null;
+            if (oldBg !== newBg) {
+              const rr = root.getBoundingClientRect();
+              const stage = next.querySelector('.sd-escena__stage').getBoundingClientRect();
+              const x = stage.left + stage.width / 2 - rr.left;
+              const y = stage.top + stage.height / 2 - rr.top;
+              const r = Math.hypot(Math.max(x, rr.width - x), Math.max(y, rr.height - y));
+              root.style.setProperty('--sd-stage-bg', oldBg);
+              fx = document.createElement('div');
+              fx.className = 'sd-bgfx';
+              fx.style.background = newBg;
+              root.prepend(fx);
+              fx.animate(
+                [{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${r}px at ${x}px ${y}px)` }],
+                { duration: 1000, delay: 60, easing: 'cubic-bezier(0.6, 0, 0.2, 1)', fill: 'both' }
+              );
+              toneTimer = setTimeout(() => setTone(newTone), 450);
+            } else {
+              setTone(newTone);
+            }
+
+            const timer = setTimeout(finish, 2000);
+            cleanup = () => {
+              clearTimeout(timer);
+              clearTimeout(toneTimer);
+              setTone(newTone);
+              root.style.removeProperty('--sd-stage-bg');
+              if (fx) fx.remove();
+              prev.classList.remove('is-leaving');
+              next.classList.remove('is-entering');
+            };
           };
 
           tabs.forEach((t) => t.addEventListener('click', () => go(Number(t.dataset.sdGo))));
-          root.querySelector('.sd-nav')?.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1, true); }
-            if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1, true); }
+          nav?.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1, 1, true); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1, -1, true); }
           });
 
           // Deslizar en celular: solo cambia cuando el gesto es claramente horizontal
-          const area = root.querySelector('[data-sd-slides]');
           let x0 = null, y0 = null;
           area.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
           area.addEventListener('touchend', (e) => {
@@ -796,7 +1020,10 @@
             const dx = e.changedTouches[0].clientX - x0;
             const dy = e.changedTouches[0].clientY - y0;
             x0 = y0 = null;
-            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(current + (dx < 0 ? 1 : -1));
+            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+              const d = dx < 0 ? 1 : -1;
+              go(current + d, d);
+            }
           });
 
           // En el editor de temas, seleccionar un producto muestra su escena
@@ -804,6 +1031,10 @@
             const i = slides.findIndex((s) => s.id === 'sd-slide-' + e.detail.blockId);
             if (i > -1) go(i);
           });
+
+          placeBar();
+          window.addEventListener('resize', placeBar);
+          if (document.fonts) document.fonts.ready.then(placeBar);
         })();
       </script>
     {%- endif -%}
@@ -1013,10 +1244,10 @@
       "id": "transition",
       "label": "Cambio entre productos (Escena)",
       "options": [
-        { "value": "none", "label": "Instantáneo" },
-        { "value": "fade", "label": "Fundido corto" }
+        { "value": "anim", "label": "Animado" },
+        { "value": "none", "label": "Instantáneo" }
       ],
-      "default": "none"
+      "default": "anim"
     },
     {
       "type": "checkbox",
