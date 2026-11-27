@@ -955,9 +955,10 @@
 
           const setTone = (tone) => tones.forEach((t) => root.classList.toggle('sima-destacado--' + t, t === tone));
 
-          // En computador las flechas van a los lados, a la altura del centro de las letras
+          // En computador las flechas van a los lados, a la altura del centro de las letras.
+          // Se miden siempre con el primer producto para que no se muevan al cambiar.
           const placeArrows = () => {
-            const stage = slides[current].querySelector('.sd-escena__stage');
+            const stage = slides[0].querySelector('.sd-escena__stage');
             if (!stage || !inner) return;
             const a = stage.getBoundingClientRect();
             const b = inner.getBoundingClientRect();
@@ -988,7 +989,6 @@
               s.querySelectorAll('a').forEach((a) => (on ? a.removeAttribute('tabindex') : a.setAttribute('tabindex', '-1')));
             });
             if (counter) counter.textContent = String(i + 1).padStart(2, '0');
-            placeArrows();
 
             const newTone = toneOf(next);
             if (!animated()) {
